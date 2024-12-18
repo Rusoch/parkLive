@@ -61,7 +61,6 @@ of this change (if applicable).
 
 ---
 
-
 ## Additional Notes
 
 Is there anything else the reviewer should know about this PR? Any known issues,
