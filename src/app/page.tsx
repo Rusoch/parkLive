@@ -35,7 +35,6 @@ export default function Home() {
                 {prompt && (
                     <InstallPopup
                         onClick={() => {
-                            console.log("install clicked");
                             promptToInstall();
                         }}
                     />

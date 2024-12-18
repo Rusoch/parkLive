@@ -13,7 +13,6 @@ export function useAddToHomescreenPrompt(): [IBeforeInstallPromptEvent | null, (
     const [prompt, setState] = React.useState<IBeforeInstallPromptEvent | null>(null);
 
     const promptToInstall = () => {
-        console.log("installation prompted");
         if (prompt) {
             return prompt.prompt();
         }
