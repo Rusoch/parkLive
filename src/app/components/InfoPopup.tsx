@@ -31,7 +31,7 @@ const InfoPopup: React.FC<TProps> = ({ isOpen, onClose, placeData }) => {
         <div className="bg-white dark:bg-[#0D0D0D] rounded-lg shadow-lg flex items-center flex-col px-[14px] text-[#15593A] dark:text-[#15593A] text-[20px]">
             <span className="w-[20%] self-center h-1 rounded-lg bg-[#D9D9D9] dark:bg-[#333333] m-auto mt-[10px] mb-3"></span>
             <div className="w-full py-4 flex justify-between">
-                {t(address)}
+                <span>{t(address)}</span>
                 <div className="flex gap-3">
                     <ShareIcon />
                     <CancelIcon onClick={onClose} />
