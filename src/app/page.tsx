@@ -7,6 +7,8 @@ import InstallPopup from "./components/InstallPopup";
 import { Loader } from "./components/Loader";
 import { LandingPageHeader } from "./components/LandingPageHeader";
 import { WelcomeSection } from "./components/WelcomeSection";
+import Map from "./components/Maps";
+import SearchButton from "./components/SearchButton";
 
 export default function Home() {
     const [theme, setTheme] = useState("light");
@@ -32,13 +34,16 @@ export default function Home() {
                         }}
                     ></div>
                 )}
-                <div
+                {/* <div
                     className="w-screen h-screen flex flex-col justify-between bg-[#9DCDB7] dark:bg-[#A8A8A8] bg-no-repeat bg-cover overflow-hidden transition-colors"
                     style={{ backgroundImage: "url('background-light.png')" }}
                 >
+
                     <LandingPageHeader setTheme={setTheme} />
                     <WelcomeSection />
-                </div>
+                   
+                </div> */}
+                <Map/>
             </div>
         </I18nextProvider>
     );
