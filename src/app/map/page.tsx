@@ -1,7 +1,7 @@
 'use client'
 import { useRef } from "react";
 import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
-import SearchButton from "./SearchButton";
+import SearchButton from "../components/SearchButton";
 
 interface Location {
     lat: number;
@@ -36,7 +36,7 @@ const Map: React.FC<MapProps> = ({ locations }) => {
             >
                 {locations?.map((location, index) => <Marker key={index} position={location} />)}
                 <div className="w-[361px] h-[70px]">
-                    <SearchButton/>
+                    <SearchButton onSearch={()=> " "}/>
                 </div>
             </GoogleMap>
         </LoadScript>

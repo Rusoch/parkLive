@@ -1,14 +1,9 @@
 import Image from "next/image";
 const NearMe: React.FC = () => {
-    const handleNearMeClick = () => {
-        setSearchInput("");
-        setShowArrow(false);
-        setShowDiv(false);
-    }
 
 
     return (
-        <div className=" w-[100%] pt-[40px] bg-[#F3F6FF]">
+        <div className=" w-[100%] pt-[40px] pl-[16px] bg-[#F3F6FF]  ">
             <h1>შენთან ახლოს</h1>
             <div className="flex flex-col gap-[22px] pt-[22px] pb-[54px]">
 
@@ -65,7 +60,7 @@ const NearMe: React.FC = () => {
             </div>
 
             <div className="flex justify-center items-center w-[100%] pb-[14px] cursor-pointer">
-                
+
           <div className="w-[92px] h-[7px] bg-[#D9D9D9] rounded-[56px]"></div>
           </div>
         </div>

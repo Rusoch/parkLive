@@ -81,7 +81,7 @@ const SearchButton: React.FC<SearchButtonProps> = ({ onSearch }) => {
                     />
                 )}
                 <div className=" w-[96%] relative">
-                    <FaSearch className="text-[#2E18149E] text-[16.5px] absolute left-[15px] transform -translate-y-1/2 top-1/2" />
+                    <FaSearch className="text-[#2E18149E] text-[16.5px] absolute  left-[15px] transform -translate-y-1/2 top-1/2" />
                     <input
                         type="text"
                         placeholder="მოძებნე ..."
