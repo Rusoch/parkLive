@@ -2,7 +2,8 @@
 import { I18nextProvider } from "react-i18next";
 import i18n from "../i18n";
 import { useEffect, useRef, useState } from "react";
-import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
+import { GoogleMap, LoadScript, Marker, OverlayView } from "@react-google-maps/api";
+import { CarIcon } from "../icons/CarIcon";
 
 interface Location {
     lat: number;
@@ -53,6 +54,12 @@ const Map: React.FC<MapProps> = ({ locations }) => {
                     {locations?.map((location, index) => (
                         <Marker key={index} position={location} />
                     ))}
+                    <OverlayView
+                        position={userLocation}
+                        mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
+                    >
+                        <CarIcon className="-translate-x-[50%] -translate-y-[50%] dark:text-[#314C9C] text-[#567DF4]" />
+                    </OverlayView>
                 </GoogleMap>
             </LoadScript>
         </I18nextProvider>
