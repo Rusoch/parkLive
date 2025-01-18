@@ -8,7 +8,7 @@ export const PopupHandle: React.FC<Props> = ({ onClick, className }) => {
             onClick={onClick}
             className={`flex items-center justify-center w-full ${className ?? ""}`}
         >
-            <span className="w-[20%] self-center h-1 rounded-lg bg-[#D9D9D9] dark:bg-[#333333] m-auto mt-[10px] mb-3"></span>
+            <span className="w-[20%] self-center h-1 rounded-lg bg-[#D9D9D9] dark:bg-[#333333] m-auto mt-[10px]"></span>
         </div>
     );
 };

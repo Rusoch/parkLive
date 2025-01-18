@@ -15,7 +15,6 @@ interface MapProps {
 
 const Map: React.FC<MapProps> = ({ locations }) => {
     const [userLocation, setUserLocation] = useState({ lat: 0, lng: 0 });
-    const [theme, setTheme] = useState("light");
 
     const mapRef = useRef(null);
 
@@ -26,10 +25,6 @@ const Map: React.FC<MapProps> = ({ locations }) => {
         streetViewControl: false,
     };
 
-    useEffect(() => {
-        const storedTheme = localStorage.getItem("user-theme") ?? "light";
-        setTheme(storedTheme);
-    }, []);
     useEffect(() => {
         const watchId = navigator.geolocation.watchPosition(
             (position) => {
@@ -47,21 +42,19 @@ const Map: React.FC<MapProps> = ({ locations }) => {
 
     return (
         <I18nextProvider i18n={i18n}>
-            <div className={`${theme === "dark" ? "dark" : "light"} relative`}>
-                <LoadScript googleMapsApiKey="AIzaSyBslCn_7XxhEmDuE-FyGgLuvfUxH3_mBes">
-                    <GoogleMap
-                        mapContainerClassName="h-[100vh]"
-                        center={userLocation}
-                        zoom={18}
-                        ref={mapRef}
-                        options={mapOptions}
-                    >
-                        {locations?.map((location, index) => (
-                            <Marker key={index} position={location} />
-                        ))}
-                    </GoogleMap>
-                </LoadScript>
-            </div>
+            <LoadScript googleMapsApiKey="AIzaSyBslCn_7XxhEmDuE-FyGgLuvfUxH3_mBes">
+                <GoogleMap
+                    mapContainerClassName="h-[100vh]"
+                    center={userLocation}
+                    zoom={18}
+                    ref={mapRef}
+                    options={mapOptions}
+                >
+                    {locations?.map((location, index) => (
+                        <Marker key={index} position={location} />
+                    ))}
+                </GoogleMap>
+            </LoadScript>
         </I18nextProvider>
     );
 };

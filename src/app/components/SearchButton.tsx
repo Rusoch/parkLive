@@ -1,12 +1,13 @@
-'use client'
+"use client";
 import { FaSearch, FaArrowLeft } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import NearMe from "./NearMe";
 interface SearchButtonProps {
     onSearch: (data: any) => void;
+    className?: string;
 }
 
-const SearchButton: React.FC<SearchButtonProps> = ({ onSearch }) => {
+const SearchButton: React.FC<SearchButtonProps> = ({ onSearch, className }) => {
     const [searchInput, setSearchInput] = useState("");
     const [debounceTimer, setDebounceTimer] = useState<NodeJS.Timeout | null>(null);
     const [loading, setLoading] = useState(false);
@@ -72,7 +73,9 @@ const SearchButton: React.FC<SearchButtonProps> = ({ onSearch }) => {
     }, [searchInput]);
 
     return (
-        <div className="w-[100vw] absolute flex flex-col align-center pt-[8vh] z-40 pl-[40px] pr-[40px]">
+        <div
+            className={`${className ?? ""} w-[100vw] absolute flex flex-col align-center pt-[8vh] z-40 pl-[40px] pr-[40px]`}
+        >
             <div className={`w-[100%] flex ${changeDiv} items-center`}>
                 {showArrow && (
                     <FaArrowLeft

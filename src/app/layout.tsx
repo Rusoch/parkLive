@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 };
 
 const firagoFont = localFont({
-    src: "../fonts/FiraGo-Book.otf",
+    src: "../fonts/FiraGO-Book.otf",
     variable: "--font-firago",
 });
 

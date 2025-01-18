@@ -23,8 +23,9 @@ type TProps = {
     isOpen?: boolean;
     onClose: () => void;
     placeData: TPlaceData;
+    className?: string;
 };
-const InfoPopup: React.FC<TProps> = ({ isOpen, onClose, placeData }) => {
+const InfoPopup: React.FC<TProps> = ({ isOpen, onClose, placeData, className }) => {
     const { t } = useTranslation();
     const [isPopupOpen, setIsPopupOpen] = useState(isOpen);
     const [isPopupMinified, setIsPopupMinified] = useState(false);
@@ -36,9 +37,13 @@ const InfoPopup: React.FC<TProps> = ({ isOpen, onClose, placeData }) => {
     const { totalSpace, freeSpace, rate, paymentType, opens, closes } = placeData;
     const paymentKeyword = paymentType[0] === "მხოლოდ ქეში" ? "cashOnly" : "";
     return (
-        <div className="bg-white dark:bg-[#0D0D0D] rounded-t-lg shadow-lg flex items-center flex-col px-[14px] text-[#15593A] dark:text-[#15593A] text-[20px] fixed bottom-0 left-0 w-full">
+        <div
+            className={`${className ?? ""} bg-white dark:bg-[#0D0D0D] rounded-t-lg shadow-[rgba(0,0,15,0.5)_0px_0px_14px_0px] flex items-center flex-col px-[14px] text-[#15593A] dark:text-[#15593A] text-[20px] w-full`}
+        >
             <PopupHandle onClick={handlePopupMinify} />
-            <div className="w-full flex justify-between">
+            <div
+                className={`w-full flex justify-between leading-[27px] ${isPopupMinified ? "my-[13px]" : "mt-[21px] mb-[26px]"}`}
+            >
                 <span>{t("address")}</span>
                 <div className="flex gap-3">
                     <ShareIcon />
@@ -51,7 +56,7 @@ const InfoPopup: React.FC<TProps> = ({ isOpen, onClose, placeData }) => {
                 </div>
             </div>
             {!isPopupMinified && (
-                <ul className="flex flex-col w-full mt-4 items-start gap-1 text-[14px]">
+                <ul className="flex flex-col w-full items-start gap-1 text-[14px]">
                     <li className="flex items-center gap-2 justify-center">
                         <PlacesIcon /> {`${freeSpace}/${totalSpace} ${t("place")}`}
                     </li>
@@ -66,7 +71,9 @@ const InfoPopup: React.FC<TProps> = ({ isOpen, onClose, placeData }) => {
                     </li>
                 </ul>
             )}
-            <div className="flex w-full justify-around mt-8 mb-9">
+            <div
+                className={`flex w-full justify-around leading-[19px] ${isPopupMinified ? "mb-[10px]" : "mb-9"}`}
+            >
                 <Button
                     onClick={() => console.log("მისვლა")}
                     label={t("directions")}
