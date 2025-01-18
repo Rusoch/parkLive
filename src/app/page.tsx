@@ -47,11 +47,9 @@ export default function Home() {
                     className="w-screen h-screen flex flex-col justify-between bg-[#9DCDB7] dark:bg-[#A8A8A8] bg-no-repeat bg-cover overflow-hidden transition-colors"
                     style={{ backgroundImage: "url('background-light.png')" }}
                 >
-
                     <LandingPageHeader setTheme={setTheme} />
                     <InfoPopup isOpen={true} placeData={placeData} />
                     <WelcomeSection />
-                   
                 </div>
             </div>
         </I18nextProvider>
