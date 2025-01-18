@@ -1,5 +1,12 @@
 {
     "welcome": "გამარჯობა",
     "easily and quickly find free parking places": "აღმოაჩინე თავისუფალი საპარკინგე ადგილები მარტივად და სწრაფად",
-    "continue": "გაგრძელება"
+    "continue": "გაგრძელება",
+    "place": "ადგილი",
+    "hour": "სთ",
+    "cashOnly": "მხოლოდ ქეში",
+    "card": "ბარათი",
+    "directions": "მისვლა",
+    "save": "შენახვა",
+    "address": "ვაჟა-ფშაველას 24"
 }

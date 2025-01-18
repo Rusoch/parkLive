@@ -7,7 +7,18 @@ import InstallPopup from "./components/InstallPopup";
 import { Loader } from "./components/Loader";
 import { LandingPageHeader } from "./components/LandingPageHeader";
 import { WelcomeSection } from "./components/WelcomeSection";
+import InfoPopup from "./components/InfoPopup";
 
+const placeData = {
+    address: "ვაჟა-ფშაველას 24",
+    totalSpace: 150,
+    freeSpace: 23,
+    rate: 3,
+    entryFee: null,
+    paymentType: ["მხოლოდ ქეში"],
+    opens: "10:00",
+    closes: "18:00",
+};
 export default function Home() {
     const [theme, setTheme] = useState("light");
     const [isLoading, setIsLoading] = useState(true);
@@ -37,6 +48,7 @@ export default function Home() {
                     style={{ backgroundImage: "url('background-light.png')" }}
                 >
                     <LandingPageHeader setTheme={setTheme} />
+                    <InfoPopup isOpen={true} placeData={placeData} />
                     <WelcomeSection />
                 </div>
             </div>

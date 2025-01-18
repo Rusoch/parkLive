@@ -8,7 +8,9 @@ const config: Config = {
     ],
     theme: {
         extend: {
-            // Additional custom classes goes here ...
+            fontFamily: {
+                firago: ["var(--font-firago)"],
+            },
         },
     },
     darkMode: "selector",
