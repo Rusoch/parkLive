@@ -25,13 +25,13 @@ type TProps = {
 const InfoPopup: React.FC<TProps> = ({ isOpen, onClose, placeData }) => {
     const { t } = useTranslation();
     if (!isOpen) return null;
-    const { address, totalSpace, freeSpace, rate, paymentType, opens, closes } = placeData;
+    const { totalSpace, freeSpace, rate, paymentType, opens, closes } = placeData;
     const paymentKeyword = paymentType[0] === "მხოლოდ ქეში" ? "cashOnly" : "";
     return (
         <div className="bg-white dark:bg-[#0D0D0D] rounded-t-lg shadow-lg flex items-center flex-col px-[14px] text-[#15593A] dark:text-[#15593A] text-[20px] fixed bottom-0 left-0 w-full">
             <span className="w-[20%] self-center h-1 rounded-lg bg-[#D9D9D9] dark:bg-[#333333] m-auto mt-[10px] mb-3"></span>
             <div className="w-full flex justify-between">
-                <span>{t(address)}</span>
+                <span>{t("address")}</span>
                 <div className="flex gap-3">
                     <ShareIcon />
                     <CancelIcon onClick={onClose} />
