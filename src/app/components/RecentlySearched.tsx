@@ -1,5 +1,5 @@
 import Image from "next/image";
-const NearMe: React.FC = () => {
+const RecentlySearched: React.FC = () => {
 
 
     return (
@@ -20,7 +20,7 @@ const NearMe: React.FC = () => {
             <p className="text-xs"> უნივერსიტეტის ქუჩა 12, მეორე შესასვლელი</p> </div>
             <span>4 კმ</span>
             </div>
-            <div className="flex justify-between items-center px-4 w-[92%] ">
+            {/* <div className="flex justify-between items-center px-4 w-[92%] ">
                 <Image
                 src='/images/parking icon.png'
                 alt="a parking icon"
@@ -55,7 +55,7 @@ const NearMe: React.FC = () => {
             <h1 className="text-[#192342] font-medium">უნივერსიტეტის ქუჩა</h1>
             <p className="text-xs"> უნივერსიტეტის ქუჩა 12, მეორე შესასვლელი</p> </div>
             <span>4 კმ</span>
-            </div>
+            </div> */}
 
             </div>
 
@@ -67,4 +67,4 @@ const NearMe: React.FC = () => {
     );
 };
 
-export default NearMe;
+export default RecentlySearched;
