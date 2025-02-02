@@ -8,15 +8,18 @@ import InfoPopup, { TPlaceData } from "../components/InfoPopup";
 import { I18nextProvider } from "react-i18next";
 import i18n from "../i18n";
 import { MyLocationButton } from "../components/MyLocationButton";
+import useLocalStorage from "../hooks/useLocalStorage";
 
 const center = {
     lat: 41.7151,
     lng: 44.8271,
 };
+
 const placeLocation = {
     lat: 41.725705,
     lng: 44.745009,
 };
+
 const placeData = {
     placeId: 123,
     placeLocation: {
@@ -58,11 +61,16 @@ function Map() {
     const [selectedPlace, setSelectedPlace] = useState<null | TPlaceData>(null);
 
     const [currentLocation, setCurrentLocation] = useState<
-        { lat: number; lng: number } | undefined
+        | {
+              lat: number;
+              lng: number;
+          }
+        | undefined
     >(center);
     const [destinationLocation, setDestinationLocation] = useState<google.maps.LatLng | undefined>(
         undefined,
     );
+    const { setLocalStorage } = useLocalStorage<number>("favorites");
 
     useEffect(() => {
         if (navigator.geolocation) {
@@ -84,15 +92,11 @@ function Map() {
                                     alert("Error getting current location.");
                                 },
                             );
-                        } else if (permissionStatus.state === "denied") {
-                            // Permission has been denied
                         }
                     })
                     .catch((error) => {
                         console.error("Error checking geolocation permission:", error);
                     });
-            } else {
-                console.warn("Permissions API is not supported in this browser.");
             }
         }
     }, []);
@@ -178,7 +182,6 @@ function Map() {
                             permissionStatus.state === "granted" ||
                             permissionStatus.state === "prompt"
                         ) {
-                            // Permission has already been granted
                             navigator.geolocation.getCurrentPosition(
                                 (position) => {
                                     const { latitude, longitude } = position.coords;
@@ -188,24 +191,27 @@ function Map() {
                                     alert("Error getting current location.");
                                 },
                             );
-                        } else if (permissionStatus.state === "denied") {
-                            // Permission has been denied
                         }
                     })
                     .catch((error) => {
                         console.error("Error checking geolocation permission:", error);
                     });
-            } else {
-                console.warn("Permissions API is not supported in this browser.");
             }
         }
     };
+
+    useEffect(() => {
+        const storedFavorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+        if (storedFavorites.includes(placeData.placeId)) {
+            console.log(`PlaceId ${placeData.placeId} is already in favorites.`);
+        }
+    }, []);
+
     useEffect(() => {
         if (currentLocation && map) {
             markersRef.current.forEach((marker) => marker.setMap(null));
             // Clear the markers array
             markersRef.current = [];
-
             // Outer glow marker (larger and lower opacity)
             const glowMarker = new google.maps.Marker({
                 position: currentLocation,
@@ -239,6 +245,7 @@ function Map() {
             markersRef.current.push(glowMarker, mainMarker);
         }
     }, [currentLocation, map]);
+
     return isLoaded ? (
         <>
             <I18nextProvider i18n={i18n}>
@@ -276,7 +283,6 @@ function Map() {
                         </button>
                     )}
                 </div>
-
                 <GoogleMap
                     mapContainerClassName="h-[100vh]"
                     center={currentLocation || center}
@@ -290,8 +296,7 @@ function Map() {
                         position={placeLocation}
                         mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
                     >
-                        {/* TODO: create and pass PlaceId to handler */}
-                        <ParkingPlaceIcon onClick={() => handlePlaceSelect()} />
+                        <ParkingPlaceIcon onClick={handlePlaceSelect} />
                     </OverlayView>
                 </GoogleMap>
                 <MyLocationButton
@@ -300,7 +305,7 @@ function Map() {
                 />
                 {!!selectedPlace && (
                     <InfoPopup
-                        handleFavorites={() => console.log("რჩეულებში დამატების ლოგიკა")}
+                        handleFavorites={() => setLocalStorage(placeData.placeId)}
                         handleNavigation={handleDirections}
                         className="fixed bottom-0"
                         placeData={placeData}
