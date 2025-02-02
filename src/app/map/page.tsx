@@ -4,15 +4,31 @@ import React, { useState, useRef, useEffect } from "react";
 import { GoogleMap, OverlayView, useJsApiLoader } from "@react-google-maps/api";
 import RecentlySearched from "../components/RecentlySearched";
 import { ParkingPlaceIcon } from "../icons/ParkingPlaceIcon";
+import InfoPopup, { TPlaceData } from "../components/InfoPopup";
+import { I18nextProvider } from "react-i18next";
+import i18n from "../i18n";
 
 const center = {
     lat: 41.7151,
     lng: 44.8271,
 };
-const placeId = 123;
 const placeLocation = {
     lat: 41.725705,
     lng: 44.745009,
+};
+const placeData = {
+    placeId: 123,
+    placeLocation: {
+        lat: 41.725705,
+        lng: 44.745009,
+    },
+    address: "Delisi",
+    totalSpace: 300,
+    freeSpace: 250,
+    rate: 25,
+    paymentType: ["cash"],
+    opens: "10:00",
+    closes: "23:00",
 };
 
 const mapOptions = {
@@ -35,6 +51,8 @@ function Map() {
     const [showArrow, setShowArrow] = useState(false);
     const [changeDiv, setChangeDiv] = useState("justify-center");
     const [bgColor, setBgColor] = useState("transparent");
+
+    const [selectedPlace, setSelectedPlace] = useState<null | TPlaceData>(null);
 
     const [currentLocation, setCurrentLocation] = useState<
         { lat: number; lng: number } | undefined
@@ -143,6 +161,10 @@ function Map() {
         setShowDiv(false);
         setBgColor("transparent");
     };
+    const handlePlaceSelect = () => {
+        console.log(placeData);
+        setSelectedPlace(placeData);
+    };
     useEffect(() => {
         if (currentLocation && map) {
             // Outer glow marker (larger and lower opacity)
@@ -177,59 +199,68 @@ function Map() {
     }, [currentLocation, map]);
     return isLoaded ? (
         <>
-            <div
-                style={{ backgroundColor: bgColor }}
-                className="w-[100vw] absolute flex flex-col align-center pt-[8vh] z-40 pl-[40px] pr-[40px]"
-            >
-                <div className={`w-[100%] flex ${changeDiv} items-center`}>
-                    {showArrow && (
-                        <FaArrowLeft
-                            className="text-[#192342] w-[24px] h-[24px] cursor-pointer"
-                            onClick={handleArrowClick}
-                        />
-                    )}
-                    <div className="w-[96%] relative">
-                        <FaSearch className="text-[#2E18149E] text-[16.5px] absolute left-[15px] transform -translate-y-1/2 top-1/2" />
-                        <input
-                            type="text"
-                            ref={searchInputRef}
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                            onKeyDown={handleKeyDown}
-                            placeholder="მოძებნე"
-                            className="shadow-[0_7px_15.8px_0_rgba(0,0,0,0.25)] text-[#2E18149E] text-[16px] w-[100%] font-[350] bg-[#E8ECF3] focus:outline-none focus:border-none h-[43px] pl-[45px] rounded-[14px]"
-                        />
-                    </div>
-                </div>
-                {showDiv && <RecentlySearched />}
-                {destinationLocation && showDiv && (
-                    <button
-                        onClick={handleDirections}
-                        className="mt-2 p-2 bg-blue-500 text-white rounded"
-                    >
-                        მიმართულებები
-                    </button>
-                )}
-            </div>
-
-            <GoogleMap
-                mapContainerClassName="h-[100vh]"
-                center={currentLocation || center}
-                zoom={19}
-                onLoad={onLoad}
-                onUnmount={onUnmount}
-                options={mapOptions}
-                onClick={handleArrowClick}
-            >
-                <OverlayView
-                    position={placeLocation}
-                    mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
+            <I18nextProvider i18n={i18n}>
+                <div
+                    style={{ backgroundColor: bgColor }}
+                    className="w-[100vw] absolute flex flex-col align-center pt-[8vh] z-40 pl-[40px] pr-[40px]"
                 >
-                    <ParkingPlaceIcon
-                        onClick={() => console.log("place", placeLocation, placeId)}
+                    <div className={`w-[100%] flex ${changeDiv} items-center`}>
+                        {showArrow && (
+                            <FaArrowLeft
+                                className="text-[#192342] w-[24px] h-[24px] cursor-pointer"
+                                onClick={handleArrowClick}
+                            />
+                        )}
+                        <div className="w-[96%] relative">
+                            <FaSearch className="text-[#2E18149E] text-[16.5px] absolute left-[15px] transform -translate-y-1/2 top-1/2" />
+                            <input
+                                type="text"
+                                ref={searchInputRef}
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                onKeyDown={handleKeyDown}
+                                placeholder="მოძებნე"
+                                className="shadow-[0_7px_15.8px_0_rgba(0,0,0,0.25)] text-[#2E18149E] text-[16px] w-[100%] font-[350] bg-[#E8ECF3] focus:outline-none focus:border-none h-[43px] pl-[45px] rounded-[14px]"
+                            />
+                        </div>
+                    </div>
+                    {showDiv && <RecentlySearched />}
+                    {destinationLocation && showDiv && (
+                        <button
+                            onClick={handleDirections}
+                            className="mt-2 p-2 bg-blue-500 text-white rounded"
+                        >
+                            მიმართულებები
+                        </button>
+                    )}
+                </div>
+
+                <GoogleMap
+                    mapContainerClassName="h-[100vh]"
+                    center={currentLocation || center}
+                    zoom={19}
+                    onLoad={onLoad}
+                    onUnmount={onUnmount}
+                    options={mapOptions}
+                    onClick={handleArrowClick}
+                >
+                    <OverlayView
+                        position={placeLocation}
+                        mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
+                    >
+                        {/* TODO: create and pass PlaceId to handler */}
+                        <ParkingPlaceIcon onClick={() => handlePlaceSelect()} />
+                    </OverlayView>
+                </GoogleMap>
+                {!!selectedPlace && (
+                    <InfoPopup
+                        className="fixed bottom-0"
+                        placeData={placeData}
+                        onClose={() => setSelectedPlace(null)}
+                        isOpen={!!selectedPlace}
                     />
-                </OverlayView>
-            </GoogleMap>
+                )}
+            </I18nextProvider>
         </>
     ) : (
         <></>

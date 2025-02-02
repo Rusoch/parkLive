@@ -9,7 +9,7 @@ import { Button } from "./Button";
 import { useState } from "react";
 import { PopupHandle } from "./PopupHandle";
 
-type TPlaceData = {
+export type TPlaceData = {
     address: string;
     totalSpace: number;
     freeSpace: number;
