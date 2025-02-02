@@ -44,7 +44,7 @@ const InfoPopup: React.FC<TProps> = ({
         setIsPopupMinified(!isPopupMinified);
     };
     const { totalSpace, freeSpace, rate, paymentType, opens, closes } = placeData;
-    const paymentKeyword = paymentType[0] === "მხოლოდ ქეში" ? "cashOnly" : "";
+    const paymentKeyword = paymentType[0] === "მხოლოდ ქეში" ? "cashOnly" : "card";
     return (
         <div
             className={`${className ?? ""} bg-white dark:bg-[#0D0D0D] rounded-t-lg shadow-[rgba(0,0,15,0.5)_0px_0px_14px_0px] flex items-center flex-col px-[14px] text-[#15593A] dark:text-[#15593A] text-[20px] w-full`}

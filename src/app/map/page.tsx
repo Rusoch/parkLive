@@ -27,7 +27,7 @@ const placeData = {
     totalSpace: 300,
     freeSpace: 250,
     rate: 25,
-    paymentType: ["cash"],
+    paymentType: ["მხოლოდ ქეში"],
     opens: "10:00",
     closes: "23:00",
 };
