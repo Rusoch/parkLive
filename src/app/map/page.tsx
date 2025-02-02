@@ -37,15 +37,38 @@ function Map() {
 
     useEffect(() => {
         if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    const { latitude, longitude } = position.coords;
-                    setCurrentLocation({ lat: latitude, lng: longitude });
-                },
-                () => {
-                    alert("Error getting current location.");
-                },
-            );
+            if (navigator.permissions) {
+                navigator.permissions
+                    .query({ name: "geolocation" })
+                    .then((permissionStatus) => {
+                        console.log("Geolocation permission state:", permissionStatus.state);
+
+                        if (
+                            permissionStatus.state === "granted" ||
+                            permissionStatus.state === "prompt"
+                        ) {
+                            // Permission has already been granted
+                            navigator.geolocation.getCurrentPosition(
+                                (position) => {
+                                    const { latitude, longitude } = position.coords;
+                                    setCurrentLocation({ lat: latitude, lng: longitude });
+                                },
+                                () => {
+                                    alert("Error getting current location.");
+                                },
+                            );
+                            console.log("Permission granted");
+                        } else if (permissionStatus.state === "denied") {
+                            // Permission has been denied
+                            console.log("Permission denied");
+                        }
+                    })
+                    .catch((error) => {
+                        console.error("Error checking geolocation permission:", error);
+                    });
+            } else {
+                console.log("Permissions API is not supported in this browser.");
+            }
         }
     }, []);
 
@@ -112,7 +135,39 @@ function Map() {
         setShowDiv(false);
         setBgColor("transparent");
     };
+    useEffect(() => {
+        if (currentLocation && map) {
+            // Outer glow marker (larger and lower opacity)
+            new google.maps.Marker({
+                position: currentLocation,
+                map,
+                icon: {
+                    path: google.maps.SymbolPath.CIRCLE,
+                    fillColor: "#4285F4", // Blue color
+                    fillOpacity: 0.3, // Lower opacity for glow effect
+                    strokeWeight: 0,
+                    scale: 20, // Larger circle for glow
+                },
+                zIndex: 1, // Drawn behind the main marker
+            });
 
+            // Main marker (smaller and fully opaque)
+            new google.maps.Marker({
+                position: currentLocation,
+                map,
+                icon: {
+                    path: google.maps.SymbolPath.CIRCLE,
+                    fillColor: "#4285F4",
+                    fillOpacity: 1,
+                    strokeColor: "#fff", // White border
+                    strokeWeight: 2,
+                    scale: 10, // Smaller circle
+                },
+                title: "Your Current Location",
+                zIndex: 2, // Drawn on top of the glow marker
+            });
+        }
+    }, [currentLocation, map]);
     return isLoaded ? (
         <>
             <div
@@ -153,7 +208,7 @@ function Map() {
             <GoogleMap
                 mapContainerClassName="h-[100vh]"
                 center={currentLocation || center}
-                zoom={13}
+                zoom={19}
                 onLoad={onLoad}
                 onUnmount={onUnmount}
                 options={mapOptions}
