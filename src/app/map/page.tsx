@@ -7,6 +7,7 @@ import { ParkingPlaceIcon } from "../icons/ParkingPlaceIcon";
 import InfoPopup, { TPlaceData } from "../components/InfoPopup";
 import { I18nextProvider } from "react-i18next";
 import i18n from "../i18n";
+import { MyLocationButton } from "../components/MyLocationButton";
 
 const center = {
     lat: 41.7151,
@@ -45,6 +46,8 @@ function Map() {
     });
 
     const [map, setMap] = useState<google.maps.Map | null>(null);
+    const markersRef = useRef<google.maps.Marker[]>([]);
+
     const [searchQuery, setSearchQuery] = useState("");
     const searchInputRef = useRef(null);
     const [showDiv, setShowDiv] = useState(false);
@@ -165,10 +168,50 @@ function Map() {
         console.log(placeData);
         setSelectedPlace(placeData);
     };
+    const handleCurrentLocation = () => {
+        if (navigator.geolocation) {
+            if (navigator.permissions) {
+                navigator.permissions
+                    .query({ name: "geolocation" })
+                    .then((permissionStatus) => {
+                        console.log("Geolocation permission state:", permissionStatus.state);
+
+                        if (
+                            permissionStatus.state === "granted" ||
+                            permissionStatus.state === "prompt"
+                        ) {
+                            // Permission has already been granted
+                            navigator.geolocation.getCurrentPosition(
+                                (position) => {
+                                    const { latitude, longitude } = position.coords;
+                                    setCurrentLocation({ lat: latitude, lng: longitude });
+                                },
+                                () => {
+                                    alert("Error getting current location.");
+                                },
+                            );
+                            console.log("Permission granted");
+                        } else if (permissionStatus.state === "denied") {
+                            // Permission has been denied
+                            console.log("Permission denied");
+                        }
+                    })
+                    .catch((error) => {
+                        console.error("Error checking geolocation permission:", error);
+                    });
+            } else {
+                console.log("Permissions API is not supported in this browser.");
+            }
+        }
+    };
     useEffect(() => {
         if (currentLocation && map) {
+            markersRef.current.forEach((marker) => marker.setMap(null));
+            // Clear the markers array
+            markersRef.current = [];
+
             // Outer glow marker (larger and lower opacity)
-            new google.maps.Marker({
+            const glowMarker = new google.maps.Marker({
                 position: currentLocation,
                 map,
                 icon: {
@@ -181,7 +224,7 @@ function Map() {
                 zIndex: 1, // Drawn behind the main marker
             });
             // Main marker (smaller and fully opaque)
-            new google.maps.Marker({
+            const mainMarker = new google.maps.Marker({
                 position: currentLocation,
                 map,
                 icon: {
@@ -195,6 +238,9 @@ function Map() {
                 title: "Your Current Location",
                 zIndex: 2, // Drawn on top of the glow marker
             });
+
+            // Store markers in the ref for future cleanup
+            markersRef.current.push(glowMarker, mainMarker);
         }
     }, [currentLocation, map]);
     return isLoaded ? (
@@ -252,6 +298,10 @@ function Map() {
                         <ParkingPlaceIcon onClick={() => handlePlaceSelect()} />
                     </OverlayView>
                 </GoogleMap>
+                <MyLocationButton
+                    className="fixed right-[4%] bottom-[13%]"
+                    onClick={handleCurrentLocation}
+                />
                 {!!selectedPlace && (
                     <InfoPopup
                         className="fixed bottom-0"
