@@ -70,8 +70,6 @@ function Map() {
                 navigator.permissions
                     .query({ name: "geolocation" })
                     .then((permissionStatus) => {
-                        console.log("Geolocation permission state:", permissionStatus.state);
-
                         if (
                             permissionStatus.state === "granted" ||
                             permissionStatus.state === "prompt"
@@ -86,17 +84,15 @@ function Map() {
                                     alert("Error getting current location.");
                                 },
                             );
-                            console.log("Permission granted");
                         } else if (permissionStatus.state === "denied") {
                             // Permission has been denied
-                            console.log("Permission denied");
                         }
                     })
                     .catch((error) => {
                         console.error("Error checking geolocation permission:", error);
                     });
             } else {
-                console.log("Permissions API is not supported in this browser.");
+                console.warn("Permissions API is not supported in this browser.");
             }
         }
     }, []);
@@ -165,7 +161,6 @@ function Map() {
         setBgColor("transparent");
     };
     const handlePlaceSelect = () => {
-        console.log(placeData);
         setSelectedPlace(placeData);
         const targetGeometry = new google.maps.LatLng(
             placeData.placeLocation.lat,
@@ -179,8 +174,6 @@ function Map() {
                 navigator.permissions
                     .query({ name: "geolocation" })
                     .then((permissionStatus) => {
-                        console.log("Geolocation permission state:", permissionStatus.state);
-
                         if (
                             permissionStatus.state === "granted" ||
                             permissionStatus.state === "prompt"
@@ -195,17 +188,15 @@ function Map() {
                                     alert("Error getting current location.");
                                 },
                             );
-                            console.log("Permission granted");
                         } else if (permissionStatus.state === "denied") {
                             // Permission has been denied
-                            console.log("Permission denied");
                         }
                     })
                     .catch((error) => {
                         console.error("Error checking geolocation permission:", error);
                     });
             } else {
-                console.log("Permissions API is not supported in this browser.");
+                console.warn("Permissions API is not supported in this browser.");
             }
         }
     };
