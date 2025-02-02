@@ -1,12 +1,18 @@
 "use client";
 import { FaSearch, FaArrowLeft } from "react-icons/fa";
 import React, { useState, useRef, useEffect } from "react";
-import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
+import { GoogleMap, OverlayView, useJsApiLoader } from "@react-google-maps/api";
 import RecentlySearched from "../components/RecentlySearched";
+import { ParkingPlaceIcon } from "../icons/ParkingPlaceIcon";
 
 const center = {
     lat: 41.7151,
     lng: 44.8271,
+};
+const placeId = 123;
+const placeLocation = {
+    lat: 41.725705,
+    lng: 44.745009,
 };
 
 const mapOptions = {
@@ -30,10 +36,12 @@ function Map() {
     const [changeDiv, setChangeDiv] = useState("justify-center");
     const [bgColor, setBgColor] = useState("transparent");
 
-    const [currentLocation, setCurrentLocation] = useState<{ lat: number; lng: number } | null>(
-        null,
+    const [currentLocation, setCurrentLocation] = useState<
+        { lat: number; lng: number } | undefined
+    >(center);
+    const [destinationLocation, setDestinationLocation] = useState<google.maps.LatLng | undefined>(
+        undefined,
     );
-    const [destinationLocation, setDestinationLocation] = useState<google.maps.LatLng | null>(null);
 
     useEffect(() => {
         if (navigator.geolocation) {
@@ -150,7 +158,6 @@ function Map() {
                 },
                 zIndex: 1, // Drawn behind the main marker
             });
-
             // Main marker (smaller and fully opaque)
             new google.maps.Marker({
                 position: currentLocation,
@@ -213,7 +220,16 @@ function Map() {
                 onUnmount={onUnmount}
                 options={mapOptions}
                 onClick={handleArrowClick}
-            ></GoogleMap>
+            >
+                <OverlayView
+                    position={placeLocation}
+                    mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
+                >
+                    <ParkingPlaceIcon
+                        onClick={() => console.log("place", placeLocation, placeId)}
+                    />
+                </OverlayView>
+            </GoogleMap>
         </>
     ) : (
         <></>
