@@ -167,6 +167,11 @@ function Map() {
     const handlePlaceSelect = () => {
         console.log(placeData);
         setSelectedPlace(placeData);
+        const targetGeometry = new google.maps.LatLng(
+            placeData.placeLocation.lat,
+            placeData.placeLocation.lng,
+        );
+        setDestinationLocation(targetGeometry);
     };
     const handleCurrentLocation = () => {
         if (navigator.geolocation) {
@@ -304,6 +309,8 @@ function Map() {
                 />
                 {!!selectedPlace && (
                     <InfoPopup
+                        handleFavorites={() => console.log("რჩეულებში დამატების ლოგიკა")}
+                        handleNavigation={handleDirections}
                         className="fixed bottom-0"
                         placeData={placeData}
                         onClose={() => setSelectedPlace(null)}

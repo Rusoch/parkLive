@@ -22,10 +22,19 @@ export type TPlaceData = {
 type TProps = {
     isOpen?: boolean;
     onClose: () => void;
+    handleNavigation: () => void;
+    handleFavorites: () => void;
     placeData: TPlaceData;
     className?: string;
 };
-const InfoPopup: React.FC<TProps> = ({ isOpen, onClose, placeData, className }) => {
+const InfoPopup: React.FC<TProps> = ({
+    isOpen,
+    onClose,
+    placeData,
+    className,
+    handleNavigation,
+    handleFavorites,
+}) => {
     const { t } = useTranslation();
     const [isPopupOpen, setIsPopupOpen] = useState(isOpen);
     const [isPopupMinified, setIsPopupMinified] = useState(false);
@@ -75,12 +84,12 @@ const InfoPopup: React.FC<TProps> = ({ isOpen, onClose, placeData, className }) 
                 className={`flex w-full justify-around leading-[19px] ${isPopupMinified ? "mb-[10px]" : "mb-9"}`}
             >
                 <Button
-                    onClick={() => console.log("მისვლა")}
+                    onClick={handleNavigation}
                     label={t("directions")}
                     className="rounded-[14px] w-[44%] py-2 border bg-[#15593A] border-[#15593A] dark:border-[#1A6E48] text-white dark:text-[#0D0D0D] dark:bg-[#1A6E48] text-[14px]"
                 />
                 <Button
-                    onClick={() => console.log("შენახვა")}
+                    onClick={handleFavorites}
                     label={t("save")}
                     className="rounded-[14px] w-[44%] py-2 border border-[#15593A] text-[#15593A] dark:text-[#1A6E48] dark:border-[#1A6E48] text-[14px]"
                 />
