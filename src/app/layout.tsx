@@ -1,3 +1,4 @@
+import localFont from "next/font/local";
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
@@ -10,13 +11,18 @@ export const metadata: Metadata = {
     manifest: "/manifest.json",
 };
 
+const firagoFont = localFont({
+    src: "../fonts/FiraGO-Book.otf",
+    variable: "--font-firago",
+});
+
 export default function RootLayout({
     children,
 }: Readonly<{
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en">
+        <html lang="en" className={`${firagoFont.variable} font-firago`}>
             <head>
                 <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
                 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />

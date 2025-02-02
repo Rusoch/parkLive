@@ -34,3 +34,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+#cloud
+
+default.conf
+cloudflare-origin.key
+cloudflare-origin.pem
+.dockerignore
