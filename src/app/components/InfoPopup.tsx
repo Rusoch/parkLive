@@ -6,6 +6,8 @@ import { RateIcon } from "../icons/RateIcon";
 import { CashIcon } from "../icons/CashIcon";
 import { ClockIcon } from "../icons/ClockIcon";
 import { Button } from "./Button";
+import { useState } from "react";
+import { PopupHandle } from "./PopupHandle";
 
 type TPlaceData = {
     address: string;
@@ -19,39 +21,59 @@ type TPlaceData = {
 };
 type TProps = {
     isOpen?: boolean;
-    onClose?: () => void;
+    onClose: () => void;
     placeData: TPlaceData;
+    className?: string;
 };
-const InfoPopup: React.FC<TProps> = ({ isOpen, onClose, placeData }) => {
+const InfoPopup: React.FC<TProps> = ({ isOpen, onClose, placeData, className }) => {
     const { t } = useTranslation();
-    if (!isOpen) return null;
-    const { address, totalSpace, freeSpace, rate, paymentType, opens, closes } = placeData;
+    const [isPopupOpen, setIsPopupOpen] = useState(isOpen);
+    const [isPopupMinified, setIsPopupMinified] = useState(false);
+
+    if (!isPopupOpen) return null;
+    const handlePopupMinify = () => {
+        setIsPopupMinified(!isPopupMinified);
+    };
+    const { totalSpace, freeSpace, rate, paymentType, opens, closes } = placeData;
     const paymentKeyword = paymentType[0] === "მხოლოდ ქეში" ? "cashOnly" : "";
     return (
-        <div className="bg-white dark:bg-[#0D0D0D] rounded-t-lg shadow-lg flex items-center flex-col px-[14px] text-[#15593A] dark:text-[#15593A] text-[20px] fixed bottom-0 left-0 w-full">
-            <span className="w-[20%] self-center h-1 rounded-lg bg-[#D9D9D9] dark:bg-[#333333] m-auto mt-[10px] mb-3"></span>
-            <div className="w-full flex justify-between">
-                <span>{t(address)}</span>
+        <div
+            className={`${className ?? ""} bg-white dark:bg-[#0D0D0D] rounded-t-lg shadow-[rgba(0,0,15,0.5)_0px_0px_14px_0px] flex items-center flex-col px-[14px] text-[#15593A] dark:text-[#15593A] text-[20px] w-full`}
+        >
+            <PopupHandle onClick={handlePopupMinify} />
+            <div
+                className={`w-full flex justify-between leading-[27px] ${isPopupMinified ? "my-[13px]" : "mt-[21px] mb-[26px]"}`}
+            >
+                <span>{t("address")}</span>
                 <div className="flex gap-3">
                     <ShareIcon />
-                    <CancelIcon onClick={onClose} />
+                    <CancelIcon
+                        onClick={() => {
+                            onClose();
+                            setIsPopupOpen(false);
+                        }}
+                    />
                 </div>
             </div>
-            <ul className="flex flex-col w-full mt-4 items-start gap-1 text-[14px]">
-                <li className="flex items-center gap-2 justify-center">
-                    <PlacesIcon /> {`${freeSpace}/${totalSpace} ${t("place")}`}
-                </li>
-                <li className="flex items-center gap-2 justify-center">
-                    <RateIcon /> {`${rate}/1 ${t("hour")}`}
-                </li>
-                <li className="flex items-center gap-2 justify-center">
-                    <CashIcon /> {t(paymentKeyword)}
-                </li>
-                <li className="flex items-center gap-2 justify-center">
-                    <ClockIcon /> {`${opens} - ${closes}`}
-                </li>
-            </ul>
-            <div className="flex w-full justify-around mt-8 mb-9">
+            {!isPopupMinified && (
+                <ul className="flex flex-col w-full items-start gap-1 text-[14px]">
+                    <li className="flex items-center gap-2 justify-center">
+                        <PlacesIcon /> {`${freeSpace}/${totalSpace} ${t("place")}`}
+                    </li>
+                    <li className="flex items-center gap-2 justify-center">
+                        <RateIcon /> {`${rate}/1 ${t("hour")}`}
+                    </li>
+                    <li className="flex items-center gap-2 justify-center">
+                        <CashIcon /> {t(paymentKeyword)}
+                    </li>
+                    <li className="flex items-center gap-2 justify-center">
+                        <ClockIcon /> {`${opens} - ${closes}`}
+                    </li>
+                </ul>
+            )}
+            <div
+                className={`flex w-full justify-around leading-[19px] ${isPopupMinified ? "mb-[10px]" : "mb-9"}`}
+            >
                 <Button
                     onClick={() => console.log("მისვლა")}
                     label={t("directions")}
