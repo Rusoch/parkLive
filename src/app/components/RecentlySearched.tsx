@@ -4,7 +4,7 @@ const RecentlySearched: React.FC = () => {
 
     return (
         <div className=" w-[100%] pt-[40px] pl-[16px] bg-[#F3F6FF]  ">
-            <h1>შენთან ახლოს</h1>
+            <h1>ბოლოს მოძებნილები</h1>
             <div className="flex flex-col gap-[22px] pt-[22px] pb-[54px]">
 
             
