@@ -1,5 +1,4 @@
 "use client";
-import { FaSearch, FaArrowLeft } from "react-icons/fa";
 import React, { useState, useRef, useEffect } from "react";
 import { GoogleMap, OverlayView, useJsApiLoader } from "@react-google-maps/api";
 import RecentlySearched from "../components/RecentlySearched";
@@ -10,7 +9,7 @@ import i18n from "../i18n";
 import { MyLocationButton } from "../components/MyLocationButton";
 import debounce from "lodash/debounce";
 import { SearchIcon } from "../icons/SearchIcon";
-import {ArrowLeftIcon} from "../icons/Arrow-leftIcon";
+import { ArrowLeftIcon } from "../icons/Arrow-leftIcon";
 
 const center = {
     lat: 41.7151,
@@ -52,12 +51,12 @@ function ParkingMap() {
     const markersRef = useRef<google.maps.Marker[]>([]);
 
     const [searchQuery, setSearchQuery] = useState("");
-    const [isSearchActive, setIsSearchActive] = useState(false);
     const searchInputRef = useRef(null);
     const [showDiv, setShowDiv] = useState(false);
     const [showArrow, setShowArrow] = useState(false);
     const [changeDiv, setChangeDiv] = useState("justify-center");
     const [bgColor, setBgColor] = useState("transparent");
+    const [divShadow, setDivShadow] = useState("none");
 
     const [selectedPlace, setSelectedPlace] = useState<null | TPlaceData>(null);
 
@@ -129,7 +128,7 @@ function ParkingMap() {
     }, 3000);
     useEffect(() => {
         if (searchQuery) {
-            debouncedSearch(); 
+            debouncedSearch();
         }
         return () => {
             debouncedSearch.cancel();
@@ -165,6 +164,7 @@ function ParkingMap() {
             setChangeDiv("justify-between");
             setShowDiv(true);
             setBgColor("rgba(243, 246, 255, 1)");
+            setDivShadow("0 7px 15.8px 0 rgba(0,0,0,0.25)");
             handleSearch();
         }
     };
@@ -174,6 +174,7 @@ function ParkingMap() {
         setShowArrow(false);
         setShowDiv(false);
         setBgColor("transparent");
+        setDivShadow("none");
     };
     const handlePlaceSelect = () => {
         setSelectedPlace(placeData);
@@ -257,7 +258,13 @@ function ParkingMap() {
     return isLoaded ? (
         <I18nextProvider i18n={i18n}>
             <div
-                style={{ backgroundColor: bgColor }}
+                style={{
+                    backgroundColor: bgColor,
+                    boxShadow: divShadow,
+                    transition: " box-shadow 0.3s ease",
+                    borderBottomLeftRadius: "20px",
+                    borderBottomRightRadius: "20px", 
+                }}
                 className="w-[100vw] absolute flex flex-col align-center pt-[8vh] z-40 pl-[40px] pr-[40px]"
             >
                 <div className={`w-[100%] flex ${changeDiv} items-center`}>
