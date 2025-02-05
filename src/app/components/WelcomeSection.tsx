@@ -3,7 +3,7 @@ import WelcomeMessage from "./WelcomeMessage";
 
 export const WelcomeSection: React.FC = () => {
     return (
-        <div className="flex items-center flex-col gap-12 mb-[87px] w-[91%] m-auto">
+        <div className="flex items-center flex-col gap-12 mb-[10%] w-[91%] m-auto">
             <WelcomeMessage />
             <Button
                 onClick={() => {
