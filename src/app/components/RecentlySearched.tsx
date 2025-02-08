@@ -1,49 +1,45 @@
-import Image from "next/image";
-import { useState, useEffect, useCallback } from "react";
-import { debounce } from "lodash";
+import { useState } from "react";
+import { PopupHandle } from "./PopupHandle";
+import { TPlaceData } from "../types/place";
+import { ParkingPlaceIcon } from "../icons/ParkingPlaceIcon";
 
-const RecentlySearched: React.FC<{
-  searchQuery: string;
-}> = ({ searchQuery }) => {
-  const [recentSearches, setRecentSearches] = useState<string[]>([]);
+type TProps = {
+  placeList: TPlaceData[];
+};
 
-  const debouncedSaveSearch = useCallback(
-    debounce((search: string) => {
-      setRecentSearches((prev) => {
-        const newRecentSearches = [...new Set([search, ...prev])].slice(0, 4);
-
-        localStorage.setItem("recentSearches", JSON.stringify(newRecentSearches));
-        return newRecentSearches;
-      });
-    }, 3000),
-    [],
-  );
-
-  useEffect(() => {
-    const savedSearches = JSON.parse(localStorage.getItem("recentSearches") ?? "[]");
-    setRecentSearches(savedSearches);
-  }, []);
-
-  useEffect(() => {
-    if (searchQuery) {
-      debouncedSaveSearch(searchQuery);
-    }
-  }, [searchQuery, debouncedSaveSearch]);
+const RecentlySearched: React.FC<TProps> = ({ placeList }) => {
+  const [isListExtended, setIsListExtended] = useState(false);
+  const [renderedItems, setRenderedItems] = useState<TPlaceData[]>(() => {
+    if (placeList && Array.isArray(placeList)) {
+      if (placeList.length >= 4) {
+        return placeList.slice(0, 4);
+      } else return placeList;
+    } else return [];
+  });
+  const handleListExpand = () => {
+    setIsListExtended(!isListExtended);
+    setRenderedItems(placeList);
+  };
   return (
-    <div className="w-[100%] pt-[40px] pl-[16px] bg-[#F3F6FF]">
-      <h1>ბოლოს მოძებნილები</h1>
-      <div className="flex flex-col gap-[22px] pt-[22px] pb-[54px]">
-        {recentSearches.slice(0, 4).map((search, index) => (
-          <div key={index} className="flex justify-between items-center px-4 w-[92%]">
-            <Image src="/images/parking icon.png" alt="a parking icon" width={35} height={35} />
-            <span className="flex justify-center items-center w-[100%]">{search}</span>
+    <div
+      className={`${isListExtended ? "h-[100dvh]" : ""} fixed top-0 left-0 w-[100dvw] pt-[calc(43px+8dvh)] pb-[82px] bg-[#F3F6FF] flex flex-col items-center gap-[22px] z-10 rounded-b-[12px] shadow-[0_5px_15.8px_0_rgba(0,0,0,0.35),0_2px_15.8px_0_rgba(0,0,0,0.35)]`}
+    >
+      <h1 className="pt-[35px] w-full px-[5%]">ბოლოს მოძებნილები</h1>
+      <div className="w-full px-[3%] overflow-y-auto flex-1 flex flex-col items-center gap-[22px] ">
+        {renderedItems.map((item, index) => (
+          <div key={index} className="flex justify-between items-center w-full">
+            <ParkingPlaceIcon isClickable={false} />
+            <div>
+              <span className="flex justify-start items-center w-[100%]">{item.address}</span>
+              <span className="flex justify-start items-center w-[100%] text-[12px] text-[#677191]">
+                უნივერსიტეტის ქუჩა 12, მეორე შესასვლელი
+              </span>
+            </div>
             <span>კმ</span>
           </div>
         ))}
       </div>
-      <div className="flex justify-center items-center w-[100%] pb-[14px] cursor-pointer">
-        <div className="w-[92px] h-[7px] bg-[#D9D9D9] rounded-[56px]"></div>
-      </div>
+      <PopupHandle onClick={handleListExpand} className="absolute h-2 bottom-3" />
     </div>
   );
 };
