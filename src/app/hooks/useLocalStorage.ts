@@ -1,10 +1,12 @@
+"use client";
 // hooks/useLocalStorage.ts
 import { useState } from "react";
 
 function useLocalStorage<T>(key: string) {
   const [storedValue, setStoredValue] = useState<T[] | null>(() => {
+    if (typeof window === "undefined") return null;
     try {
-      const item = localStorage.getItem(key);
+      const item = window.localStorage.getItem(key);
       return item ? (JSON.parse(item) as T[]) : null;
     } catch (error) {
       console.error("Error reading localStorage", error);
