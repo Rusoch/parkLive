@@ -7,6 +7,7 @@ import InfoPopup, { TPlaceData } from "../components/InfoPopup";
 import { I18nextProvider } from "react-i18next";
 import i18n from "../i18n";
 import { MyLocationButton } from "../components/MyLocationButton";
+import useLocalStorage from "../hooks/useLocalStorage";
 import { SearchIcon } from "../icons/SearchIcon";
 import { ArrowLeftIcon } from "../icons/Arrow-leftIcon";
 
@@ -14,10 +15,12 @@ const center = {
     lat: 41.7151,
     lng: 44.8271,
 };
+
 const placeLocation = {
     lat: 41.725705,
     lng: 44.745009,
 };
+
 const placeData = {
     placeId: 123,
     placeLocation: {
@@ -61,11 +64,16 @@ function ParkingMap() {
     const [selectedPlace, setSelectedPlace] = useState<null | TPlaceData>(null);
 
     const [currentLocation, setCurrentLocation] = useState<
-        { lat: number; lng: number } | undefined
+        | {
+              lat: number;
+              lng: number;
+          }
+        | undefined
     >(center);
     const [destinationLocation, setDestinationLocation] = useState<google.maps.LatLng | undefined>(
         undefined,
     );
+    const { setLocalStorage } = useLocalStorage<number>("favorites");
 
     useEffect(() => {
         if (navigator.geolocation) {
@@ -87,15 +95,11 @@ function ParkingMap() {
                                     alert("Error getting current location.");
                                 },
                             );
-                        } else if (permissionStatus.state === "denied") {
-                            // Permission has been denied
                         }
                     })
                     .catch((error) => {
                         console.error("Error checking geolocation permission:", error);
                     });
-            } else {
-                console.warn("Permissions API is not supported in this browser.");
             }
         }
     }, []);
@@ -197,7 +201,6 @@ function ParkingMap() {
                             permissionStatus.state === "granted" ||
                             permissionStatus.state === "prompt"
                         ) {
-                            // Permission has already been granted
                             navigator.geolocation.getCurrentPosition(
                                 (position) => {
                                     const { latitude, longitude } = position.coords;
@@ -207,24 +210,27 @@ function ParkingMap() {
                                     alert("Error getting current location.");
                                 },
                             );
-                        } else if (permissionStatus.state === "denied") {
-                            // Permission has been denied
                         }
                     })
                     .catch((error) => {
                         console.error("Error checking geolocation permission:", error);
                     });
-            } else {
-                console.warn("Permissions API is not supported in this browser.");
             }
         }
     };
+
+    useEffect(() => {
+        const storedFavorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+        if (storedFavorites.includes(placeData.placeId)) {
+            console.log(`PlaceId ${placeData.placeId} is already in favorites.`);
+        }
+    }, []);
+
     useEffect(() => {
         if (currentLocation && map) {
             markersRef.current.forEach((marker) => marker.setMap(null));
             // Clear the markers array
             markersRef.current = [];
-
             // Outer glow marker (larger and lower opacity)
             const glowMarker = new google.maps.Marker({
                 position: currentLocation,
@@ -258,6 +264,7 @@ function ParkingMap() {
             markersRef.current.push(glowMarker, mainMarker);
         }
     }, [currentLocation, map]);
+
     return isLoaded ? (
         <I18nextProvider i18n={i18n}>
             <div
@@ -290,43 +297,39 @@ function ParkingMap() {
                         />
                     </div>
                 </div>
-                {isRecentlySearched && (
-                    <RecentlySearched searchQuery={debouncedSearchQuery} hasError={hasError} />
-                )}
-            </div>
-
-            <GoogleMap
-                mapContainerClassName="h-[100vh]"
-                center={currentLocation || center}
-                zoom={19}
-                onLoad={onLoad}
-                onUnmount={onUnmount}
-                options={mapOptions}
-                onClick={handleArrowClick}
-            >
-                <OverlayView
-                    position={placeLocation}
-                    mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
+                <GoogleMap
+                    mapContainerClassName="h-[100vh]"
+                    center={currentLocation || center}
+                    zoom={19}
+                    onLoad={onLoad}
+                    onUnmount={onUnmount}
+                    options={mapOptions}
+                    onClick={handleArrowClick}
                 >
-                    {/* TODO: create and pass PlaceId to handler */}
-                    <ParkingPlaceIcon onClick={() => handlePlaceSelect()} />
-                </OverlayView>
-            </GoogleMap>
-            <MyLocationButton
-                className="fixed right-[4%] bottom-[13%]"
-                onClick={handleCurrentLocation}
-            />
-            {!!selectedPlace && (
-                <InfoPopup
-                    handleFavorites={() => console.log("რჩეულებში დამატების ლოგიკა")}
-                    handleNavigation={handleDirections}
-                    className="fixed bottom-0"
-                    placeData={placeData}
-                    onClose={() => setSelectedPlace(null)}
-                    isOpen={!!selectedPlace}
+                    <OverlayView
+                        position={placeLocation}
+                        mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
+                    >
+                        <ParkingPlaceIcon onClick={handlePlaceSelect} />
+                    </OverlayView>
+                </GoogleMap>
+                <MyLocationButton
+                    className="fixed right-[4%] bottom-[13%]"
+                    onClick={handleCurrentLocation}
                 />
-            )}
-        </I18nextProvider>
+                {!!selectedPlace && (
+                    <InfoPopup
+                        handleFavorites={() => setLocalStorage(placeData.placeId)}
+                        handleNavigation={handleDirections}
+                        className="fixed bottom-0"
+                        placeData={placeData}
+                        onClose={() => setSelectedPlace(null)}
+                        isOpen={!!selectedPlace}
+                    />
+                )}
+            </I18nextProvider>
+        </>
+
     ) : (
         <></>
     );
