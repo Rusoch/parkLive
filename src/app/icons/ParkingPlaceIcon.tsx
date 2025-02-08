@@ -1,16 +1,24 @@
 import React from "react";
 import { useState } from "react";
-type TProps = { onClick: () => void; className?: string; isPlaceSelected?: boolean };
+type TProps = {
+  onClick?: () => void;
+  className?: string;
+  isPlaceSelected?: boolean;
+  isClickable?: boolean;
+};
 
 export const ParkingPlaceIcon: React.FC<TProps> = ({
   className,
   onClick,
   isPlaceSelected = false,
+  isClickable = true,
 }) => {
   const [isActive, setIsActive] = useState(isPlaceSelected);
   const handleActivation = () => {
-    onClick();
-    setIsActive(true);
+    if (isClickable && onClick) {
+      onClick();
+      setIsActive(true);
+    }
   };
   return (
     <>
@@ -51,7 +59,7 @@ export const ParkingPlaceIcon: React.FC<TProps> = ({
             viewBox="0 0 32 32"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            className="-translate-x-[50%] -translate-y-[50%]"
+            className={isClickable ? "-translate-x-[50%] -translate-y-[50%]" : ""}
           >
             <rect x="5.30798" y="5.28003" width="20.96" height="20.96" rx="10.48" fill="#567DF4" />
             <rect
