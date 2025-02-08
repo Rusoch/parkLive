@@ -1,43 +1,43 @@
 {
-    "name": "The Adgiliani app",
-    "short_name": "Adgiliani",
-    "description": "Parking app for Tbilisians to find parking spots of their car's dream",
-    "start_url": "/",
-    "icons": [
-        {
-            "src": "/icon-192x192.png",
-            "sizes": "192x192",
-            "type": "image/png",
-            "purpose": "any"
-        },
-        {
-            "src": "/icon-192x192.png",
-            "sizes": "192x192",
-            "type": "image/png",
-            "purpose": "any"
-        },
-        {
-            "src": "/icon-144x144.png",
-            "sizes": "144x144",
-            "type": "image/png",
-            "purpose": "any"
-        }
-    ],
-    "screenshots": [
-        {
-            "src": "/desktop-screenshot.png",
-            "sizes": "1600x900",
-            "type": "image/png",
-            "form_factor": "wide"
-        },
-        {
-            "src": "/mobile-screenshot.png",
-            "sizes": "720x1280",
-            "type": "image/png",
-            "form_factor": "narrow"
-        }
-    ],
-    "theme_color": "#e6d9d9",
-    "background_color": "#e6c5c5",
-    "display": "standalone"
+  "name": "The Adgiliani app",
+  "short_name": "Adgiliani",
+  "description": "Parking app for Tbilisians to find parking spots of their car's dream",
+  "start_url": "/",
+  "icons": [
+    {
+      "src": "/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/desktop-screenshot.png",
+      "sizes": "1600x900",
+      "type": "image/png",
+      "form_factor": "wide"
+    },
+    {
+      "src": "/mobile-screenshot.png",
+      "sizes": "720x1280",
+      "type": "image/png",
+      "form_factor": "narrow"
+    }
+  ],
+  "theme_color": "#e6d9d9",
+  "background_color": "#e6c5c5",
+  "display": "standalone"
 }
