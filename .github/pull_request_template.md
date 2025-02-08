@@ -4,9 +4,9 @@
 
 Please provide a summary of the changes in this pull request:
 
--   What does this PR do?
--   Why are these changes necessary?
--   Any relevant links or references?
+- What does this PR do?
+- Why are these changes necessary?
+- Any relevant links or references?
 
 Fixes: [issue number/link]
 
@@ -16,13 +16,13 @@ Fixes: [issue number/link]
 
 Please select the type of change this PR introduces (tick the appropriate box):
 
--   [ ] 🐛 Bug fix (non-breaking change that fixes an issue)
--   [ ] ✨ New feature (non-breaking change that adds functionality)
--   [ ] 🚨 Breaking change (fix or feature that would cause existing functionality
-        to not work as expected)
--   [ ] 🔄 Refactor (code or file structure changes without affecting functionality)
--   [ ] 📝 Documentation update (changes or additions to documentation)
--   [ ] 🚀 Performance improvement (optimization in code or resources)
+- [ ] 🐛 Bug fix (non-breaking change that fixes an issue)
+- [ ] ✨ New feature (non-breaking change that adds functionality)
+- [ ] 🚨 Breaking change (fix or feature that would cause existing functionality
+      to not work as expected)
+- [ ] 🔄 Refactor (code or file structure changes without affecting functionality)
+- [ ] 📝 Documentation update (changes or additions to documentation)
+- [ ] 🚀 Performance improvement (optimization in code or resources)
 
 ---
 
@@ -30,15 +30,15 @@ Please select the type of change this PR introduces (tick the appropriate box):
 
 Please ensure the following tasks have been completed before requesting a review:
 
--   [ ] My code follows the style guidelines of this project
--   [ ] I have run tests to ensure my changes work as expected
--   [ ] I have added/updated necessary tests or documentation (if applicable)
--   [ ] I have self-reviewed my code and refactored any areas that need improvement
--   [ ] There are no console errors or warnings related to my changes
--   [ ] The PR includes a clear, detailed title and description
--   [ ] Any relevant issues have been linked or mentioned in this PR
--   [ ] I have reviewed the acceptance criteria and met all requirements
--   [ ] I have considered edge cases and errors that may occur due to my changes
+- [ ] My code follows the style guidelines of this project
+- [ ] I have run tests to ensure my changes work as expected
+- [ ] I have added/updated necessary tests or documentation (if applicable)
+- [ ] I have self-reviewed my code and refactored any areas that need improvement
+- [ ] There are no console errors or warnings related to my changes
+- [ ] The PR includes a clear, detailed title and description
+- [ ] Any relevant issues have been linked or mentioned in this PR
+- [ ] I have reviewed the acceptance criteria and met all requirements
+- [ ] I have considered edge cases and errors that may occur due to my changes
 
 ---
 
@@ -48,9 +48,9 @@ Please describe how your changes can be tested:
 
 1. **Test Setup:** (Any steps for environment setup)
 2. **Test Steps:**
-    - Step 1: ...
-    - Step 2: ...
-    - ...
+   - Step 1: ...
+   - Step 2: ...
+   - ...
 
 ---
 
