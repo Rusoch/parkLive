@@ -4,8 +4,7 @@ import { debounce } from "lodash";
 
 const RecentlySearched: React.FC<{
   searchQuery: string;
-  hasError: boolean;
-}> = ({ searchQuery, hasError }) => {
+}> = ({ searchQuery }) => {
   const [recentSearches, setRecentSearches] = useState<string[]>([]);
 
   const debouncedSaveSearch = useCallback(
@@ -17,7 +16,7 @@ const RecentlySearched: React.FC<{
         return newRecentSearches;
       });
     }, 3000),
-    [setRecentSearches],
+    [],
   );
 
   useEffect(() => {
@@ -26,10 +25,10 @@ const RecentlySearched: React.FC<{
   }, []);
 
   useEffect(() => {
-    if (searchQuery && !hasError) {
+    if (searchQuery) {
       debouncedSaveSearch(searchQuery);
     }
-  }, [searchQuery, hasError, debouncedSaveSearch]);
+  }, [searchQuery, debouncedSaveSearch]);
   return (
     <div className="w-[100%] pt-[40px] pl-[16px] bg-[#F3F6FF]">
       <h1>ბოლოს მოძებნილები</h1>
