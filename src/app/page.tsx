@@ -24,7 +24,7 @@ export default function Home() {
                 <InstallPopup />
                 {theme === "dark" && (
                     <div
-                        className="absolute w-100dvw h-100dvh pointer-events-none"
+                        className="absolute w-[100dvw] h-[100dvh] pointer-events-none"
                         style={{
                             backgroundSize: "cover",
                             backgroundPosition: "center",
@@ -33,7 +33,7 @@ export default function Home() {
                     ></div>
                 )}
                 <div
-                    className="w-100dvw h-100dvh flex flex-col justify-between bg-[#9DCDB7] dark:bg-[#A8A8A8] bg-no-repeat bg-cover overflow-hidden transition-colors"
+                    className="w-[100dvw] h-[100dvh] flex flex-col justify-between bg-[#9DCDB7] dark:bg-[#A8A8A8] bg-no-repeat bg-cover overflow-hidden transition-colors"
                     style={{ backgroundImage: "url('background-light.png')" }}
                 >
                     <LandingPageHeader setTheme={setTheme} />

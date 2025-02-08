@@ -220,7 +220,7 @@ function ParkingMap() {
     };
 
     useEffect(() => {
-        const storedFavorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+        const storedFavorites = JSON.parse(localStorage.getItem("favorites") ?? "[]");
         if (storedFavorites.includes(placeData.placeId)) {
             console.log(`PlaceId ${placeData.placeId} is already in favorites.`);
         }
@@ -293,43 +293,46 @@ function ParkingMap() {
                             onChange={(e) => setSearchQuery(e.target.value)}
                             placeholder="მოძებნე"
                             onFocus={handleSearchBarFocus}
-                            className="shadow-[0_7px_15.8px_0_rgba(0,0,0,0.25)]text-[#2E18149E] text-[16px] w-[100%] font-[350] bg-[#E8ECF3] focus:outline-none focus:border-none h-[43px] pl-[45px] rounded-[14px] pl-[45px]"
+                            className="shadow-[0_7px_15.8px_0_rgba(0,0,0,0.25)]text-[#2E18149E] text-[16px] w-[100%] font-[350] bg-[#E8ECF3] focus:outline-none focus:border-none h-[43px] rounded-[14px] pl-[45px]"
                         />
                     </div>
                 </div>
-                <GoogleMap
-                    mapContainerClassName="h-[100vh]"
-                    center={currentLocation || center}
-                    zoom={19}
-                    onLoad={onLoad}
-                    onUnmount={onUnmount}
-                    options={mapOptions}
-                    onClick={handleArrowClick}
-                >
-                    <OverlayView
-                        position={placeLocation}
-                        mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
-                    >
-                        <ParkingPlaceIcon onClick={handlePlaceSelect} />
-                    </OverlayView>
-                </GoogleMap>
-                <MyLocationButton
-                    className="fixed right-[4%] bottom-[13%]"
-                    onClick={handleCurrentLocation}
-                />
-                {!!selectedPlace && (
-                    <InfoPopup
-                        handleFavorites={() => setLocalStorage(placeData.placeId)}
-                        handleNavigation={handleDirections}
-                        className="fixed bottom-0"
-                        placeData={placeData}
-                        onClose={() => setSelectedPlace(null)}
-                        isOpen={!!selectedPlace}
-                    />
+                {isRecentlySearched && (
+                    <RecentlySearched searchQuery={debouncedSearchQuery} hasError={hasError} />
                 )}
-            </I18nextProvider>
-        </>
+            </div>
 
+            <GoogleMap
+                mapContainerClassName="h-[100vh]"
+                center={currentLocation || center}
+                zoom={19}
+                onLoad={onLoad}
+                onUnmount={onUnmount}
+                options={mapOptions}
+                onClick={handleArrowClick}
+            >
+                <OverlayView
+                    position={placeLocation}
+                    mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
+                >
+                    <ParkingPlaceIcon onClick={() => handlePlaceSelect()} />
+                </OverlayView>
+            </GoogleMap>
+            <MyLocationButton
+                className="fixed right-[4%] bottom-[13%]"
+                onClick={handleCurrentLocation}
+            />
+            {!!selectedPlace && (
+                <InfoPopup
+                    handleFavorites={() => setLocalStorage(placeData.placeId)}
+                    handleNavigation={handleDirections}
+                    className="fixed bottom-0"
+                    placeData={placeData}
+                    onClose={() => setSelectedPlace(null)}
+                    isOpen={!!selectedPlace}
+                />
+            )}
+        </I18nextProvider>
     ) : (
         <></>
     );
