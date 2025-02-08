@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 export const WelcomeSection: React.FC = () => {
     const { t } = useTranslation();
     return (
-        <div className="flex items-center flex-col gap-12 mb-[87px] w-[91%] m-auto">
+        <div className="flex items-center flex-col gap-12 mb-[10%] w-[91%] m-auto">
             <WelcomeMessage />
             <Link
                 href="/map"
