@@ -2,7 +2,10 @@ type TProps = { onClick?: () => void; className?: string };
 
 export const ArrowLeftIcon: React.FC<TProps> = (props) => {
   return (
-    <div className={`relative ${props.className}`} onClick={props.onClick}>
+    <div
+      className={`relative flex justify-center items-center ${props.className}`}
+      onClick={props.onClick}
+    >
       <svg
         width="25"
         height="25"
