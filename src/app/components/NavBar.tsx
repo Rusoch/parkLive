@@ -17,7 +17,7 @@ const NavBar: React.FC = () => {
   return (
     <nav className="fixed bottom-0 w-full bg-white shadow-lg py-2">
       <div className="flex justify-around items-center">
-        <Link href="/map" passHref>
+        <Link scroll={false} href="/map" passHref>
           <div className="flex flex-col items-center">
             <LocationIcon color={isActive("/map") ? activeColor : inactiveColor} />
             <span className={`text-xs mt-1 ${isActive("/map") ? activeColor : inactiveColor}`}>
@@ -25,7 +25,7 @@ const NavBar: React.FC = () => {
             </span>
           </div>
         </Link>
-        <Link href="/favpage" passHref>
+        <Link scroll={false} href="/favpage" passHref>
           <div className="flex flex-col items-center">
             <FavIcon color={isActive("/favpage") ? activeColor : inactiveColor} />
             <span className={`text-xs mt-1 ${isActive("/favpage") ? activeColor : inactiveColor}`}>
@@ -33,7 +33,7 @@ const NavBar: React.FC = () => {
             </span>
           </div>
         </Link>
-        <Link href="/settingspage" passHref>
+        <Link scroll={false} href="/settingspage" passHref>
           <div className="flex flex-col items-center">
             <SettingsIcon color={isActive("/settingspage") ? activeColor : inactiveColor} />
             <span
