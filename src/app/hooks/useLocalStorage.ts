@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 function useLocalStorage<T>(key: string) {
-  const [storedValue, setStoredValue] = useState<T[] | null>(() => {
+  const [storedValue, setStoredValue] = useState<T[] | T | null>(() => {
     if (typeof window === "undefined") return null;
     try {
       const item = window.localStorage.getItem(key);
@@ -16,6 +16,11 @@ function useLocalStorage<T>(key: string) {
 
   const setLocalStorage = (value: T) => {
     try {
+      if (Array.isArray(value)) {
+        setStoredValue(value);
+        localStorage.setItem(key, JSON.stringify(value));
+        return;
+      }
       const item = localStorage.getItem(key);
       if (item) {
         const parsedItem = JSON.parse(item);

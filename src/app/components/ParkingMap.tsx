@@ -40,7 +40,15 @@ const mapOptions = {
   streetViewControl: false,
 };
 
-function ParkingMap() {
+type TProps = {
+  handleCloseModal: () => void;
+};
+
+type GoogleMapsLibrary = "places" | "geometry" | "drawing" | "visualization";
+
+const libraries: GoogleMapsLibrary[] = ["places"];
+
+export const ParkingMap: React.FC<TProps> = React.memo(({ handleCloseModal }) => {
   const [map, setMap] = useState<google.maps.Map | null>(null);
   const [selectedPlace, setSelectedPlace] = useState<null | TPlaceData>(null);
   const [destinationLocation, setDestinationLocation] = useState<google.maps.LatLng | undefined>(
@@ -61,6 +69,8 @@ function ParkingMap() {
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: "AIzaSyBslCn_7XxhEmDuE-FyGgLuvfUxH3_mBes",
+    language: "ka",
+    libraries,
   });
 
   const onLoad = React.useCallback((map: google.maps.Map) => {
@@ -198,7 +208,7 @@ function ParkingMap() {
         onLoad={onLoad}
         onUnmount={onUnmount}
         options={mapOptions}
-        onClick={() => console.log("click on map!")}
+        onClick={() => handleCloseModal()}
       >
         <OverlayView position={placeLocation} mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}>
           <ParkingPlaceIcon onClick={() => handlePlaceSelect()} />
@@ -219,6 +229,6 @@ function ParkingMap() {
   ) : (
     <></>
   );
-}
+});
 
-export default React.memo(ParkingMap);
+ParkingMap.displayName = "ParkingMap";

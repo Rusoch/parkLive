@@ -14,3 +14,9 @@ export type TPlaceData = {
   opens: string;
   closes: string;
 };
+
+export type TQueryResult = {
+  shortAddress: string;
+  longAddress: string;
+  placeLocation: TPlaceLocation;
+};
