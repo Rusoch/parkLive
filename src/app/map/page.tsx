@@ -6,7 +6,7 @@ import ParkingMap from "../components/ParkingMap";
 import { MapSearch } from "../components/MapSearch";
 import NavBar from "../components/NavBar";
 
-function ParkMap() {
+function MapPage() {
   return (
     <I18nextProvider i18n={i18n}>
       <MapSearch />
@@ -16,4 +16,4 @@ function ParkMap() {
   );
 }
 
-export default ParkMap;
+export default MapPage;
