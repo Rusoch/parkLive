@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import RecentlySearched from "./RecentlySearched";
-import { ArrowLeftIcon } from "../icons/Arrow-leftIcon";
+import { ArrowLeftIcon } from "../icons/ArrowLeftIcon";
 import { SearchIcon } from "../icons/SearchIcon";
 
 const placeData = {

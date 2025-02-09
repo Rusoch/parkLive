@@ -17,8 +17,14 @@ const RecentlySearched: React.FC<TProps> = ({ placeList }) => {
     } else return [];
   });
   const handleListExpand = () => {
-    setIsListExtended(!isListExtended);
-    setRenderedItems(placeList);
+    // Compute the new value of isListExtended
+    const newIsListExtended = !isListExtended;
+
+    // Update the state with the new value
+    setIsListExtended(newIsListExtended);
+
+    // Use the new value immediately to update renderedItems
+    setRenderedItems(newIsListExtended ? placeList : placeList.slice(0, 4));
   };
   return (
     <div
