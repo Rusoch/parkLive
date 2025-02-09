@@ -46,7 +46,7 @@ export const MapSearch: React.FC<TProps> = ({ handleQueryString }) => {
   useEffect(() => {
     const timerId = setTimeout(() => {
       // validate user input to be valid query string
-      const regex = /^(?=.{4,})(?=(?:.*[A-Za-z]){3,}).*$/;
+      const regex = /^(?=.{4,})(?=(?:.*[A-Za-z\u10D0-\u10FF]){3,}).*$/;
       if (typeof searchQuery === "string" && regex.test(searchQuery)) {
         // send query string to map for searching places
         handleQueryString(searchQuery);
