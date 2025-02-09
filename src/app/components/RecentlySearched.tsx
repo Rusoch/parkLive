@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PopupHandle } from "./PopupHandle";
 import { TQueryResult } from "../types/place";
 import { ParkingPlaceIcon } from "../icons/ParkingPlaceIcon";
@@ -10,6 +10,7 @@ type TProps = {
 const RecentlySearched: React.FC<TProps> = ({ placeList }) => {
   const [isListExtended, setIsListExtended] = useState(false);
   const [renderedItems, setRenderedItems] = useState<TQueryResult[]>(() => {
+    console.log(placeList);
     if (placeList && Array.isArray(placeList)) {
       if (placeList.length >= 4) {
         return placeList.slice(0, 4);
@@ -26,6 +27,11 @@ const RecentlySearched: React.FC<TProps> = ({ placeList }) => {
     // Use the new value immediately to update renderedItems
     setRenderedItems(newIsListExtended ? placeList : placeList.slice(0, 4));
   };
+  useEffect(() => {
+    if (placeList && Array.isArray(placeList) && placeList.length >= 4) {
+      setRenderedItems(placeList.slice(0, 4));
+    } else setRenderedItems(placeList);
+  }, [placeList]);
   return (
     <div
       className={`${isListExtended ? "h-[100dvh]" : ""} fixed top-0 left-0 w-[100dvw] pt-[calc(43px+8dvh)] pb-[82px] bg-[#F3F6FF] flex flex-col items-center gap-[22px] z-10 rounded-b-[12px] shadow-[0_5px_15.8px_0_rgba(0,0,0,0.35),0_2px_15.8px_0_rgba(0,0,0,0.35)]`}

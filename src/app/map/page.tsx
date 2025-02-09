@@ -7,9 +7,15 @@ import { MapSearch } from "../components/MapSearch";
 import NavBar from "../components/NavBar";
 import RecentlySearched from "../components/RecentlySearched";
 import { TQueryResult } from "../types/place";
+import useLocalStorage from "../hooks/useLocalStorage";
 
 function MapPage() {
-  const [searchResult, setSearchResult] = useState<TQueryResult[] | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { storedValue, setLocalStorage } = useLocalStorage<TQueryResult[]>("last-search-result");
+  const [searchResult, setSearchResult] = useState<TQueryResult[]>(
+    () => (storedValue as TQueryResult[]) ?? [],
+  );
+  console.log(storedValue);
   const handleSearch = (searchQuery: string) => {
     if (searchQuery && window.google) {
       // Create a dummy div to pass to PlacesService
@@ -38,6 +44,7 @@ function MapPage() {
           });
           console.log(foundPlaces);
           setSearchResult(foundPlaces);
+          setLocalStorage(foundPlaces);
           // Process the array of results (e.g., display them in a list)
         } else {
           alert("საპარკინგე ადგილი ვერ მოიძებნა");
@@ -47,10 +54,14 @@ function MapPage() {
   };
   return (
     <I18nextProvider i18n={i18n}>
-      <MapSearch handleQueryString={handleSearch} />
+      <MapSearch
+        handleQueryString={handleSearch}
+        handleFocus={() => setIsModalOpen(true)}
+        handleCloseModal={() => setIsModalOpen(false)}
+      />
       <ParkingMap />
       <NavBar />
-      {searchResult && <RecentlySearched placeList={searchResult} />}
+      {isModalOpen && <RecentlySearched placeList={searchResult} />}
     </I18nextProvider>
   );
 }
