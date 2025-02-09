@@ -11,60 +11,33 @@ const NavBar: React.FC = () => {
 
   const isActive = (path: string) => pathname === path;
 
-  const activeColor = "#15593A";
-  const inactiveColor = "#2E18149E";
+  const activeColor = "text-[#15593A] dark:text-[#1A6E48]";
+  const inactiveColor = "text-[#7E706D] dark:text-[#EAEAEA]";
 
   return (
-    <nav className="fixed bottom-0 w-full bg-white bg-opacity-25 shadow-lg py-2">
+    <nav className="fixed bottom-0 w-full bg-white shadow-lg py-2">
       <div className="flex justify-around items-center">
-        <Link href="/mappage" passHref>
-          <div
-            className={
-              isActive("/mappage")
-                ? "active nav-item flex flex-col items-center"
-                : "nav-item flex flex-col items-center"
-            }
-          >
-            <LocationIcon color={isActive("/mappage") ? activeColor : inactiveColor} />
-            <span
-              className="text-xs mt-1"
-              style={{ color: isActive("/mappage") ? activeColor : inactiveColor }}
-            >
+        <Link href="/map" passHref>
+          <div className="flex flex-col items-center">
+            <LocationIcon color={isActive("/map") ? activeColor : inactiveColor} />
+            <span className={`text-xs mt-1 ${isActive("/map") ? activeColor : inactiveColor}`}>
               რუკა
             </span>
           </div>
         </Link>
         <Link href="/favpage" passHref>
-          <div
-            className={
-              isActive("/favpage")
-                ? "active nav-item flex flex-col items-center"
-                : "nav-item flex flex-col items-center"
-            }
-          >
+          <div className="flex flex-col items-center">
             <FavIcon color={isActive("/favpage") ? activeColor : inactiveColor} />
-            <span
-              className="text-xs mt-1"
-              style={{ color: isActive("/favpage") ? activeColor : inactiveColor }}
-            >
+            <span className={`text-xs mt-1 ${isActive("/favpage") ? activeColor : inactiveColor}`}>
               შენახულები
             </span>
           </div>
         </Link>
         <Link href="/settingspage" passHref>
-          <div
-            className={
-              isActive("/settingspage")
-                ? "active nav-item flex flex-col items-center"
-                : "nav-item flex flex-col items-center"
-            }
-          >
+          <div className="flex flex-col items-center">
             <SettingsIcon color={isActive("/settingspage") ? activeColor : inactiveColor} />
             <span
-              className="text-xs mt-1"
-              style={{
-                color: isActive("/settingspage") ? activeColor : inactiveColor,
-              }}
+              className={`text-xs mt-1 ${isActive("/settingspage") ? activeColor : inactiveColor}`}
             >
               პარამეტრები
             </span>
