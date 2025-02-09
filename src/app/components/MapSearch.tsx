@@ -6,22 +6,21 @@ type TProps = {
   handleQueryString: (queryString: string) => void;
   handleFocus: () => void;
   handleCloseModal: () => void;
+  isSearchActive: boolean;
 };
 
 export const MapSearch: React.FC<TProps> = ({
   handleQueryString,
   handleFocus,
   handleCloseModal,
+  isSearchActive,
 }) => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [showArrow, setShowArrow] = useState(false);
 
   const handleArrowClick = () => {
     handleCloseModal();
-    setShowArrow(false);
   };
   const handleSearchBarFocus = () => {
-    setShowArrow(true);
     handleFocus();
   };
   const inputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -48,7 +47,7 @@ export const MapSearch: React.FC<TProps> = ({
   return (
     <>
       <div className="w-[90dvw] fixed flex align-center justify-between gap-[19px] top-[8dvh] left-[5dvw] z-40">
-        {showArrow && (
+        {isSearchActive && (
           <ArrowLeftIcon className="text-[#192342] cursor-pointer" onClick={handleArrowClick} />
         )}
         <div className="flex-1 relative bg-transparent">

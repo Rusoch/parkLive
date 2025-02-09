@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { I18nextProvider } from "react-i18next";
 import i18n from "../i18n";
-import ParkingMap from "../components/ParkingMap";
+import { ParkingMap } from "../components/ParkingMap";
 import { MapSearch } from "../components/MapSearch";
 import NavBar from "../components/NavBar";
 import RecentlySearched from "../components/RecentlySearched";
@@ -15,7 +15,6 @@ function MapPage() {
   const [searchResult, setSearchResult] = useState<TQueryResult[]>(
     () => (storedValue as TQueryResult[]) ?? [],
   );
-  console.log(storedValue);
   const handleSearch = (searchQuery: string) => {
     if (searchQuery && window.google) {
       // Create a dummy div to pass to PlacesService
@@ -58,8 +57,9 @@ function MapPage() {
         handleQueryString={handleSearch}
         handleFocus={() => setIsModalOpen(true)}
         handleCloseModal={() => setIsModalOpen(false)}
+        isSearchActive={isModalOpen}
       />
-      <ParkingMap />
+      <ParkingMap handleCloseModal={() => setIsModalOpen(false)} />
       <NavBar />
       {isModalOpen && <RecentlySearched placeList={searchResult} />}
     </I18nextProvider>
