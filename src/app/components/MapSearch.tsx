@@ -18,9 +18,12 @@ const placeData = {
   closes: "23:00",
 };
 
-export const MapSearch: React.FC = () => {
+type TProps = {
+  handleQueryString: (queryString: string) => void;
+};
+
+export const MapSearch: React.FC<TProps> = ({ handleQueryString }) => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("");
   const [isRecentlySearched, setIsRecentlySearched] = useState(false);
   const [showArrow, setShowArrow] = useState(false);
 
@@ -35,22 +38,25 @@ export const MapSearch: React.FC = () => {
     setIsRecentlySearched(true);
     setShowArrow(true);
   };
-  const handleSearch = (debouncedQueryString: string) => {
-    console.log(debouncedQueryString);
+  const inputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const inputText = event.target.value;
+    setSearchQuery(inputText);
   };
 
   useEffect(() => {
     const timerId = setTimeout(() => {
-      setDebouncedSearchQuery(searchQuery);
+      // validate user input to be valid query string
+      const regex = /^(?=.{4,})(?=(?:.*[A-Za-z]){3,}).*$/;
+      if (typeof searchQuery === "string" && regex.test(searchQuery)) {
+        // send query string to map for searching places
+        handleQueryString(searchQuery);
+      }
     }, 3000);
 
     return () => {
       clearTimeout(timerId);
     };
   }, [searchQuery]);
-  useEffect(() => {
-    handleSearch(debouncedSearchQuery);
-  }, [debouncedSearchQuery]);
 
   return (
     <>
@@ -64,7 +70,7 @@ export const MapSearch: React.FC = () => {
             type="text"
             ref={searchInputRef}
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={inputHandler}
             placeholder="მოძებნე ..."
             onFocus={handleSearchBarFocus}
             className="shadow-[0_2px_15.8px_0_rgba(0,0,0,0.25),0_7px_15.8px_0_rgba(0,0,0,0.15)] text-[#2E18149E] text-[16px] w-[100%] font-[350] bg-[#E8ECF3] focus:outline-none focus:border-none h-[43px] rounded-[14px] pl-[45px]"

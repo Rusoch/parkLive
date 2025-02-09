@@ -7,9 +7,12 @@ import { MapSearch } from "../components/MapSearch";
 import NavBar from "../components/NavBar";
 
 function MapPage() {
+  const handleSearch = (queryString: string) => {
+    console.log("we got the VALID string in Map Page", queryString);
+  };
   return (
     <I18nextProvider i18n={i18n}>
-      <MapSearch />
+      <MapSearch handleQueryString={handleSearch} />
       <ParkingMap />
       <NavBar />
     </I18nextProvider>
