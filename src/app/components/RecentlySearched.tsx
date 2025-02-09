@@ -1,15 +1,15 @@
 import { useState } from "react";
 import { PopupHandle } from "./PopupHandle";
-import { TPlaceData } from "../types/place";
+import { TQueryResult } from "../types/place";
 import { ParkingPlaceIcon } from "../icons/ParkingPlaceIcon";
 
 type TProps = {
-  placeList: TPlaceData[];
+  placeList: TQueryResult[];
 };
 
 const RecentlySearched: React.FC<TProps> = ({ placeList }) => {
   const [isListExtended, setIsListExtended] = useState(false);
-  const [renderedItems, setRenderedItems] = useState<TPlaceData[]>(() => {
+  const [renderedItems, setRenderedItems] = useState<TQueryResult[]>(() => {
     if (placeList && Array.isArray(placeList)) {
       if (placeList.length >= 4) {
         return placeList.slice(0, 4);
@@ -32,18 +32,21 @@ const RecentlySearched: React.FC<TProps> = ({ placeList }) => {
     >
       <h1 className="pt-[35px] w-full px-[5%]">ბოლოს მოძებნილები</h1>
       <div className="w-full px-[3%] overflow-y-auto flex-1 flex flex-col items-center gap-[22px] ">
-        {renderedItems.map((item, index) => (
-          <div key={index} className="flex justify-between items-center w-full">
-            <ParkingPlaceIcon isClickable={false} />
-            <div>
-              <span className="flex justify-start items-center w-[100%]">{item.address}</span>
-              <span className="flex justify-start items-center w-[100%] text-[12px] text-[#677191]">
-                უნივერსიტეტის ქუჩა 12, მეორე შესასვლელი
-              </span>
+        {renderedItems.map((item, index) => {
+          const { shortAddress, longAddress } = item;
+          return (
+            <div key={index} className="flex justify-between items-center gap-10 w-full">
+              <ParkingPlaceIcon isClickable={false} />
+              <div className="flex flex-col justify-start items-center w-[100%]">
+                <span className="flex justify-start items-center w-[100%]">{shortAddress}</span>
+                <span className="flex justify-start items-center w-[100%] text-[12px] text-[#677191]">
+                  {longAddress}
+                </span>
+              </div>
+              <span>კმ</span>
             </div>
-            <span>კმ</span>
-          </div>
-        ))}
+          );
+        })}
       </div>
       <PopupHandle onClick={handleListExpand} className="absolute h-2 bottom-3" />
     </div>

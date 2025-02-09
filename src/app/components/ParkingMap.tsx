@@ -61,6 +61,8 @@ function ParkingMap() {
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: "AIzaSyBslCn_7XxhEmDuE-FyGgLuvfUxH3_mBes",
+    language: "ka",
+    libraries: ["places"],
   });
 
   const onLoad = React.useCallback((map: google.maps.Map) => {

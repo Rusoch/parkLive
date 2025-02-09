@@ -1,22 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import RecentlySearched from "./RecentlySearched";
 import { ArrowLeftIcon } from "../icons/ArrowLeftIcon";
 import { SearchIcon } from "../icons/SearchIcon";
-
-const placeData = {
-  placeId: 123,
-  placeLocation: {
-    lat: 41.725705,
-    lng: 44.745009,
-  },
-  address: "Delisi",
-  totalSpace: 300,
-  freeSpace: 250,
-  rate: 25,
-  paymentType: ["მხოლოდ ქეში"],
-  opens: "10:00",
-  closes: "23:00",
-};
 
 type TProps = {
   handleQueryString: (queryString: string) => void;
@@ -24,7 +8,6 @@ type TProps = {
 
 export const MapSearch: React.FC<TProps> = ({ handleQueryString }) => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [isRecentlySearched, setIsRecentlySearched] = useState(false);
   const [showArrow, setShowArrow] = useState(false);
 
   const searchInputRef = useRef(null);
@@ -32,10 +15,8 @@ export const MapSearch: React.FC<TProps> = ({ handleQueryString }) => {
   const handleArrowClick = () => {
     setSearchQuery("");
     setShowArrow(false);
-    setIsRecentlySearched(false);
   };
   const handleSearchBarFocus = () => {
-    setIsRecentlySearched(true);
     setShowArrow(true);
   };
   const inputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -77,11 +58,6 @@ export const MapSearch: React.FC<TProps> = ({ handleQueryString }) => {
           />
         </div>
       </div>
-      {isRecentlySearched && (
-        <RecentlySearched
-          placeList={[placeData, placeData, placeData, placeData, placeData, placeData]}
-        />
-      )}
     </>
   );
 };
