@@ -1,50 +1,60 @@
-import Image from "next/image";
-import { useState, useEffect, useCallback } from "react";
-import { debounce } from "lodash";
+import { useEffect, useState } from "react";
+import { PopupHandle } from "./PopupHandle";
+import { TQueryResult } from "../types/place";
+import { ParkingPlaceIcon } from "../icons/ParkingPlaceIcon";
 
-const RecentlySearched: React.FC<{
-  searchQuery: string;
-  hasError: boolean;
-}> = ({ searchQuery, hasError }) => {
-  const [recentSearches, setRecentSearches] = useState<string[]>([]);
+type TProps = {
+  placeList: TQueryResult[];
+};
 
-  const debouncedSaveSearch = useCallback(
-    debounce((search: string) => {
-      setRecentSearches((prev) => {
-        const newRecentSearches = [...new Set([search, ...prev])].slice(0, 4);
+const RecentlySearched: React.FC<TProps> = ({ placeList }) => {
+  const [isListExtended, setIsListExtended] = useState(false);
+  const [renderedItems, setRenderedItems] = useState<TQueryResult[]>(() => {
+    console.log(placeList);
+    if (placeList && Array.isArray(placeList)) {
+      if (placeList.length >= 4) {
+        return placeList.slice(0, 4);
+      } else return placeList;
+    } else return [];
+  });
+  const handleListExpand = () => {
+    // Compute the new value of isListExtended
+    const newIsListExtended = !isListExtended;
 
-        localStorage.setItem("recentSearches", JSON.stringify(newRecentSearches));
-        return newRecentSearches;
-      });
-    }, 3000),
-    [setRecentSearches],
-  );
+    // Update the state with the new value
+    setIsListExtended(newIsListExtended);
 
+    // Use the new value immediately to update renderedItems
+    setRenderedItems(newIsListExtended ? placeList : placeList.slice(0, 4));
+  };
   useEffect(() => {
-    const savedSearches = JSON.parse(localStorage.getItem("recentSearches") ?? "[]");
-    setRecentSearches(savedSearches);
-  }, []);
-
-  useEffect(() => {
-    if (searchQuery && !hasError) {
-      debouncedSaveSearch(searchQuery);
-    }
-  }, [searchQuery, hasError, debouncedSaveSearch]);
+    if (placeList && Array.isArray(placeList) && placeList.length >= 4) {
+      setRenderedItems(placeList.slice(0, 4));
+    } else setRenderedItems(placeList);
+  }, [placeList]);
   return (
-    <div className="w-[100%] pt-[40px] pl-[16px] bg-[#F3F6FF]">
-      <h1>ბოლოს მოძებნილები</h1>
-      <div className="flex flex-col gap-[22px] pt-[22px] pb-[54px]">
-        {recentSearches.slice(0, 4).map((search, index) => (
-          <div key={index} className="flex justify-between items-center px-4 w-[92%]">
-            <Image src="/images/parking icon.png" alt="a parking icon" width={35} height={35} />
-            <span className="flex justify-center items-center w-[100%]">{search}</span>
-            <span>კმ</span>
-          </div>
-        ))}
+    <div
+      className={`${isListExtended ? "h-[100dvh]" : ""} fixed top-0 left-0 w-[100dvw] pt-[calc(43px+8dvh)] pb-[82px] bg-[#F3F6FF] flex flex-col items-center gap-[22px] z-10 rounded-b-[12px] shadow-[0_5px_15.8px_0_rgba(0,0,0,0.35),0_2px_15.8px_0_rgba(0,0,0,0.35)]`}
+    >
+      <h1 className="pt-[35px] w-full px-[5%]">ბოლოს მოძებნილები</h1>
+      <div className="w-full px-[3%] overflow-y-auto flex-1 flex flex-col items-center gap-[22px] ">
+        {renderedItems.map((item, index) => {
+          const { shortAddress, longAddress } = item;
+          return (
+            <div key={index} className="flex justify-between items-center gap-10 w-full">
+              <ParkingPlaceIcon isClickable={false} />
+              <div className="flex flex-col justify-start items-center w-[100%]">
+                <span className="flex justify-start items-center w-[100%]">{shortAddress}</span>
+                <span className="flex justify-start items-center w-[100%] text-[12px] text-[#677191]">
+                  {longAddress}
+                </span>
+              </div>
+              <span>კმ</span>
+            </div>
+          );
+        })}
       </div>
-      <div className="flex justify-center items-center w-[100%] pb-[14px] cursor-pointer">
-        <div className="w-[92px] h-[7px] bg-[#D9D9D9] rounded-[56px]"></div>
-      </div>
+      <PopupHandle onClick={handleListExpand} className="absolute h-2 bottom-3" />
     </div>
   );
 };

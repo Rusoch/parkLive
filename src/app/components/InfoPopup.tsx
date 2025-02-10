@@ -49,7 +49,7 @@ const InfoPopup: React.FC<TProps> = ({
     <div
       className={`${className ?? ""} bg-white dark:bg-[#0D0D0D] rounded-t-lg shadow-[rgba(0,0,15,0.5)_0px_0px_14px_0px] flex items-center flex-col px-[14px] text-[#15593A] dark:text-[#15593A] text-[20px] w-full`}
     >
-      <PopupHandle onClick={handlePopupMinify} />
+      <PopupHandle onClick={handlePopupMinify} className="h-[5px] mt-[10px]" />
       <div
         className={`w-full flex justify-between leading-[27px] ${isPopupMinified ? "my-[13px]" : "mt-[21px] mb-[26px]"}`}
       >
