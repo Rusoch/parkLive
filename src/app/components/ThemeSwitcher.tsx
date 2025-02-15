@@ -1,10 +1,12 @@
-"use client";
 import { useEffect, useState } from "react";
-import { ContrastIcon } from "../icons/ContrastIcon";
+import { MoonIcon } from "../icons/MoonIcon";
+import { SunIcon } from "../icons/SunIcon";
 
 type TProps = { onClick: () => void };
+
 export const ThemeSwitcher: React.FC<TProps> = ({ onClick }) => {
   const [theme, setTheme] = useState<"light" | "dark">("light");
+
   useEffect(() => {
     const savedTheme = localStorage.getItem("user-theme") as "light" | "dark" | null;
     if (savedTheme) {
@@ -14,13 +16,21 @@ export const ThemeSwitcher: React.FC<TProps> = ({ onClick }) => {
       setTheme("light");
     }
   }, []);
+
   const handler = () => {
     const newTheme = theme === "light" ? "dark" : "light";
     localStorage.setItem("user-theme", newTheme);
     setTheme(newTheme);
     onClick();
   };
+
   return (
-    <ContrastIcon onClick={handler} className="text-white dark:text-black transition-colors" />
+    <div onClick={handler} className="cursor-pointer">
+      {theme === "light" ? (
+        <SunIcon className="text-black dark:text-white transition-colors" />
+      ) : (
+        <MoonIcon className="text-black dark:text-white transition-colors" />
+      )}
+    </div>
   );
 };
