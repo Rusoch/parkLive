@@ -17,29 +17,32 @@ export default function Home() {
     setIsLoading(false);
   }, []);
 
-  if (isLoading) return <Loader />;
   return (
     <I18nextProvider i18n={i18n}>
-      <div className={`${theme === "dark" ? "dark" : "light"} relative`}>
-        <InstallPopup />
-        {theme === "dark" && (
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <div className={`${theme === "dark" ? "dark" : "light"} relative`}>
+          <InstallPopup />
+          {theme === "dark" && (
+            <div
+              className="absolute w-[100dvw] h-[100dvh] pointer-events-none"
+              style={{
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                background: `linear-gradient(33.01deg, rgba(0, 0, 0, 0) 81.39%, rgba(0, 0, 0, 0.2) 95.31%), linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2))`,
+              }}
+            ></div>
+          )}
           <div
-            className="absolute w-[100dvw] h-[100dvh] pointer-events-none"
-            style={{
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-              background: `linear-gradient(33.01deg, rgba(0, 0, 0, 0) 81.39%, rgba(0, 0, 0, 0.2) 95.31%), linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2))`,
-            }}
-          ></div>
-        )}
-        <div
-          className="w-[100dvw] h-[100dvh] flex flex-col justify-between bg-[#9DCDB7] dark:bg-[#A8A8A8] bg-no-repeat bg-cover overflow-hidden transition-colors"
-          style={{ backgroundImage: "url('background-light.png')" }}
-        >
-          <LandingPageHeader setTheme={setTheme} />
-          <WelcomeSection />
+            className="w-[100dvw] h-[100dvh] flex flex-col justify-between bg-[#9DCDB7] dark:bg-[#A8A8A8] bg-no-repeat bg-cover overflow-hidden transition-colors"
+            style={{ backgroundImage: "url('background-light.png')" }}
+          >
+            <LandingPageHeader setTheme={setTheme} />
+            <WelcomeSection />
+          </div>
         </div>
-      </div>
+      )}
     </I18nextProvider>
   );
 }
