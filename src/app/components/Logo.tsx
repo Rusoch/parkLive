@@ -1,13 +1,11 @@
-interface LogoProps {
+type TProps = {
   className?: string;
-}
+};
 
-const Logo = ({ className }: LogoProps) => {
+const Logo: React.FC<TProps> = () => {
   return (
-    <div
-      className={`${className ?? ""} w-[36%] h-[47px] bg-[#D9D9D9] flex items-center justify-center`}
-    >
-      <div className="w-[77.5%] h-[63%] flex items-center justify-center p-[11px] ">Logo</div>
+    <div className="h-[63%] flex items-center justify-center p-[11px] text-[32px] font-bold text-green-dark">
+      Logo
     </div>
   );
 };
