@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 export const WelcomeSection: React.FC = () => {
   const { t } = useTranslation();
   return (
-    <div className="flex items-center flex-col gap-10 mb-[14dvh] w-[91%] m-auto">
+    <div className="flex items-start flex-col gap-10 mb-[14dvh] w-[91%] m-auto">
       <WelcomeMessage />
       <Link
         scroll={false}
