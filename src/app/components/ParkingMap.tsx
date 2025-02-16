@@ -8,7 +8,7 @@ import { I18nextProvider } from "react-i18next";
 import i18n from "../i18n";
 import { MyLocationButton } from "./MyLocationButton";
 import useLocalStorage from "../hooks/useLocalStorage";
-import { center, placeData } from "../constants/places";
+import { placeData } from "../constants/places";
 
 function compareLocation(
   loc1: TPlaceLocation | undefined,
@@ -28,13 +28,14 @@ const mapOptions = {
 
 type TProps = {
   handleCloseModal: () => void;
+  center: TPlaceLocation;
 };
 
 type GoogleMapsLibrary = "places" | "geometry" | "drawing" | "visualization";
 
 const libraries: GoogleMapsLibrary[] = ["places"];
 
-export const ParkingMap: React.FC<TProps> = React.memo(({ handleCloseModal }) => {
+export const ParkingMap: React.FC<TProps> = React.memo(({ handleCloseModal, center }) => {
   const [map, setMap] = useState<google.maps.Map | null>(null);
   const [selectedPlace, setSelectedPlace] = useState<null | TPlaceData>(null);
   const [destinationLocation, setDestinationLocation] = useState<google.maps.LatLng | undefined>(
@@ -124,6 +125,9 @@ export const ParkingMap: React.FC<TProps> = React.memo(({ handleCloseModal }) =>
     return compareLocation(place, selectedPlace?.placeLocation);
   };
 
+  useEffect(() => {
+    setCurrentLocation(center);
+  }, [center]);
   useEffect(() => {
     if (currentLocation && map) {
       markersRef.current.forEach((marker) => marker.setMap(null));

@@ -15,8 +15,9 @@ export type TPlaceData = {
   closes: string;
 };
 
-export type TQueryResult = {
+export interface IQueryResult {
   shortAddress: string;
   longAddress: string;
   placeLocation: TPlaceLocation;
-};
+  distance: any;
+}
