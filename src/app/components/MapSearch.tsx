@@ -18,6 +18,7 @@ export const MapSearch: React.FC<TProps> = ({
   const [searchQuery, setSearchQuery] = useState("");
 
   const handleArrowClick = () => {
+    setSearchQuery("");
     handleCloseModal();
   };
   const handleSearchBarFocus = () => {
