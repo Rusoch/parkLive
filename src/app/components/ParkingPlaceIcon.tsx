@@ -24,11 +24,11 @@ export const ParkingPlaceIcon: React.FC<TProps> = ({
     <>
       {" "}
       {isActive ? (
-        <div className={`relative ${className ?? ""}`} onClick={handleClick}>
+        <div className={`relative z-50 ${className ?? ""}`} onClick={handleClick}>
           <ParkingSignIcon className="text-green-light -translate-x-[50%] -translate-y-[50%]" />
         </div>
       ) : (
-        <div className={`relative ${className ?? ""}`} onClick={handleClick}>
+        <div className={`relative z-50 ${className ?? ""}`} onClick={handleClick}>
           <ParkingSignIcon className="text-blue-light -translate-x-[50%] -translate-y-[50%]" />
         </div>
       )}

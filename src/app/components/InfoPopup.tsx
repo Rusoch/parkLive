@@ -8,17 +8,8 @@ import { ClockIcon } from "../icons/ClockIcon";
 import { Button } from "./Button";
 import { useState } from "react";
 import { PopupHandle } from "./PopupHandle";
+import { TPlaceData } from "../types/place";
 
-export type TPlaceData = {
-  address: string;
-  totalSpace: number;
-  freeSpace: number;
-  rate: number;
-  entryFee?: null | number;
-  paymentType: string[];
-  opens: string;
-  closes: string;
-};
 type TProps = {
   isOpen?: boolean;
   onClose: () => void;
@@ -53,7 +44,7 @@ const InfoPopup: React.FC<TProps> = ({
       <div
         className={`w-full flex justify-between leading-[27px] ${isPopupMinified ? "my-[13px]" : "mt-[21px] mb-[26px]"}`}
       >
-        <span>{t("address")}</span>
+        <span>{placeData.address}</span>
         <div className="flex gap-3">
           <ShareIcon />
           <CancelIcon
