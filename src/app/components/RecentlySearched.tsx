@@ -85,7 +85,7 @@ const RecentlySearched: React.FC<TProps> = ({ placeList, handlePlaceSelect }) =>
               className="flex justify-between items-center gap-10 w-full"
               onClick={() => handlePlaceSelect(item.placeLocation)}
             >
-              <ParkingSignIcon className="text-green-light" />
+              <ParkingSignIcon className="text-green-light w-8 h-8" />
               <div className="flex flex-col justify-start items-center flex-1">
                 <span className="flex justify-start items-center w-[100%]">{shortAddress}</span>
                 <span className="flex justify-start items-center w-[100%] text-[12px] text-[#677191]">
