@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { PopupHandle } from "./PopupHandle";
 import { TQueryResult } from "../types/place";
-import { ParkingPlaceIcon } from "../icons/ParkingPlaceIcon";
+import { ParkingSignIcon } from "../icons/ParkingSignIcon";
 
 type TProps = {
   placeList: TQueryResult[];
@@ -10,7 +10,6 @@ type TProps = {
 const RecentlySearched: React.FC<TProps> = ({ placeList }) => {
   const [isListExtended, setIsListExtended] = useState(false);
   const [renderedItems, setRenderedItems] = useState<TQueryResult[]>(() => {
-    console.log(placeList);
     if (placeList && Array.isArray(placeList)) {
       if (placeList.length >= 4) {
         return placeList.slice(0, 4);
@@ -42,7 +41,7 @@ const RecentlySearched: React.FC<TProps> = ({ placeList }) => {
           const { shortAddress, longAddress } = item;
           return (
             <div key={index} className="flex justify-between items-center gap-10 w-full">
-              <ParkingPlaceIcon isClickable={false} />
+              <ParkingSignIcon className="text-green-light" />
               <div className="flex flex-col justify-start items-center w-[100%]">
                 <span className="flex justify-start items-center w-[100%]">{shortAddress}</span>
                 <span className="flex justify-start items-center w-[100%] text-[12px] text-[#677191]">

@@ -41,7 +41,6 @@ function MapPage() {
             };
             return { shortAddress, longAddress, placeLocation };
           });
-          console.log(foundPlaces);
           setSearchResult(foundPlaces);
           setLocalStorage(foundPlaces);
           // Process the array of results (e.g., display them in a list)
