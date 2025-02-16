@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { GlobeIcon } from "../icons/GlobeIcon";
 import { LanguageSelector } from "./LanguageSelector";
 import Logo from "./Logo";
 import { ThemeSwitcher } from "./ThemeSwitcher";
@@ -16,10 +15,6 @@ export const LandingPageHeader: React.FC<TProps> = ({ setTheme }) => {
       <div className="flex justify-between items-center gap-[14px]">
         <ThemeSwitcher onClick={() => setTheme(localStorage.getItem("user-theme") ?? "light")} />
         <div className="relative">
-          <GlobeIcon
-            onClick={() => setIsVisible(!isVisible)}
-            className="text-white dark:text-black "
-          />
           <LanguageSelector isVisible={isVisible} onClick={() => setIsVisible(!isVisible)} />
         </div>
       </div>
