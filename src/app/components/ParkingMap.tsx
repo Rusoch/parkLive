@@ -89,7 +89,6 @@ export const ParkingMap: React.FC<TProps> = React.memo(({ handleCloseModal }) =>
     }
   };
   const handlePlaceSelect: (place: TPlaceData) => void = (place) => {
-    console.log(place);
     setSelectedPlace(place);
     const targetGeometry = new google.maps.LatLng(place.placeLocation.lat, place.placeLocation.lng);
     setDestinationLocation(targetGeometry);
@@ -104,7 +103,6 @@ export const ParkingMap: React.FC<TProps> = React.memo(({ handleCloseModal }) =>
               navigator.geolocation.getCurrentPosition(
                 (position) => {
                   const { latitude, longitude } = position.coords;
-                  console.log(latitude, longitude);
                   setCurrentLocation({ lat: latitude, lng: longitude });
                 },
                 () => {
@@ -123,7 +121,6 @@ export const ParkingMap: React.FC<TProps> = React.memo(({ handleCloseModal }) =>
     setSelectedPlace(null);
   };
   const handleActiveParkSign: (place: TPlaceLocation) => boolean = (place) => {
-    console.log("park sign");
     return compareLocation(place, selectedPlace?.placeLocation);
   };
 
@@ -210,7 +207,6 @@ export const ParkingMap: React.FC<TProps> = React.memo(({ handleCloseModal }) =>
             <ParkingPlaceIcon
               isPlaceSelected={handleActiveParkSign(place?.placeLocation)}
               onClick={() => {
-                console.log("place");
                 handlePlaceSelect(place);
               }}
             />

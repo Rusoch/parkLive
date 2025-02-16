@@ -10,7 +10,6 @@ type TProps = {
 const RecentlySearched: React.FC<TProps> = ({ placeList }) => {
   const [isListExtended, setIsListExtended] = useState(false);
   const [renderedItems, setRenderedItems] = useState<TQueryResult[]>(() => {
-    console.log(placeList);
     if (placeList && Array.isArray(placeList)) {
       if (placeList.length >= 4) {
         return placeList.slice(0, 4);
