@@ -10,5 +10,9 @@
   "save": "save",
   "address": "Vajha-Phshavela 24",
   "loading": "Loading",
-  "km": "km"
+  "km": "km",
+  "main": "Home",
+  "map": "Map",
+  "settings": "Settings",
+  "favorites": "Favorites"
 }
