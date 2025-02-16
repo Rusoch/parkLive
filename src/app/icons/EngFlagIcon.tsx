@@ -11,7 +11,7 @@ export const EngFlagIcon: React.FC<TProps> = (props) => {
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
-        <g clip-path="url(#clip0_229_1693)">
+        <g clipPath="url(#clip0_229_1693)">
           <path d="M0 0H24V24H0V0Z" fill="#012169" />
           <path
             d="M24 0V3L15.0938 12L24 20.7656V24H20.8594L11.9062 15.1875L3.1875 24H0V20.8125L8.71875 12.0469L0 3.46875V0H2.90625L11.9062 8.8125L20.625 0H24Z"
