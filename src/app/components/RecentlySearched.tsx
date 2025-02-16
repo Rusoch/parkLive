@@ -1,45 +1,84 @@
 import { useEffect, useState } from "react";
 import { PopupHandle } from "./PopupHandle";
-import { TPlaceLocation, TQueryResult } from "../types/place";
+import { TPlaceLocation, IQueryResult } from "../types/place";
 import { ParkingSignIcon } from "../icons/ParkingSignIcon";
+import { calculateDistanceInKm } from "../utils/calculateDistance";
+import { useTranslation } from "react-i18next";
 
 type TProps = {
-  placeList: TQueryResult[];
+  placeList: IQueryResult[];
   handlePlaceSelect: (place: TPlaceLocation) => void;
 };
 
 const RecentlySearched: React.FC<TProps> = ({ placeList, handlePlaceSelect }) => {
-  const [isListExtended, setIsListExtended] = useState(false);
-  const [renderedItems, setRenderedItems] = useState<TQueryResult[]>(() => {
-    if (placeList && Array.isArray(placeList)) {
-      if (placeList.length >= 4) {
-        return placeList.slice(0, 4);
-      } else return placeList;
-    } else return [];
-  });
-  const handleListExpand = () => {
-    // Compute the new value of isListExtended
-    const newIsListExtended = !isListExtended;
+  // Initialize items using the prop values (which already have placeholder distance)
+  const [items, setItems] = useState<IQueryResult[]>(placeList);
+  const { t } = useTranslation();
 
-    // Update the state with the new value
-    setIsListExtended(newIsListExtended);
-
-    // Use the new value immediately to update renderedItems
-    setRenderedItems(newIsListExtended ? placeList : placeList.slice(0, 4));
-  };
   useEffect(() => {
-    if (placeList && Array.isArray(placeList) && placeList.length >= 4) {
-      setRenderedItems(placeList.slice(0, 4));
-    } else setRenderedItems(placeList);
+    let cancelled = false;
+
+    async function updateDistances() {
+      try {
+        // Create an array of promises for each distance calculation.
+        const distancePromises = placeList.map((placeItem) =>
+          calculateDistanceInKm(placeItem.placeLocation).catch((error) => {
+            console.error("Error calculating distance for", placeItem, error);
+            return "--";
+          }),
+        );
+
+        // Wait until all promises resolve.
+        const distances = await Promise.all(distancePromises);
+
+        if (!cancelled) {
+          // Update each item with its calculated distance.
+          const updatedItems = placeList.map((item, index) => ({
+            ...item,
+            distance: distances[index],
+          }));
+          // Update state only once with the final list.
+          setItems(updatedItems);
+        }
+      } catch (error) {
+        console.error("Error calculating distances", error);
+      }
+    }
+
+    updateDistances();
+
+    return () => {
+      cancelled = true;
+    };
   }, [placeList]);
+
+  // Manage the list expansion (slicing items if not extended)
+  const [isListExtended, setIsListExtended] = useState(false);
+  const [renderedItems, setRenderedItems] = useState<IQueryResult[]>(() => {
+    return items.length >= 4 ? items.slice(0, 4) : items;
+  });
+
+  const handleListExpand = () => {
+    const newIsListExtended = !isListExtended;
+    setIsListExtended(newIsListExtended);
+    setRenderedItems(newIsListExtended ? items : items.slice(0, 4));
+  };
+
+  // Update the rendered items when our items state or isListExtended changes.
+  useEffect(() => {
+    setRenderedItems(isListExtended ? items : items.slice(0, 4));
+  }, [items, isListExtended]);
+
   return (
     <div
-      className={`${isListExtended ? "h-[100dvh]" : ""} fixed top-0 left-0 w-[100dvw] pt-[calc(43px+8dvh)] pb-[82px] bg-[#F3F6FF] flex flex-col items-center gap-[22px] z-10 rounded-b-[12px] shadow-[0_5px_15.8px_0_rgba(0,0,0,0.35),0_2px_15.8px_0_rgba(0,0,0,0.35)]`}
+      className={`${
+        isListExtended ? "h-[100dvh]" : ""
+      } fixed top-0 left-0 w-[100dvw] pt-[calc(43px+8dvh)] pb-[82px] bg-[#F3F6FF] flex flex-col items-center gap-[22px] z-10 rounded-b-[12px] shadow-[0_5px_15.8px_0_rgba(0,0,0,0.35),0_2px_15.8px_0_rgba(0,0,0,0.35)]`}
     >
       <h1 className="pt-[35px] w-full px-[5%]">ბოლოს მოძებნილები</h1>
-      <div className="w-full px-[3%] overflow-y-auto flex-1 flex flex-col items-center gap-[22px] ">
+      <div className="w-full px-[3%] overflow-y-auto flex-1 flex flex-col items-center gap-[22px]">
         {renderedItems.map((item, index) => {
-          const { shortAddress, longAddress } = item;
+          const { shortAddress, longAddress, distance } = item;
           return (
             <div
               key={index}
@@ -47,13 +86,15 @@ const RecentlySearched: React.FC<TProps> = ({ placeList, handlePlaceSelect }) =>
               onClick={() => handlePlaceSelect(item.placeLocation)}
             >
               <ParkingSignIcon className="text-green-light" />
-              <div className="flex flex-col justify-start items-center w-[100%]">
+              <div className="flex flex-col justify-start items-center flex-1">
                 <span className="flex justify-start items-center w-[100%]">{shortAddress}</span>
                 <span className="flex justify-start items-center w-[100%] text-[12px] text-[#677191]">
                   {longAddress}
                 </span>
               </div>
-              <span>კმ</span>
+              <span className="flex">
+                {distance !== "--" ? `${Number(distance).toFixed(1)} ${t("km")}` : "--"}
+              </span>
             </div>
           );
         })}

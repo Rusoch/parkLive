@@ -36,7 +36,6 @@ type GoogleMapsLibrary = "places" | "geometry" | "drawing" | "visualization";
 const libraries: GoogleMapsLibrary[] = ["places"];
 
 export const ParkingMap: React.FC<TProps> = React.memo(({ handleCloseModal, center }) => {
-  console.log(center);
   const [map, setMap] = useState<google.maps.Map | null>(null);
   const [selectedPlace, setSelectedPlace] = useState<null | TPlaceData>(null);
   const [destinationLocation, setDestinationLocation] = useState<google.maps.LatLng | undefined>(
@@ -127,7 +126,6 @@ export const ParkingMap: React.FC<TProps> = React.memo(({ handleCloseModal, cent
   };
 
   useEffect(() => {
-    console.log(currentLocation);
     setCurrentLocation(center);
   }, [center]);
   useEffect(() => {

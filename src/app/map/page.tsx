@@ -1,21 +1,21 @@
 "use client";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { I18nextProvider } from "react-i18next";
 import i18n from "../i18n";
 import { ParkingMap } from "../components/ParkingMap";
 import { MapSearch } from "../components/MapSearch";
 import NavBar from "../components/NavBar";
 import RecentlySearched from "../components/RecentlySearched";
-import { TPlaceLocation, TQueryResult } from "../types/place";
+import { TPlaceLocation, IQueryResult } from "../types/place";
 import useLocalStorage from "../hooks/useLocalStorage";
 import { center } from "../constants/places";
 
 function MapPage() {
   const [mapCenter, setMapCenter] = useState<TPlaceLocation>(center);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { storedValue, setLocalStorage } = useLocalStorage<TQueryResult[]>("last-search-result");
-  const [searchResult, setSearchResult] = useState<TQueryResult[]>(
-    () => (storedValue as TQueryResult[]) ?? [],
+  const { storedValue, setLocalStorage } = useLocalStorage<IQueryResult[]>("last-search-result");
+  const [searchResult, setSearchResult] = useState<IQueryResult[]>(
+    () => (storedValue as IQueryResult[]) ?? [],
   );
   const handleSearch = (searchQuery: string) => {
     if (searchQuery && window.google) {
@@ -41,7 +41,7 @@ function MapPage() {
               lat: result.geometry?.location?.lat() ?? 0,
               lng: result.geometry?.location?.lng() ?? 0,
             };
-            return { shortAddress, longAddress, placeLocation };
+            return { shortAddress, longAddress, placeLocation, distance: "--" };
           });
           setSearchResult(foundPlaces);
           setLocalStorage(foundPlaces);
@@ -56,6 +56,7 @@ function MapPage() {
     setMapCenter(place);
     setIsModalOpen(false);
   };
+  const memoizedSearchResult = useMemo(() => searchResult, [searchResult]);
   return (
     <I18nextProvider i18n={i18n}>
       <MapSearch
@@ -67,7 +68,7 @@ function MapPage() {
       <ParkingMap center={mapCenter} handleCloseModal={() => setIsModalOpen(false)} />
       <NavBar />
       {isModalOpen && (
-        <RecentlySearched placeList={searchResult} handlePlaceSelect={handlePlaceSelect} />
+        <RecentlySearched placeList={memoizedSearchResult} handlePlaceSelect={handlePlaceSelect} />
       )}
     </I18nextProvider>
   );
