@@ -18,7 +18,7 @@ const NavBar: React.FC = () => {
   return (
     <nav className="fixed bottom-0 w-full bg-[#E8ECF3] shadow-[0_0_5px_0_rgba(0,0,0,0.35)] h-[8.5dvh] z-20 flex items-center justify-center">
       <div className="flex flex-1 justify-around items-center">
-        <Link scroll={false} href="" passHref>
+        <Link scroll={false} href="/" passHref>
           <div className="flex flex-col items-center">
             <HomeIcon className={`${isActive("/") ? activeColor : inactiveColor} w-5 h-5`} />
             <span className={`text-xs mt-1 ${isActive("/") ? activeColor : inactiveColor}`}>
