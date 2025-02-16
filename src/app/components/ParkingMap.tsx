@@ -217,7 +217,12 @@ export const ParkingMap: React.FC<TProps> = React.memo(({ handleCloseModal }) =>
           </OverlayView>
         ))}
       </GoogleMap>
-      <MyLocationButton className="fixed right-[4%] bottom-[13%]" onClick={handleCurrentLocation} />
+      {!selectedPlace && (
+        <MyLocationButton
+          className="fixed right-[4%] bottom-[13%]"
+          onClick={handleCurrentLocation}
+        />
+      )}
       {!!selectedPlace && (
         <InfoPopup
           handleFavorites={() => setLocalStorage(selectedPlace.placeId)}
