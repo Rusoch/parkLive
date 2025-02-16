@@ -227,7 +227,7 @@ export const ParkingMap: React.FC<TProps> = React.memo(({ handleCloseModal }) =>
         <InfoPopup
           handleFavorites={() => setLocalStorage(selectedPlace.placeId)}
           handleNavigation={handleDirections}
-          className="fixed bottom-0 z-50"
+          className="fixed bottom-[69px] z-50"
           placeData={selectedPlace}
           onClose={handlePopupClose}
           isOpen={!!selectedPlace}
