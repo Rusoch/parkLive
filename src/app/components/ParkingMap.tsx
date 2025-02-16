@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
 import { GoogleMap, OverlayView, useJsApiLoader } from "@react-google-maps/api";
-import { ParkingPlaceIcon } from "../icons/ParkingPlaceIcon";
+import { ParkingPlaceIcon } from "./ParkingPlaceIcon";
 import InfoPopup, { TPlaceData } from "./InfoPopup";
 import { I18nextProvider } from "react-i18next";
 import i18n from "../i18n";

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { PopupHandle } from "./PopupHandle";
 import { TQueryResult } from "../types/place";
-import { ParkingPlaceIcon } from "../icons/ParkingPlaceIcon";
+import { ParkingSignIcon } from "../icons/ParkingSignIcon";
 
 type TProps = {
   placeList: TQueryResult[];
@@ -42,7 +42,7 @@ const RecentlySearched: React.FC<TProps> = ({ placeList }) => {
           const { shortAddress, longAddress } = item;
           return (
             <div key={index} className="flex justify-between items-center gap-10 w-full">
-              <ParkingPlaceIcon isClickable={false} />
+              <ParkingSignIcon className="text-green-light" />
               <div className="flex flex-col justify-start items-center w-[100%]">
                 <span className="flex justify-start items-center w-[100%]">{shortAddress}</span>
                 <span className="flex justify-start items-center w-[100%] text-[12px] text-[#677191]">
