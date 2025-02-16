@@ -1,37 +1,23 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
 import { GoogleMap, OverlayView, useJsApiLoader } from "@react-google-maps/api";
-import { ParkingPlaceIcon } from "../icons/ParkingPlaceIcon";
-import InfoPopup, { TPlaceData } from "./InfoPopup";
+import { ParkingPlaceIcon } from "./ParkingPlaceIcon";
+import InfoPopup from "./InfoPopup";
+import { TPlaceData, TPlaceLocation } from "../types/place";
 import { I18nextProvider } from "react-i18next";
 import i18n from "../i18n";
 import { MyLocationButton } from "./MyLocationButton";
 import useLocalStorage from "../hooks/useLocalStorage";
+import { placeData } from "../constants/places";
 
-const center = {
-  lat: 41.7151,
-  lng: 44.8271,
-};
-
-const placeLocation = {
-  lat: 41.725705,
-  lng: 44.745009,
-};
-
-const placeData = {
-  placeId: 123,
-  placeLocation: {
-    lat: 41.725705,
-    lng: 44.745009,
-  },
-  address: "Delisi",
-  totalSpace: 300,
-  freeSpace: 250,
-  rate: 25,
-  paymentType: ["მხოლოდ ქეში"],
-  opens: "10:00",
-  closes: "23:00",
-};
+function compareLocation(
+  loc1: TPlaceLocation | undefined,
+  loc2: TPlaceLocation | undefined,
+): boolean {
+  if (!loc1 || !loc2) return false;
+  if (loc1.lat === loc2.lat && loc1.lng === loc2.lng) return true;
+  return false;
+}
 
 const mapOptions = {
   mapTypeControl: false,
@@ -42,13 +28,14 @@ const mapOptions = {
 
 type TProps = {
   handleCloseModal: () => void;
+  center: TPlaceLocation;
 };
 
 type GoogleMapsLibrary = "places" | "geometry" | "drawing" | "visualization";
 
 const libraries: GoogleMapsLibrary[] = ["places"];
 
-export const ParkingMap: React.FC<TProps> = React.memo(({ handleCloseModal }) => {
+export const ParkingMap: React.FC<TProps> = React.memo(({ handleCloseModal, center }) => {
   const [map, setMap] = useState<google.maps.Map | null>(null);
   const [selectedPlace, setSelectedPlace] = useState<null | TPlaceData>(null);
   const [destinationLocation, setDestinationLocation] = useState<google.maps.LatLng | undefined>(
@@ -102,12 +89,9 @@ export const ParkingMap: React.FC<TProps> = React.memo(({ handleCloseModal }) =>
       );
     }
   };
-  const handlePlaceSelect = () => {
-    setSelectedPlace(placeData);
-    const targetGeometry = new google.maps.LatLng(
-      placeData.placeLocation.lat,
-      placeData.placeLocation.lng,
-    );
+  const handlePlaceSelect: (place: TPlaceData) => void = (place) => {
+    setSelectedPlace(place);
+    const targetGeometry = new google.maps.LatLng(place.placeLocation.lat, place.placeLocation.lng);
     setDestinationLocation(targetGeometry);
   };
   const handleCurrentLocation = () => {
@@ -120,7 +104,6 @@ export const ParkingMap: React.FC<TProps> = React.memo(({ handleCloseModal }) =>
               navigator.geolocation.getCurrentPosition(
                 (position) => {
                   const { latitude, longitude } = position.coords;
-                  console.log(latitude, longitude);
                   setCurrentLocation({ lat: latitude, lng: longitude });
                 },
                 () => {
@@ -135,7 +118,16 @@ export const ParkingMap: React.FC<TProps> = React.memo(({ handleCloseModal }) =>
       }
     }
   };
+  const handlePopupClose = () => {
+    setSelectedPlace(null);
+  };
+  const handleActiveParkSign: (place: TPlaceLocation) => boolean = (place) => {
+    return compareLocation(place, selectedPlace?.placeLocation);
+  };
 
+  useEffect(() => {
+    setCurrentLocation(center);
+  }, [center]);
   useEffect(() => {
     if (currentLocation && map) {
       markersRef.current.forEach((marker) => marker.setMap(null));
@@ -210,18 +202,34 @@ export const ParkingMap: React.FC<TProps> = React.memo(({ handleCloseModal }) =>
         options={mapOptions}
         onClick={() => handleCloseModal()}
       >
-        <OverlayView position={placeLocation} mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}>
-          <ParkingPlaceIcon onClick={() => handlePlaceSelect()} />
-        </OverlayView>
+        {placeData.map((place: TPlaceData) => (
+          <OverlayView
+            key={`${Math.random()}`}
+            position={place?.placeLocation}
+            mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
+          >
+            <ParkingPlaceIcon
+              isPlaceSelected={handleActiveParkSign(place?.placeLocation)}
+              onClick={() => {
+                handlePlaceSelect(place);
+              }}
+            />
+          </OverlayView>
+        ))}
       </GoogleMap>
-      <MyLocationButton className="fixed right-[4%] bottom-[13%]" onClick={handleCurrentLocation} />
+      {!selectedPlace && (
+        <MyLocationButton
+          className="fixed right-[4%] bottom-[13%]"
+          onClick={handleCurrentLocation}
+        />
+      )}
       {!!selectedPlace && (
         <InfoPopup
-          handleFavorites={() => setLocalStorage(placeData.placeId)}
+          handleFavorites={() => setLocalStorage(selectedPlace.placeId)}
           handleNavigation={handleDirections}
-          className="fixed bottom-0 z-50"
-          placeData={placeData}
-          onClose={() => setSelectedPlace(null)}
+          className="fixed bottom-[69px] z-50"
+          placeData={selectedPlace}
+          onClose={handlePopupClose}
           isOpen={!!selectedPlace}
         />
       )}

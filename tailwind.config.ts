@@ -16,6 +16,7 @@ const config: Config = {
         "green-dark": "#15593A",
         "bg-light-from": "#ACE1C9",
         "bg-light-to": "#D4E2DB",
+        "blue-light": "#567DF4",
       },
     },
   },
