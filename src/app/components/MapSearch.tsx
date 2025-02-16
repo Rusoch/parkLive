@@ -37,7 +37,7 @@ export const MapSearch: React.FC<TProps> = ({
         // send query string to map for searching places
         handleQueryString(searchQuery);
       }
-    }, 3000);
+    }, 700);
 
     return () => {
       clearTimeout(timerId);
