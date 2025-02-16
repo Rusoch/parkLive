@@ -72,8 +72,8 @@ const RecentlySearched: React.FC<TProps> = ({ placeList, handlePlaceSelect }) =>
   return (
     <div
       className={`${
-        isListExtended ? "h-[100dvh]" : ""
-      } fixed top-0 left-0 w-[100dvw] pt-[calc(43px+8dvh)] pb-[82px] bg-[#F3F6FF] flex flex-col items-center gap-[22px] z-10 rounded-b-[12px] shadow-[0_5px_15.8px_0_rgba(0,0,0,0.35),0_2px_15.8px_0_rgba(0,0,0,0.35)]`}
+        isListExtended ? "h-[91.5dvh]" : ""
+      } fixed top-0 left-0 w-[100dvw] pt-[calc(43px+8dvh)] pb-[82px] bg-[#F3F6FF] flex flex-col items-center gap-[22px] z-10 ${isListExtended ? "" : "rounded-b-[12px] shadow-[0_5px_15.8px_0_rgba(0,0,0,0.35),0_2px_15.8px_0_rgba(0,0,0,0.35)]"}`}
     >
       <h1 className="pt-[35px] w-full px-[5%]">ბოლოს მოძებნილები</h1>
       <div className="w-full px-[3%] overflow-y-auto flex-1 flex flex-col items-center gap-[22px]">
