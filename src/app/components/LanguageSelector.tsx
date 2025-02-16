@@ -13,7 +13,6 @@ export const LanguageSelector: React.FC<TProps> = ({ onClick, className }) => {
     setSelectedLanguage(language);
     i18n.changeLanguage(language);
   };
-  console.log("lami");
   return (
     <div className={`relative ${className ?? ""}`}>
       <div
