@@ -6,10 +6,12 @@ import { ParkingMap } from "../components/ParkingMap";
 import { MapSearch } from "../components/MapSearch";
 import NavBar from "../components/NavBar";
 import RecentlySearched from "../components/RecentlySearched";
-import { TQueryResult } from "../types/place";
+import { TPlaceLocation, TQueryResult } from "../types/place";
 import useLocalStorage from "../hooks/useLocalStorage";
+import { center } from "../constants/places";
 
 function MapPage() {
+  const [mapCenter, setMapCenter] = useState<TPlaceLocation>(center);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { storedValue, setLocalStorage } = useLocalStorage<TQueryResult[]>("last-search-result");
   const [searchResult, setSearchResult] = useState<TQueryResult[]>(
@@ -50,6 +52,10 @@ function MapPage() {
       });
     }
   };
+  const handlePlaceSelect = (place: TPlaceLocation) => {
+    setMapCenter(place);
+    setIsModalOpen(false);
+  };
   return (
     <I18nextProvider i18n={i18n}>
       <MapSearch
@@ -58,9 +64,11 @@ function MapPage() {
         handleCloseModal={() => setIsModalOpen(false)}
         isSearchActive={isModalOpen}
       />
-      <ParkingMap handleCloseModal={() => setIsModalOpen(false)} />
+      <ParkingMap center={mapCenter} handleCloseModal={() => setIsModalOpen(false)} />
       <NavBar />
-      {isModalOpen && <RecentlySearched placeList={searchResult} />}
+      {isModalOpen && (
+        <RecentlySearched placeList={searchResult} handlePlaceSelect={handlePlaceSelect} />
+      )}
     </I18nextProvider>
   );
 }
