@@ -34,11 +34,13 @@ export default function Home() {
               }}
             ></div>
           )}
-          <div
-            className="w-[100dvw] h-[100dvh] flex flex-col justify-between bg-[#9DCDB7] dark:bg-[#A8A8A8] bg-no-repeat bg-cover overflow-hidden transition-colors"
-            style={{ backgroundImage: "url('background-light.png')" }}
-          >
+          <div className="w-[100dvw] h-[100dvh] flex flex-col items-center bg-gradient-to-b from-bg-light-from to-bg-light-to dark:bg-[#A8A8A8] overflow-hidden">
             <LandingPageHeader setTheme={setTheme} />
+            <img
+              src="background-image.svg"
+              alt="the background"
+              className="w-[min(100dvw,46dvh)]"
+            />
             <WelcomeSection />
           </div>
         </div>

@@ -11,6 +11,12 @@ const config: Config = {
       fontFamily: {
         firago: ["var(--font-firago)"],
       },
+      colors: {
+        "green-light": "#218658",
+        "green-dark": "#15593A",
+        "bg-light-from": "#ACE1C9",
+        "bg-light-to": "#D4E2DB",
+      },
     },
   },
   darkMode: "selector",
