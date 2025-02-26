@@ -71,18 +71,16 @@ const InfoPopup: React.FC<TProps> = ({
           </li>
         </ul>
       )}
-      <div
-        className={`flex w-full justify-around leading-[19px] ${isPopupMinified ? "mb-[10px]" : "mb-9"}`}
-      >
+      <div className="flex w-full justify-around leading-[19px] px-4 py-5">
         <Button
           onClick={handleNavigation}
           label={t("directions")}
-          className="rounded-[14px] w-[44%] py-2 border bg-[#15593A] border-[#15593A] dark:border-[#1A6E48] text-white dark:text-[#0D0D0D] dark:bg-[#1A6E48] text-[14px]"
+          className="rounded-[10px] w-[44%] py-2 border bg-green-light border-green-light dark:border-[#1A6E48] text-white dark:text-[#0D0D0D] dark:bg-[#1A6E48] text-[14px]"
         />
         <Button
           onClick={handleFavorites}
           label={t("save")}
-          className="rounded-[14px] w-[44%] py-2 border border-[#15593A] text-[#15593A] dark:text-[#1A6E48] dark:border-[#1A6E48] text-[14px]"
+          className="rounded-[14px] w-[44%] py-2 border border-green-light text-green-light dark:text-[#1A6E48] dark:border-[#1A6E48] text-[14px]"
         />
       </div>
     </div>
