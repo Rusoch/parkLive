@@ -24,6 +24,7 @@ const mapOptions = {
   zoomControl: false,
   fullscreenControl: false,
   streetViewControl: false,
+  gestureHandling: "greedy",
 };
 
 type TProps = {
