@@ -24,17 +24,7 @@ export default function Home() {
       ) : (
         <div className={`${theme === "dark" ? "dark" : "light"} relative`}>
           <InstallPopup />
-          {theme === "dark" && (
-            <div
-              className="absolute w-[100dvw] h-[100dvh] pointer-events-none"
-              style={{
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-                background: `linear-gradient(33.01deg, rgba(0, 0, 0, 0) 81.39%, rgba(0, 0, 0, 0.2) 95.31%), linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2))`,
-              }}
-            ></div>
-          )}
-          <div className="w-[100dvw] h-[100dvh] flex flex-col items-center bg-gradient-to-b from-bg-light-from to-bg-light-to dark:bg-[#A8A8A8] overflow-hidden">
+          <div className="w-[100dvw] h-[100dvh] flex flex-col items-center bg-gradient-to-b from-bg-light-from to-bg-light-to dark:bg-none dark:bg-[#1C2129] overflow-hidden">
             <LandingPageHeader setTheme={setTheme} />
             <img
               src="background-image.svg"
