@@ -1,5 +1,5 @@
 "use client";
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { I18nextProvider } from "react-i18next";
 import i18n from "../i18n";
 import { ParkingMap } from "../components/ParkingMap";
@@ -11,6 +11,7 @@ import useLocalStorage from "../hooks/useLocalStorage";
 import { center } from "../constants/places";
 
 function MapPage() {
+  const [theme, setTheme] = useState("light");
   const [mapCenter, setMapCenter] = useState<TPlaceLocation>(center);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { storedValue, setLocalStorage } = useLocalStorage<IQueryResult[]>("last-search-result");
@@ -56,20 +57,29 @@ function MapPage() {
     setMapCenter(place);
     setIsModalOpen(false);
   };
+  useEffect(() => {
+    const storedTheme = localStorage.getItem("user-theme") ?? "light";
+    setTheme(storedTheme);
+  }, []);
   const memoizedSearchResult = useMemo(() => searchResult, [searchResult]);
   return (
     <I18nextProvider i18n={i18n}>
-      <MapSearch
-        handleQueryString={handleSearch}
-        handleFocus={() => setIsModalOpen(true)}
-        handleCloseModal={() => setIsModalOpen(false)}
-        isSearchActive={isModalOpen}
-      />
-      <ParkingMap center={mapCenter} handleCloseModal={() => setIsModalOpen(false)} />
-      <NavBar />
-      {isModalOpen && (
-        <RecentlySearched placeList={memoizedSearchResult} handlePlaceSelect={handlePlaceSelect} />
-      )}
+      <div className={`${theme === "dark" ? "dark" : "light"} relative`}>
+        <MapSearch
+          handleQueryString={handleSearch}
+          handleFocus={() => setIsModalOpen(true)}
+          handleCloseModal={() => setIsModalOpen(false)}
+          isSearchActive={isModalOpen}
+        />
+        <ParkingMap center={mapCenter} handleCloseModal={() => setIsModalOpen(false)} />
+        <NavBar />
+        {isModalOpen && (
+          <RecentlySearched
+            placeList={memoizedSearchResult}
+            handlePlaceSelect={handlePlaceSelect}
+          />
+        )}
+      </div>
     </I18nextProvider>
   );
 }

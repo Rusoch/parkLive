@@ -19,7 +19,7 @@ export const ArrowLeftIcon: React.FC<TProps> = (props) => {
         <g>
           <path
             d="M8.328 11.4997H20.5V13.4997H8.328L13.692 18.8637L12.278 20.2777L4.5 12.4997L12.278 4.72168L13.692 6.13568L8.328 11.4997Z"
-            fill="#192342"
+            fill="currentColor"
           />
         </g>
       </svg>

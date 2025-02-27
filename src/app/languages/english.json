@@ -14,5 +14,7 @@
   "main": "Home",
   "map": "Map",
   "settings": "Settings",
-  "favorites": "Favorites"
+  "favorites": "Favorites",
+  "search":"Search ...",
+  "recently searched":"Recently searched"
 }
