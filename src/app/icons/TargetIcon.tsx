@@ -5,7 +5,7 @@ type TProps = { onClick?: () => void; className?: string };
 export const TargetIcon: React.FC<TProps> = ({ onClick, className }) => {
   return (
     <div
-      className={`w-[52px] h-[52px] rounded-full flex items-center justify-center bg-[#15593A] ${className ?? ""}`}
+      className={`w-[52px] h-[52px] rounded-full flex items-center justify-center bg-[#15593A] dark:bg-[#1F2124] ${className ?? ""}`}
       onClick={onClick}
     >
       <svg
@@ -14,7 +14,7 @@ export const TargetIcon: React.FC<TProps> = ({ onClick, className }) => {
         viewBox="0 0 26 26"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className="dark:text-[#0D0D0D] text-white"
+        className="text-white"
       >
         <g>
           <path

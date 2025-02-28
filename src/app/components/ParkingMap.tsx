@@ -9,6 +9,7 @@ import i18n from "../i18n";
 import { MyLocationButton } from "./MyLocationButton";
 import useLocalStorage from "../hooks/useLocalStorage";
 import { placeData } from "../constants/places";
+import { darkModeStyles } from "../constants/map-styles";
 
 function compareLocation(
   loc1: TPlaceLocation | undefined,
@@ -19,11 +20,20 @@ function compareLocation(
   return false;
 }
 
+const theme =
+  typeof window !== "undefined"
+    ? localStorage.getItem("user-theme") === "dark"
+      ? "dark"
+      : "light"
+    : "light";
+
 const mapOptions = {
   mapTypeControl: false,
   zoomControl: false,
   fullscreenControl: false,
   streetViewControl: false,
+  gestureHandling: "greedy",
+  styles: theme === "dark" ? darkModeStyles : [],
 };
 
 type TProps = {
