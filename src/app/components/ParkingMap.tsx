@@ -20,22 +20,6 @@ function compareLocation(
   return false;
 }
 
-const theme =
-  typeof window !== "undefined"
-    ? localStorage.getItem("user-theme") === "dark"
-      ? "dark"
-      : "light"
-    : "light";
-
-const mapOptions = {
-  mapTypeControl: false,
-  zoomControl: false,
-  fullscreenControl: false,
-  streetViewControl: false,
-  gestureHandling: "greedy",
-  styles: theme === "dark" ? darkModeStyles : [],
-};
-
 type TProps = {
   handleCloseModal: () => void;
   center: TPlaceLocation;
@@ -44,8 +28,14 @@ type TProps = {
 type GoogleMapsLibrary = "places" | "geometry" | "drawing" | "visualization";
 
 const libraries: GoogleMapsLibrary[] = ["places"];
+const getTheme = () => {
+  return typeof window !== "undefined" && localStorage.getItem("user-theme") === "dark"
+    ? "dark"
+    : "light";
+};
 
 export const ParkingMap: React.FC<TProps> = React.memo(({ handleCloseModal, center }) => {
+  const [theme, setTheme] = useState(getTheme());
   const [map, setMap] = useState<google.maps.Map | null>(null);
   const [selectedPlace, setSelectedPlace] = useState<null | TPlaceData>(null);
   const [destinationLocation, setDestinationLocation] = useState<google.maps.LatLng | undefined>(
@@ -62,6 +52,17 @@ export const ParkingMap: React.FC<TProps> = React.memo(({ handleCloseModal, cent
   const markersRef = useRef<google.maps.Marker[]>([]);
 
   const { setLocalStorage } = useLocalStorage<number>("favorites");
+
+  useEffect(() => {
+    const handleStorageChange = () => {
+      setTheme(getTheme());
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, []);
 
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
@@ -201,6 +202,14 @@ export const ParkingMap: React.FC<TProps> = React.memo(({ handleCloseModal, cent
       }
     }
   }, []);
+  const mapOptions = {
+    mapTypeControl: false,
+    zoomControl: false,
+    fullscreenControl: false,
+    streetViewControl: false,
+    gestureHandling: "greedy",
+    styles: theme === "dark" ? darkModeStyles : [],
+  };
   return isLoaded ? (
     <I18nextProvider i18n={i18n}>
       <GoogleMap
