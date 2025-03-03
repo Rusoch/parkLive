@@ -54,14 +54,7 @@ export const ParkingMap: React.FC<TProps> = React.memo(({ handleCloseModal, cent
   const { setLocalStorage } = useLocalStorage<number>("favorites");
 
   useEffect(() => {
-    const handleStorageChange = () => {
-      setTheme(getTheme());
-    };
-
-    window.addEventListener("storage", handleStorageChange);
-    return () => {
-      window.removeEventListener("storage", handleStorageChange);
-    };
+    setTheme(getTheme);
   }, []);
 
   const { isLoaded } = useJsApiLoader({
@@ -208,6 +201,7 @@ export const ParkingMap: React.FC<TProps> = React.memo(({ handleCloseModal, cent
     fullscreenControl: false,
     streetViewControl: false,
     gestureHandling: "greedy",
+    clickableIcons: false,
     styles: theme === "dark" ? darkModeStyles : [],
   };
   return isLoaded ? (
