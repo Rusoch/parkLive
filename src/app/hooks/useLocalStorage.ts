@@ -14,33 +14,54 @@ function useLocalStorage<T>(key: string) {
     }
   });
 
-  const setLocalStorage = (value: T) => {
+  const setLocalStorage = (value: T | T[]) => {
     try {
+      let newValue: T[] = [];
+
       if (Array.isArray(value)) {
-        setStoredValue(value);
-        localStorage.setItem(key, JSON.stringify(value));
-        return;
-      }
-      const item = localStorage.getItem(key);
-      if (item) {
-        const parsedItem = JSON.parse(item);
-        if (Array.isArray(parsedItem)) {
-          parsedItem.indexOf(value);
-          if (parsedItem.indexOf(value) === -1) parsedItem.push(value);
-        }
-        setStoredValue(parsedItem as T[]);
-        localStorage.setItem(key, JSON.stringify(parsedItem));
+        newValue = value;
       } else {
-        const newItem = [value];
-        setStoredValue(newItem);
-        localStorage.setItem(key, JSON.stringify(newItem));
+        const item = localStorage.getItem(key);
+        if (item) {
+          const parsedItem = JSON.parse(item);
+          if (Array.isArray(parsedItem)) {
+            // Favori eklerken, daha önce eklenmişse tekrar eklememek için kontrol ediyoruz
+            if (!parsedItem.includes(value)) {
+              parsedItem.push(value);
+            }
+            newValue = parsedItem;
+          } else {
+            newValue = [value];
+          }
+        } else {
+          newValue = [value];
+        }
       }
+
+      // state ve localStorage'ı güncelliyoruz
+      setStoredValue(newValue);
+      localStorage.setItem(key, JSON.stringify(newValue));
     } catch (error) {
       console.error("Error saving to localStorage", error);
     }
   };
 
-  return { storedValue, setLocalStorage } as const;
+  // Favori silme fonksiyonu
+  const removeFromLocalStorage = (value: T) => {
+    try {
+      if (storedValue && Array.isArray(storedValue)) {
+        // Diziden çıkarma işlemi
+        const updatedValue = storedValue.filter((item) => item !== value);
+
+        setStoredValue(updatedValue);
+        localStorage.setItem(key, JSON.stringify(updatedValue));
+      }
+    } catch (error) {
+      console.error("Error removing from localStorage", error);
+    }
+  };
+
+  return { storedValue, setLocalStorage, removeFromLocalStorage } as const;
 }
 
 export default useLocalStorage;
