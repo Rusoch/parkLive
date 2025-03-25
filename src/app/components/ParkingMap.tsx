@@ -51,7 +51,7 @@ export const ParkingMap: React.FC<TProps> = React.memo(({ handleCloseModal, cent
 
   const markersRef = useRef<google.maps.Marker[]>([]);
 
-  const { setLocalStorage } = useLocalStorage<number>("favorites");
+  const { setLocalStorage } = useLocalStorage<TPlaceData>("favorites");
 
   useEffect(() => {
     setTheme(getTheme);
@@ -238,7 +238,7 @@ export const ParkingMap: React.FC<TProps> = React.memo(({ handleCloseModal, cent
       )}
       {!!selectedPlace && (
         <InfoPopup
-          handleFavorites={() => setLocalStorage(selectedPlace.placeId)}
+          handleFavorites={() => setLocalStorage(selectedPlace)}
           handleNavigation={handleDirections}
           className="fixed bottom-[69px] z-50"
           placeData={selectedPlace}

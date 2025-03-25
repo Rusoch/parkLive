@@ -3,9 +3,9 @@
   "easily and quickly find free parking places": "აღმოაჩინე თავისუფალი საპარკინგე ადგილები მარტივად და სწრაფად",
   "continue": "გაგრძელება",
   "place": "ადგილი",
-  "hour": "სთ",
-  "cashOnly": "მხოლოდ ქეში",
+  "hour": "საათი",
   "card": "ბარათი",
+  "cashOnly": "მხოლოდ ქეში",
   "directions": "მისვლა",
   "save": "შენახვა",
   "address": "ვაჟა-ფშაველას 24",
@@ -14,9 +14,21 @@
   "main": "მთავარი",
   "map": "რუკა",
   "settings": "პარამეტრები",
-  "favorites": "ფავორიტები",
+  "favorites": "შენახულები",
   "search":"მოძებნე ...",
-  "recently searched":"ბოლოს მოძებნილები"
-  
+  "recently searched":"ბოლოს მოძებნილები",
+  "placeSaved": "ლოკაცია წარმატებით შენახულია",
+  "yourFavoritePlaces": "თქვენი საყვარელი ადგილები",
+  "findThemHereAnytime": "იპოვეთ ისინი აქ ნებისმიერ დროს",
+  "goToPlace": "მისვლა",
+  "goToMap": "რუკაზე დაბრუნება",
+  "locationSaved": "ლოკაცია წარმატებით იქნა შენახული",
+  "locationAlreadyInFavorites": "ლოკაცია უკვე დამატებულია ფავორიტებში",
+  "favoritesEmpty": "ფავორიტები ცარიელია",
+  "noSavedLocations": "  თქვენ ჯერ არ გაქვთ შენახული ლოკაცია,",
+  "addPreferredLocation": "დაამატე სასურველი ლოკაცია ფავორიტებში."
+
+
+
 
 }

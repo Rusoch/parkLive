@@ -2,15 +2,15 @@
 // hooks/useLocalStorage.ts
 import { useState } from "react";
 
-function useLocalStorage<T>(key: string) {
+function useLocalStorage<T>(key: string, defaultValue: T[] | T | null = null) {
   const [storedValue, setStoredValue] = useState<T[] | T | null>(() => {
-    if (typeof window === "undefined") return null;
+    if (typeof window === "undefined") return defaultValue;
     try {
       const item = window.localStorage.getItem(key);
-      return item ? (JSON.parse(item) as T[]) : null;
+      return item ? (JSON.parse(item) as T[]) : defaultValue;
     } catch (error) {
       console.error("Error reading localStorage", error);
-      return null;
+      return defaultValue;
     }
   });
 
@@ -25,8 +25,11 @@ function useLocalStorage<T>(key: string) {
         if (item) {
           const parsedItem = JSON.parse(item);
           if (Array.isArray(parsedItem)) {
-            // Favori eklerken, daha önce eklenmişse tekrar eklememek için kontrol ediyoruz
-            if (!parsedItem.includes(value)) {
+            // Check if the place is already saved by comparing placeId
+            const isAlreadySaved = parsedItem.some(
+              (item: any) => item.placeId === (value as any).placeId,
+            );
+            if (!isAlreadySaved) {
               parsedItem.push(value);
             }
             newValue = parsedItem;
@@ -38,7 +41,6 @@ function useLocalStorage<T>(key: string) {
         }
       }
 
-      // state ve localStorage'ı güncelliyoruz
       setStoredValue(newValue);
       localStorage.setItem(key, JSON.stringify(newValue));
     } catch (error) {
@@ -46,13 +48,12 @@ function useLocalStorage<T>(key: string) {
     }
   };
 
-  // Favori silme fonksiyonu
   const removeFromLocalStorage = (value: T) => {
     try {
       if (storedValue && Array.isArray(storedValue)) {
-        // Diziden çıkarma işlemi
-        const updatedValue = storedValue.filter((item) => item !== value);
-
+        const updatedValue = storedValue.filter(
+          (item: any) => item.placeId !== (value as any).placeId,
+        );
         setStoredValue(updatedValue);
         localStorage.setItem(key, JSON.stringify(updatedValue));
       }

@@ -1,7 +1,13 @@
 {
   "welcome": "Welcome",
-  "easily and quickly find free parking places": "Easily and quickly find free parking places",
-  "continue": "continue",
+  "easilyAndQuicklyFindFreeParkingPlaces": "Easily and quickly find free parking places",
+  "search": "Search",
+  "searchPlaceholder": "Search for a place...",
+  "favorites": "Favorites",
+  "favoritesEmpty": "Favorites are empty",
+  "noSavedLocations": "There are no saved locations",
+  "addPreferredLocation": "Add your preferred location to favorites",
+  "goToMap": "Go to Map",
   "place": "place",
   "hour": "hr",
   "cashOnly": "cash only",
@@ -14,7 +20,11 @@
   "main": "Home",
   "map": "Map",
   "settings": "Settings",
-  "favorites": "Favorites",
-  "search":"Search ...",
-  "recently searched":"Recently searched"
+  "recently searched":"Recently searched",
+  "placeSaved": "Place saved successfully",
+  "yourFavoritePlaces": "Your favorite places",
+  "findThemHereAnytime": "Find them here anytime",
+  "goToPlace": "Go to Place",
+  "locationSaved": "The location has been successfully saved",
+  "locationAlreadyInFavorites": "The location is already in favorites"
 }
