@@ -88,11 +88,11 @@ const FavPage = () => {
                   />
                 </div>
 
-                <h2 className="text-[20px] font-medium text-[#15593A] dark:text-[#FFFFFF] mt-6 font-['FiraGO']">
+                <h2 className="text-[16px] font-bold text-[#15593A] dark:text-[#FFFFFF] mt-6">
                   {t("favoritesEmpty")}
                 </h2>
 
-                <p className="text-[14px] text-[#15593A] dark:text-[#FFFFFF] text-center mt-2 font-['FiraGO']">
+                <p className="text-[14px]  font-medium text-[#15593A] dark:text-[#FFFFFF] text-center mt-2 font-['FiraGO']">
                   {t("noSavedLocations")}
                   <br />
                   {t("addPreferredLocation")}
@@ -100,7 +100,7 @@ const FavPage = () => {
 
                 <button
                   onClick={() => router.push("/map")}
-                  className="w-[311px] h-[32px] bg-[#218658] text-white text-[12px] py-2 rounded-[6px] mt-8 font-['FiraGO']"
+                  className="w-[91%] h-[48px] bg-[#218658] text-white text-[16px] font-bold py-3 rounded-[6px] mt-[28px]"
                 >
                   {t("goToMap")}
                 </button>
