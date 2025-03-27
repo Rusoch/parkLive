@@ -109,15 +109,20 @@ const FavPage = () => {
               {favoritesList.map((place) => (
                 <div
                   key={place.placeId}
-                  className="relative w-[343px] h-[222px] rounded-[12px] border-[1px] p-[16px] bg-[#F3F6FF] dark:bg-[#1F2124] "
+                  className="w-[343px] h-[222px] rounded-[12px] border-[1px] p-[16px] bg-[#F3F6FF] dark:bg-[#1F2124] "
                 >
-                  <button
-                    onClick={() => removeFavorite(place.placeId)}
-                    className="absolute top-2 right-2 px-2 py-1 rounded text-[#15593A] dark:text-white"
-                  >
-                    <TrashIcon />
-                  </button>
+                  <div className="flex items-center justify-between mb-5">
+                    <span className="text-[20px] text-[#15593A] dark:text-white">
+                      {place.address}
+                    </span>
 
+                    <button
+                      onClick={() => removeFavorite(place.placeId)}
+                      className="rounded text-[#15593A] dark:text-white"
+                    >
+                      <TrashIcon />
+                    </button>
+                  </div>
                   <ul className="flex flex-col w-full items-start gap-1 text-[14px] dark:text-white">
                     <li className="flex items-center gap-2 justify-center">
                       <PlacesIcon /> {`${place.freeSpace}/${place.totalSpace} ${t("place")}`}
@@ -135,7 +140,7 @@ const FavPage = () => {
                   <Button
                     label={t("goToPlace")}
                     className={
-                      "w-[100%] h-[48px] bg-[#218658] text-white text-[16px] rounded-[6px] mt-2"
+                      "w-[100%] h-[32px] bg-[#218658] text-white text-[16px] rounded-[6px] mt-2"
                     }
                     onClick={() => handleGoToPlace(place)}
                   />

@@ -6,7 +6,7 @@ import { ParkingMap } from "../components/ParkingMap";
 import { MapSearch } from "../components/MapSearch";
 import NavBar from "../components/NavBar";
 import RecentlySearched from "../components/RecentlySearched";
-import { TPlaceLocation, IQueryResult } from "../types/place";
+import { TPlaceLocation, IQueryResult, TPlaceData } from "../types/place";
 import useLocalStorage from "../hooks/useLocalStorage";
 import { center } from "../constants/places";
 
@@ -18,6 +18,8 @@ function MapPage() {
   const [searchResult, setSearchResult] = useState<IQueryResult[]>(
     () => (storedValue as IQueryResult[]) ?? [],
   );
+  const [selectedPlace, setSelectedPlace] = useState<TPlaceData | null>(null);
+
   const handleSearch = (searchQuery: string) => {
     if (searchQuery && window.google) {
       // Create a dummy div to pass to PlacesService
@@ -46,22 +48,44 @@ function MapPage() {
           });
           setSearchResult(foundPlaces);
           setLocalStorage(foundPlaces);
-          // Process the array of results (e.g., display them in a list)
         } else {
           alert("საპარკინგე ადგილი ვერ მოიძებნა");
         }
       });
     }
   };
+
   const handlePlaceSelect = (place: TPlaceLocation) => {
-    setMapCenter(place);
-    setIsModalOpen(false);
+    // Find the matching place from search results
+    const matchingPlace = searchResult.find(
+      (p) => p.placeLocation.lat === place.lat && p.placeLocation.lng === place.lng,
+    );
+    if (matchingPlace) {
+      setMapCenter(place);
+      setIsModalOpen(false);
+      // Convert IQueryResult to TPlaceData
+      const fullPlaceData: TPlaceData = {
+        placeId: Math.floor(Math.random() * 1000), // Generate a random ID
+        placeLocation: matchingPlace.placeLocation,
+        address: matchingPlace.shortAddress,
+        totalSpace: 300, // Default values from placeData
+        freeSpace: 250,
+        rate: 25,
+        paymentType: ["მხოლოდ ქეში"],
+        opens: "10:00",
+        closes: "23:00",
+      };
+      setSelectedPlace(fullPlaceData);
+    }
   };
+
   useEffect(() => {
     const storedTheme = localStorage.getItem("user-theme") ?? "light";
     setTheme(storedTheme);
   }, []);
+
   const memoizedSearchResult = useMemo(() => searchResult, [searchResult]);
+
   return (
     <I18nextProvider i18n={i18n}>
       <div className={`${theme === "dark" ? "dark" : "light"} relative`}>
@@ -71,7 +95,11 @@ function MapPage() {
           handleCloseModal={() => setIsModalOpen(false)}
           isSearchActive={isModalOpen}
         />
-        <ParkingMap center={mapCenter} handleCloseModal={() => setIsModalOpen(false)} />
+        <ParkingMap
+          center={mapCenter}
+          handleCloseModal={() => setIsModalOpen(false)}
+          selectedPlace={selectedPlace}
+        />
         <NavBar />
         {isModalOpen && (
           <RecentlySearched

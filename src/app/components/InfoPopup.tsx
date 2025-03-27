@@ -65,7 +65,7 @@ const InfoPopup: React.FC<TProps> = ({
     setTimeout(() => {
       setShowWarning(false);
       onClose();
-    }, 3000);
+    }, 1000);
   };
 
   const { totalSpace, freeSpace, rate, paymentType, opens, closes } = placeData;
