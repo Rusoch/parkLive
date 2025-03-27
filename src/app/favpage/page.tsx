@@ -14,17 +14,25 @@ import { I18nextProvider } from "react-i18next";
 import i18n from "../i18n";
 import Image from "next/image";
 import { Button } from "../components/Button";
+import { useFavorites } from "../context/FavoritesContext";
 
 const FavPage = () => {
   const [theme, setTheme] = useState("light");
   const { storedValue: favorites, removeFromLocalStorage } =
     useLocalStorage<TPlaceData>("favorites");
+  const { updateFavoritesCount } = useFavorites();
   const router = useRouter();
   const { t } = useTranslation();
+
   useEffect(() => {
     const storedTheme = localStorage.getItem("user-theme") ?? "light";
     setTheme(storedTheme);
   }, []);
+
+  useEffect(() => {
+    const favoritesList = Array.isArray(favorites) ? favorites : favorites ? [favorites] : [];
+    updateFavoritesCount(favoritesList.length);
+  }, [favorites, updateFavoritesCount]);
 
   const removeFavorite = (placeId: number) => {
     if (!favorites) return;
@@ -36,6 +44,8 @@ const FavPage = () => {
 
     if (placeToRemove) {
       removeFromLocalStorage(placeToRemove);
+      const favoritesList = Array.isArray(favorites) ? favorites : favorites ? [favorites] : [];
+      updateFavoritesCount(favoritesList.length - 1);
     }
   };
 

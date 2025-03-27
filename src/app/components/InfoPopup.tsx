@@ -10,6 +10,7 @@ import { PopupHandle } from "./PopupHandle";
 import { TPlaceData } from "../types/place";
 import { WarningMessage } from "./WarningMessage";
 import useLocalStorage from "../hooks/useLocalStorage";
+import { useFavorites } from "../context/FavoritesContext";
 
 type TProps = {
   isOpen?: boolean;
@@ -34,6 +35,7 @@ const InfoPopup: React.FC<TProps> = ({
   const [showWarning, setShowWarning] = useState(false);
   const [warningType, setWarningType] = useState<"success" | "error">("success");
   const { storedValue: favorites } = useLocalStorage<TPlaceData>("favorites");
+  const { updateFavoritesCount } = useFavorites();
 
   if (!isPopupOpen) return null;
 
@@ -56,12 +58,14 @@ const InfoPopup: React.FC<TProps> = ({
     }
 
     handleFavorites();
+    const newFavoritesList = [...favoritesList, placeData];
+    updateFavoritesCount(newFavoritesList.length);
     setWarningType("success");
     setShowWarning(true);
     setTimeout(() => {
       setShowWarning(false);
       onClose();
-    }, 1000);
+    }, 3000);
   };
 
   const { totalSpace, freeSpace, rate, paymentType, opens, closes } = placeData;

@@ -1,5 +1,6 @@
 import localFont from "next/font/local";
 import type { Metadata, Viewport } from "next";
+import { FavoritesProvider } from "./context/FavoritesContext";
 import "./globals.css";
 
 export const viewport: Viewport = {
@@ -35,7 +36,9 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-title" content="Parkme" />
         <link rel="manifest" href="/manifest.json" />
       </head>
-      <body className="antialiased scroll-hidden">{children}</body>
+      <body className="antialiased scroll-hidden">
+        <FavoritesProvider>{children}</FavoritesProvider>
+      </body>
     </html>
   );
 }
