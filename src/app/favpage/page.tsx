@@ -109,7 +109,7 @@ const FavPage = () => {
               {favoritesList.map((place) => (
                 <div
                   key={place.placeId}
-                  className="w-[343px] h-[222px] rounded-[12px] border-[1px] p-[16px] bg-[#F3F6FF] dark:bg-[#1F2124] "
+                  className="w-[343px] h-[222px] rounded-[12px] border-[1px] p-[16px] bg-[#F3F6FF] shadow-[0_2px_15.8px_0_rgba(0,0,0,0.25),0_7px_15.8px_0_rgba(0,0,0,0.15)] dark:bg-[#1F2124] "
                 >
                   <div className="flex items-center justify-between mb-5">
                     <span className="text-[20px] text-[#15593A] dark:text-white">
