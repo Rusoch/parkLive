@@ -10,6 +10,8 @@ import { MyLocationButton } from "./MyLocationButton";
 import useLocalStorage from "../hooks/useLocalStorage";
 import { placeData } from "../constants/places";
 import { darkModeStyles } from "../constants/map-styles";
+import { WarningMessage } from "./WarningMessage";
+import { useTranslation } from "react-i18next";
 
 function compareLocation(
   loc1: TPlaceLocation | undefined,
@@ -48,10 +50,13 @@ export const ParkingMap: React.FC<TProps> = React.memo(({ handleCloseModal, cent
       }
     | undefined
   >(center);
+  const [showLocationWarning, setShowLocationWarning] = useState(false);
 
   const markersRef = useRef<google.maps.Marker[]>([]);
 
   const { setLocalStorage } = useLocalStorage<TPlaceData>("favorites");
+
+  const { t } = useTranslation();
 
   useEffect(() => {
     setTheme(getTheme);
@@ -102,7 +107,7 @@ export const ParkingMap: React.FC<TProps> = React.memo(({ handleCloseModal, cent
             );
           },
           () => {
-            alert("Error getting current location.");
+            setShowLocationWarning(true);
           },
         );
       }
@@ -124,15 +129,19 @@ export const ParkingMap: React.FC<TProps> = React.memo(({ handleCloseModal, cent
                 (position) => {
                   const { latitude, longitude } = position.coords;
                   setCurrentLocation({ lat: latitude, lng: longitude });
+                  setShowLocationWarning(false);
                 },
                 () => {
-                  alert("Error getting current location.");
+                  setShowLocationWarning(true);
                 },
               );
+            } else {
+              setShowLocationWarning(true);
             }
           })
           .catch((error) => {
             console.error("Error checking geolocation permission:", error);
+            setShowLocationWarning(true);
           });
       }
     }
@@ -210,6 +219,21 @@ export const ParkingMap: React.FC<TProps> = React.memo(({ handleCloseModal, cent
       }
     }
   }, []);
+
+  useEffect(() => {
+    let timeoutId: NodeJS.Timeout;
+    if (showLocationWarning) {
+      timeoutId = setTimeout(() => {
+        setShowLocationWarning(false);
+      }, 2000); // 2 seconds
+    }
+    return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+    };
+  }, [showLocationWarning]);
+
   const mapOptions = {
     mapTypeControl: false,
     zoomControl: false,
@@ -261,6 +285,7 @@ export const ParkingMap: React.FC<TProps> = React.memo(({ handleCloseModal, cent
           isOpen={!!selectedPlace}
         />
       )}
+      {showLocationWarning && <WarningMessage message={t("enableLocation")} type="error" />}
     </I18nextProvider>
   ) : (
     <></>
