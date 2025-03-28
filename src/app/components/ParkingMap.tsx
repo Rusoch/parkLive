@@ -77,20 +77,35 @@ export const ParkingMap: React.FC<TProps> = React.memo(({ handleCloseModal, cent
       const directionsRenderer = new window.google.maps.DirectionsRenderer();
       directionsRenderer.setMap(map);
 
-      directionsService.route(
-        {
-          origin: currentLocation,
-          destination: destinationLocation,
-          travelMode: window.google.maps.TravelMode.DRIVING,
-        },
-        (result, status) => {
-          if (status === "OK") {
-            directionsRenderer.setDirections(result);
-          } else {
-            alert("მიმართულებები ვერ მოიძებნა");
-          }
-        },
-      );
+      // Get user's current location
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const userLocation = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude,
+            };
+
+            directionsService.route(
+              {
+                origin: userLocation,
+                destination: destinationLocation,
+                travelMode: window.google.maps.TravelMode.DRIVING,
+              },
+              (result, status) => {
+                if (status === "OK") {
+                  directionsRenderer.setDirections(result);
+                } else {
+                  alert("მიმართულებები ვერ მოიძებნა");
+                }
+              },
+            );
+          },
+          () => {
+            alert("Error getting current location.");
+          },
+        );
+      }
     }
   };
   const handlePlaceSelect: (place: TPlaceData) => void = (place) => {
