@@ -1,13 +1,10 @@
+import Image from "next/image";
 type TProps = {
   className?: string;
 };
 
 const Logo: React.FC<TProps> = () => {
-  return (
-    <div className="h-[63%] flex items-center justify-center p-[11px] text-[32px] font-bold text-green-dark">
-      Logo
-    </div>
-  );
+  return <Image src="/logo.png" alt="the main logo" width={48} height={48} priority />;
 };
 
 export default Logo;
