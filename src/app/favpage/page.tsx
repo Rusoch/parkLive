@@ -66,38 +66,32 @@ const FavPage = () => {
   return (
     <I18nextProvider i18n={i18n}>
       <div
-        className={`${theme === "dark" ? "dark" : "light"} min-h-screen bg-[#F3F6FF] dark:bg-[#1F2124]`}
+        className={`${theme === "dark" ? "dark" : "light"} min-h-screen bg-[#F3F6FF] dark:bg-[#1F2124] flex flex-col`}
       >
-        <div className="mx-[16px] flex flex-col gap-3 fixed top-0 right-0 left-0 z-10 bg-[#F3F6FF] dark:bg-[#1F2124] ">
+        <div className="mx-[16px] flex flex-col gap-3 fixed top-0 right-0 left-0 z-10 bg-[#F3F6FF] dark:bg-[#1F2124]">
           <h1 className="pt-[68px] text-[20px] dark:text-[#FFFFFF] font-bold h-[39px] leading-[135%] tracking-[0%] text-center align-middle text-[#15593A]">
             {t("favorites")}
           </h1>
-
           <div className="w-[91%] border-[1px] bg-[#15593A80] mt-[16px] ml-[16px]"></div>
+        </div>
 
-          <div className="overflow-y-auto h-[80dvh] pb-8">
+        <div className="flex-1 overflow-y-auto pt-[90px] ">
+          <div className="pt-6 flex flex-col items-center">
             {favoritesList.length === 0 ? (
-              <div className="flex flex-col items-center mt-10">
-                <div className="w-[237px] h-[227px]">
-                  <Image
-                    src="/favBg.png"
-                    alt="favorites background icon"
-                    width={237}
-                    height={226}
-                    priority
-                  />
-                </div>
-
+              <div className="h-[50vh] flex flex-col items-center mt-10">
+                <Image
+                  src="/favBg.png"
+                  alt="favorites background icon"
+                  width={237}
+                  height={226}
+                  priority
+                />
                 <h2 className="text-[16px] font-bold text-[#15593A] dark:text-[#FFFFFF] mt-6">
                   {t("favoritesEmpty")}
                 </h2>
-
-                <p className="text-[14px]  font-medium text-[#15593A] dark:text-[#FFFFFF] text-center mt-2 font-['FiraGO']">
-                  {t("noSavedLocations")}
-                  <br />
-                  {t("addPreferredLocation")}
+                <p className="text-[14px] font-medium text-[#15593A] dark:text-[#FFFFFF] text-center mt-2">
+                  {t("noSavedLocations")} <br /> {t("addPreferredLocation")}
                 </p>
-
                 <button
                   onClick={() => router.push("/map")}
                   className="w-[91%] h-[48px] bg-[#218658] text-white text-[16px] font-bold py-3 rounded-[6px] mt-[28px]"
@@ -106,17 +100,16 @@ const FavPage = () => {
                 </button>
               </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-6">
+              <div className="flex flex-col items-center">
                 {favoritesList.map((place) => (
                   <div
                     key={place.placeId}
-                    className="w-[343px] h-[222px] rounded-[12px] border-[1px] p-[16px] bg-[#F3F6FF] shadow-[0_2px_15.8px_0_rgba(0,0,0,0.25),0_7px_15.8px_0_rgba(0,0,0,0.15)] dark:bg-[#1F2124] "
+                    className="w-[343px] h-[222px] rounded-[12px] border-[1px] p-[16px] bg-[#F3F6FF] shadow-md dark:bg-[#1F2124] mb-6 last:mb-[85px]"
                   >
                     <div className="flex items-center justify-between mb-5">
                       <span className="text-[20px] text-[#15593A] dark:text-white">
                         {place.address}
                       </span>
-
                       <button
                         onClick={() => removeFavorite(place.placeId)}
                         className="rounded text-[#15593A] dark:text-white"
@@ -124,25 +117,23 @@ const FavPage = () => {
                         <TrashIcon />
                       </button>
                     </div>
-                    <ul className="flex flex-col w-full items-start gap-1 text-[14px] dark:text-white">
-                      <li className="flex items-center gap-2 justify-center">
+                    <ul className="flex flex-col items-start gap-1 text-[14px] dark:text-white">
+                      <li className="flex items-center gap-2">
                         <PlacesIcon /> {`${place.freeSpace}/${place.totalSpace} ${t("place")}`}
                       </li>
-                      <li className="flex items-center gap-2 justify-center">
+                      <li className="flex items-center gap-2">
                         <RateIcon /> {`${place.rate}/1 ${t("hour")}`}
                       </li>
-                      <li className="flex items-center gap-2 justify-center">
+                      <li className="flex items-center gap-2">
                         <CashIcon /> {getPaymentTypeText(place.paymentType)}
                       </li>
-                      <li className="flex items-center gap-2 justify-center">
+                      <li className="flex items-center gap-2">
                         <ClockIcon /> {`${place.opens} - ${place.closes}`}
                       </li>
                     </ul>
                     <Button
                       label={t("goToPlace")}
-                      className={
-                        "w-[100%] h-[32px] bg-[#218658] text-white text-[16px] rounded-[6px] mt-2"
-                      }
+                      className="w-full h-[32px] bg-[#218658] text-white text-[16px] rounded-[6px] mt-2"
                       onClick={() => handleGoToPlace(place)}
                     />
                   </div>
@@ -151,6 +142,8 @@ const FavPage = () => {
             )}
           </div>
         </div>
+
+        {/* Bottom Navigation (Fixed) */}
         <NavBar />
       </div>
     </I18nextProvider>
