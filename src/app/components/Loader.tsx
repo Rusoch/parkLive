@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 export const Loader: React.FC = () => {
   const { t } = useTranslation();
   return (
-    <div className="w-[100dvw] h-[100dvh] flex flex-col items-center gap-10 justify-center text-white bg-[#ACE1C9] text-lg">
+    <div className="w-[100dvw] h-[100dvh] flex flex-col items-center gap-10 justify-center text-white bg-bg-light-from text-lg">
       <div className="flex items-center justify-center">
         <svg className="" width="102" height="40" xmlns="http://www.w3.org/2000/svg">
           <g

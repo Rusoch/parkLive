@@ -7,7 +7,7 @@ type TProps = {
 export const MyLocationButton: React.FC<TProps> = ({ onClick, className }) => {
   return (
     <div
-      className={`${className ?? ""} dark:bg-[#1A6E48] rounded-full w-[52px] h-[52px] bg-[#15593A] flex items-center justify-center`}
+      className={`${className ?? ""} dark:bg-dark-bg rounded-full w-[52px] h-[52px] bg-green-dark flex items-center justify-center`}
       onClick={onClick}
     >
       <TargetIcon />

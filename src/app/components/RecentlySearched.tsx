@@ -73,9 +73,9 @@ const RecentlySearched: React.FC<TProps> = ({ placeList, handlePlaceSelect }) =>
     <div
       className={`${
         isListExtended ? "h-[91.5dvh]" : ""
-      } fixed top-0 left-0 w-[100dvw] pt-[calc(43px+8dvh)] pb-[82px] bg-[#F3F6FF] dark:bg-[#1F2124] flex flex-col items-center gap-[22px] z-10 ${isListExtended ? "" : "rounded-b-[12px] shadow-[0_5px_15.8px_0_rgba(0,0,0,0.35),0_2px_15.8px_0_rgba(0,0,0,0.35)]"}`}
+      } fixed top-0 left-0 w-[100dvw] pt-[calc(43px+8dvh)] pb-[82px] bg-bg-primary dark:bg-bg-dark flex flex-col items-center gap-[22px] z-10 ${isListExtended ? "" : "rounded-b-[12px] shadow-[0_5px_15.8px_0_rgba(0,0,0,0.35),0_2px_15.8px_0_rgba(0,0,0,0.35)]"}`}
     >
-      <h1 className="pt-[35px] w-full px-[5%] text-[#000000] dark:text-[#FFFFFF]">
+      <h1 className="pt-[35px] w-full px-[5%] text-text-primary dark:text-dark-text">
         {t("recently searched")}
       </h1>
       <div className="w-full px-[3%] overflow-y-auto flex-1 flex flex-col items-center gap-[22px]">
@@ -89,14 +89,14 @@ const RecentlySearched: React.FC<TProps> = ({ placeList, handlePlaceSelect }) =>
             >
               <ParkingSignIcon className="text-green-light w-8 h-8" />
               <div className="flex flex-col justify-start items-center flex-1">
-                <span className="flex justify-start items-center w-[100%] text-[#192342] dark:text-[#D2DCFC]">
+                <span className="flex justify-start items-center w-[100%] text-text-primary dark:text-dark-text">
                   {shortAddress}
                 </span>
-                <span className="flex justify-start items-center w-[100%] text-[12px] text-[#677191] dark:text-[#BAC5E8]">
+                <span className="flex justify-start items-center w-[100%] text-[12px] text-text-secondary dark:text-dark-text-muted">
                   {longAddress}
                 </span>
               </div>
-              <span className="flex text-[#192342] dark:text-[#D2DCFC]">
+              <span className="flex text-text-primary dark:text-dark-text-secondary">
                 {distance !== "--" ? `${Number(distance).toFixed(1)} ${t("km")}` : "--"}
               </span>
             </div>

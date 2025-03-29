@@ -14,7 +14,7 @@ export const CarIcon: React.FC<TProps> = ({ className }) => {
             xmlns="http://www.w3.org/2000/svg"
           >
             <path
-              className="dark:text-[#97A8DF] text-[#192342]"
+              className="dark:text-dark-text-secondary text-text-primary"
               d="M19.8355 3.23105L8.63235 6.80363C5.66269 7.75062 4.30942 11.8212 5.25642 14.7908L15.8304 47.9497C16.7771 50.9184 19.9518 52.5595 22.9214 51.6125L34.1246 48.0399C37.0933 47.0932 38.7341 43.9176 37.7871 40.9479L27.2131 7.78909C26.2641 4.82003 22.8042 2.28436 19.8355 3.23105Z"
               fill="currentColor"
             />

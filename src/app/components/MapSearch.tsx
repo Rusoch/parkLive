@@ -52,19 +52,19 @@ export const MapSearch: React.FC<TProps> = ({
       <div className="w-[90dvw] fixed flex align-center justify-between gap-[19px] top-[8dvh] left-[5dvw] z-40">
         {isSearchActive && (
           <ArrowLeftIcon
-            className="text-[#192342] dark:text-white cursor-pointer"
+            className="text-text-primary dark:text-white cursor-pointer"
             onClick={handleArrowClick}
           />
         )}
         <div className="flex-1 relative bg-transparent">
-          <SearchIcon className="text-[#2E18149E] dark:text-[#FFFFFF] text-[16.5px]  absolute left-[15px] top-[50%] transform -translate-y-[50%] " />
+          <SearchIcon className="text-text-dark dark:text-dark-text text-[16.5px] absolute left-[15px] top-[50%] transform -translate-y-[50%] " />
           <input
             type="text"
             value={searchQuery}
             onChange={inputHandler}
             placeholder={t("search")}
             onFocus={handleSearchBarFocus}
-            className="shadow-[0_2px_15.8px_0_rgba(0,0,0,0.25),0_7px_15.8px_0_rgba(0,0,0,0.15)] text-[#2E18149E] dark:text-[#FFFFFF] text-[16px] w-[100%] font-[350] bg-[#E8ECF3] dark:bg-[#313336] focus:outline-none focus:border-none h-[43px] rounded-[14px] pl-[45px]"
+            className="shadow-[0_2px_15.8px_0_rgba(0,0,0,0.25),0_7px_15.8px_0_rgba(0,0,0,0.15)] text-text-dark dark:text-dark-text text-[16px] w-[100%] font-[350] bg-bg-input dark:bg-bg-input-dark focus:outline-none focus:border-none h-[43px] rounded-[14px] pl-[45px]"
           />
         </div>
       </div>

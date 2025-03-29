@@ -66,10 +66,10 @@ const FavPage = () => {
   return (
     <I18nextProvider i18n={i18n}>
       <div
-        className={`${theme === "dark" ? "dark" : "light"} min-h-screen bg-[#F3F6FF] dark:bg-[#1F2124] flex flex-col`}
+        className={`${theme === "dark" ? "dark" : "light"} min-h-screen bg-bg-primary dark:bg-bg-dark flex flex-col`}
       >
-        <div className="mx-[16px] flex flex-col gap-3 fixed top-0 right-0 left-0 z-10 bg-[#F3F6FF] dark:bg-[#1F2124]">
-          <h1 className="pt-[68px] text-[20px] dark:text-[#FFFFFF] font-bold h-[39px] leading-[135%] tracking-[0%] text-center align-middle text-[#15593A]">
+        <div className="mx-[16px] flex flex-col gap-3 fixed top-0 right-0 left-0 z-10 bg-bg-primary dark:bg-bg-dark">
+          <h1 className="pt-[68px] text-[20px] dark:text-dark-text font-bold h-[39px] leading-[135%] tracking-[0%] text-center align-middle text-green-dark">
             {t("favorites")}
           </h1>
           <div className="w-[91%] border-[1px] bg-[#15593A80] mt-[16px] ml-[16px]"></div>
@@ -86,15 +86,15 @@ const FavPage = () => {
                   height={226}
                   priority
                 />
-                <h2 className="text-[16px] font-bold text-[#15593A] dark:text-[#FFFFFF] mt-6">
+                <h2 className="text-[16px] font-bold text-green-dark dark:text-dark-text mt-6">
                   {t("favoritesEmpty")}
                 </h2>
-                <p className="text-[14px] font-medium text-[#15593A] dark:text-[#FFFFFF] text-center mt-2">
+                <p className="text-[14px] font-medium text-green-dark dark:text-dark-text text-center mt-2">
                   {t("noSavedLocations")} <br /> {t("addPreferredLocation")}
                 </p>
                 <button
                   onClick={() => router.push("/map")}
-                  className="w-[91%] h-[48px] bg-[#218658] text-white text-[16px] font-bold py-3 rounded-[6px] mt-[28px]"
+                  className="w-[91%] h-[48px] bg-green-light text-white text-[16px] font-bold py-3 rounded-[6px] mt-[28px]"
                 >
                   {t("goToMap")}
                 </button>
@@ -104,15 +104,15 @@ const FavPage = () => {
                 {favoritesList.map((place) => (
                   <div
                     key={place.placeId}
-                    className="w-[343px] h-[222px] rounded-[12px] border-[1px] p-[16px] bg-[#F3F6FF] shadow-md dark:bg-[#1F2124] mb-6 last:mb-[85px]"
+                    className="w-[343px] h-[222px] rounded-[12px] border-[1px] p-[16px] bg-bg-primary shadow-md dark:bg-bg-dark mb-6 last:mb-[85px]"
                   >
                     <div className="flex items-center justify-between mb-5">
-                      <span className="text-[20px] text-[#15593A] dark:text-white">
+                      <span className="text-[20px] text-green-dark dark:text-white">
                         {place.address}
                       </span>
                       <button
                         onClick={() => removeFavorite(place.placeId)}
-                        className="rounded text-[#15593A] dark:text-white"
+                        className="rounded text-green-dark dark:text-white"
                       >
                         <TrashIcon />
                       </button>
@@ -133,7 +133,7 @@ const FavPage = () => {
                     </ul>
                     <Button
                       label={t("goToPlace")}
-                      className="w-full h-[32px] bg-[#218658] text-white text-[16px] rounded-[6px] mt-2"
+                      className="w-full h-[32px] bg-green-light text-white text-[16px] rounded-[6px] mt-2"
                       onClick={() => handleGoToPlace(place)}
                     />
                   </div>
