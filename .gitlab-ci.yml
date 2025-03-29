@@ -1,0 +1,12 @@
+stages:
+  - test
+  - build
+  - deploy 
+
+test: 
+  stage: test
+  script: 
+     - echo "Logging into Docker..."
+     - docker login -i $DOCKER_USER -p $DOCKER_PASSWORD
+     - echo "Login successful"
+
