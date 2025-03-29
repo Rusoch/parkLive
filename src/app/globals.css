@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+}
+
+@keyframes shake {
+  0% {
+    transform: translateY(-1%);
+  }
+  100% {
+    transform: translateY(3%);
+  }
+}
+
+@keyframes line {
+  0% {
+    stroke-dashoffset: 22;
+  }
+
+  25% {
+    stroke-dashoffset: 22;
+  }
+
+  50% {
+    stroke-dashoffset: 0;
+  }
+
+  51% {
+    stroke-dashoffset: 0;
+  }
+
+  80% {
+    stroke-dashoffset: -22;
+  }
+
+  100% {
+    stroke-dashoffset: -22;
+  }
+}
