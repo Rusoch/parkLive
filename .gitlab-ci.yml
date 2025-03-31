@@ -1,5 +1,5 @@
 stages:          # List of stages for jobs, and their order of execution
-  - test build
+  - test
   - build
   - deploy
   - clear_cach
