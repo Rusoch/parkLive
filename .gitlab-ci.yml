@@ -1,6 +1,6 @@
 stages:          # List of stages for jobs, and their order of execution
+  - test build
   - build
-  - test
   - deploy
   - clear_cach
 
@@ -17,6 +17,7 @@ build:       # This job runs in the build stage, which runs first.
   script:
     - echo "Start Build..."
     - cd /home/wepark/doer/parklive-front
+    - ls
     - git pull
     - echo "Compile complete."
 
