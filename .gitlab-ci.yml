@@ -17,7 +17,7 @@ build:       # This job runs in the build stage, which runs first.
   script:
     - echo "Start Build..."
     - cd /home/wepark/doer/parklive-front
-    - sudo git pull
+    - git pull
     - echo "Compile complete."
 
 clear_cach:
