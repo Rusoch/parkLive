@@ -4,19 +4,27 @@ stages:          # List of stages for jobs, and their order of execution
   - deploy
   - clear_cach
 
+variables:
+  PROJECT_DIR: $PROJECT_DIR
+  COMPOSE_DIR: $COMPOSE_DIR
+
+before_script:
+  - git config --global url."https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.com".insteadOf "https://gitlab.com"
+  - apk add --no-cache git
+
 test:
   stage: test
   script: 
-    - cd /home/wepark/doer
+    - cd $COMPOSE_DIR
     - ls
-    - cd /home/wepark/doer/parklive-front
+    - cd $PROJECT_DIR
     - ls
 
 build:       # This job runs in the build stage, which runs first.
   stage: build
   script:
     - echo "Start Build..."
-    - cd /home/wepark/doer/parklive-front
+    - cd $PROJECT_DIR
     - ls
     - git pull 
     - echo "Compile complete."
@@ -24,13 +32,15 @@ build:       # This job runs in the build stage, which runs first.
 clear_cach:
   stage:
   script:
-    - cd /home/wepark/doer
+    - cd $COMPOSE_DIR
     - docker-compose stop frontend
     - docker-compose rm -f frontend
 
 deploy:      # This job runs in the deploy stage.
   stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
   script:
-    - cd /home/wepark/doer
+    - cd $COMPOSE_DIR
     - docker-compose up -d --build frontend
     - echo "Application successfully deployed."
+  only:
+    - main
