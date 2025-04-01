@@ -56,27 +56,8 @@ function MapPage() {
   };
 
   const handlePlaceSelect = (place: TPlaceLocation) => {
-    // Find the matching place from search results
-    const matchingPlace = searchResult.find(
-      (p) => p.placeLocation.lat === place.lat && p.placeLocation.lng === place.lng,
-    );
-    if (matchingPlace) {
-      setMapCenter(place);
-      setIsModalOpen(false);
-      // Convert IQueryResult to TPlaceData
-      const fullPlaceData: TPlaceData = {
-        placeId: Math.floor(Math.random() * 1000), // Generate a random ID
-        placeLocation: matchingPlace.placeLocation,
-        address: matchingPlace.shortAddress,
-        totalSpace: 300, // Default values from placeData
-        freeSpace: 250,
-        rate: 25,
-        paymentType: ["მხოლოდ ქეში"],
-        opens: "10:00",
-        closes: "23:00",
-      };
-      setSelectedPlace(fullPlaceData);
-    }
+    setMapCenter(place);
+    setIsModalOpen(false);
   };
 
   useEffect(() => {
