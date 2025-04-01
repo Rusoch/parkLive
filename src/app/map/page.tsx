@@ -99,6 +99,7 @@ function MapPage() {
           center={mapCenter}
           handleCloseModal={() => setIsModalOpen(false)}
           selectedPlace={selectedPlace}
+          onPlaceSelect={setSelectedPlace} // Pass the state setter from MapPage
         />
         <NavBar />
         {isModalOpen && (
