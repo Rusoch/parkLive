@@ -24,6 +24,7 @@ const config: Config = {
         "bg-dark": "#1F2124",
         "bg-darker": "#1C2129",
         "bg-gray": "#F7F7F7",
+        "bg-gray-dark": "#D9D9D9",
         "bg-input": "#E8ECF3",
         "bg-input-dark": "#313336",
 
