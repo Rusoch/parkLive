@@ -33,7 +33,7 @@ const InfoPopup: React.FC<TProps> = ({
   const [isPopupOpen, setIsPopupOpen] = useState(isOpen);
   const [isPopupMinified, setIsPopupMinified] = useState(false);
   const [showWarning, setShowWarning] = useState(false);
-  const [warningType, setWarningType] = useState<"success" | "error">("success");
+  const [warningType, setWarningType] = useState<"success" | "error" | "warning">("success");
   const { storedValue: favorites } = useLocalStorage<TPlaceData>("favorites");
   const { updateFavoritesCount } = useFavorites();
 
@@ -48,7 +48,7 @@ const InfoPopup: React.FC<TProps> = ({
     const isAlreadySaved = favoritesList.some((fav) => fav.placeId === placeData.placeId);
 
     if (isAlreadySaved) {
-      setWarningType("error");
+      setWarningType("warning");
       setShowWarning(true);
       setTimeout(() => {
         setShowWarning(false);
@@ -119,7 +119,7 @@ const InfoPopup: React.FC<TProps> = ({
       </div>
       {showWarning && (
         <WarningMessage
-          message={warningType === "error" ? t("locationAlreadyInFavorites") : t("locationSaved")}
+          message={warningType === "warning" ? t("locationAlreadyInFavorites") : t("locationSaved")}
           type={warningType}
         />
       )}
