@@ -24,6 +24,7 @@
   "goToMap": "რუკაზე დაბრუნება",
   "locationSaved": "ლოკაცია წარმატებით იქნა შენახული",
   "locationAlreadyInFavorites": "ლოკაცია უკვე დამატებულია ფავორიტებში",
+  "couldNotAddLocation": "ლოკაცია ვერ დაემატა ფავორიტებში",
   "favoritesEmpty": "ფავორიტები ცარიელია",
   "noSavedLocations": "  თქვენ ჯერ არ გაქვთ შენახული ლოკაცია,",
   "addPreferredLocation": "დაამატე სასურველი ლოკაცია ფავორიტებში.",

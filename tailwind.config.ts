@@ -39,6 +39,7 @@ const config: Config = {
         "border-light": "#EAEAEA",
         "border-success": "#38D68E",
         "border-error": "#FF0000",
+        "border-warning": "#FFA800",
 
         // Dark mode specific
         "dark-text": "#FFFFFF",

@@ -27,6 +27,7 @@
   "goToPlace": "Go to Place",
   "locationSaved": "The location has been successfully saved",
   "locationAlreadyInFavorites": "The location is already in favorites",
+  "couldNotAddLocation": "Location could not be added to favorites",
   "enableLocation": "Please enable location for the best app experience.",
   "install": "Install",
   "ourApp": "Parklive"

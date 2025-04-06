@@ -12,6 +12,7 @@ import { placeData } from "../constants/places";
 import { darkModeStyles } from "../constants/map-styles";
 import { WarningMessage } from "./WarningMessage";
 import { useTranslation } from "react-i18next";
+import { useSearchParams } from "next/navigation";
 
 function compareLocation(
   loc1: TPlaceLocation | undefined,
@@ -40,6 +41,9 @@ const getTheme = () => {
 
 export const ParkingMap: React.FC<TProps> = React.memo(
   ({ handleCloseModal, center, selectedPlace, onPlaceSelect }) => {
+    const searchParams = useSearchParams();
+    const lat = searchParams.get("lat");
+    const lng = searchParams.get("lng");
     const [theme, setTheme] = useState(getTheme());
     const [map, setMap] = useState<google.maps.Map | null>(null);
     const [destinationLocation, setDestinationLocation] = useState<google.maps.LatLng | undefined>(
@@ -52,6 +56,7 @@ export const ParkingMap: React.FC<TProps> = React.memo(
         }
       | undefined
     >(center);
+    const [isLocationEnabled, setIsLocationEnabled] = useState(false);
     const [showLocationWarning, setShowLocationWarning] = useState(false);
 
     const markersRef = useRef<google.maps.Marker[]>([]);
@@ -66,7 +71,7 @@ export const ParkingMap: React.FC<TProps> = React.memo(
 
     const { isLoaded } = useJsApiLoader({
       id: "google-map-script",
-      googleMapsApiKey: "AIzaSyBslCn_7XxhEmDuE-FyGgLuvfUxH3_mBes",
+      googleMapsApiKey: "AIzaSyCHyRHYBihV5qX0g8CdX1lNjFhpomq_TIM",
       language: "ka",
       libraries,
     });
@@ -210,12 +215,15 @@ export const ParkingMap: React.FC<TProps> = React.memo(
                 navigator.geolocation.getCurrentPosition(
                   (position) => {
                     const { latitude, longitude } = position.coords;
+                    setIsLocationEnabled(true);
                     setCurrentLocation({ lat: latitude, lng: longitude });
                   },
                   () => {
                     alert("Error getting current location.");
                   },
                 );
+              } else {
+                setShowLocationWarning(true);
               }
             })
             .catch((error) => {
@@ -238,6 +246,19 @@ export const ParkingMap: React.FC<TProps> = React.memo(
         }
       };
     }, [showLocationWarning]);
+
+    useEffect(() => {
+      if (lat && lng && isLoaded && window.google) {
+        const targetGeometry = new window.google.maps.LatLng(parseFloat(lat), parseFloat(lng));
+        setDestinationLocation(targetGeometry);
+      }
+    }, [lat, lng, isLoaded]);
+
+    useEffect(() => {
+      if (destinationLocation && currentLocation) {
+        handleDirections();
+      }
+    }, [destinationLocation, currentLocation]);
 
     const mapOptions = {
       mapTypeControl: false,
@@ -277,6 +298,7 @@ export const ParkingMap: React.FC<TProps> = React.memo(
         {!selectedPlace && (
           <MyLocationButton
             className="fixed right-[4%] bottom-[13%]"
+            isLocationEnabled={isLocationEnabled}
             onClick={handleCurrentLocation}
           />
         )}
