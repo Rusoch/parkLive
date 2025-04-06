@@ -18,6 +18,7 @@ import { useFavorites } from "../context/FavoritesContext";
 
 const FavPage = () => {
   const [theme, setTheme] = useState("light");
+  const [mounted, setMounted] = useState(false);
   const { storedValue: favorites, removeFromLocalStorage } =
     useLocalStorage<TPlaceData>("favorites");
   const { updateFavoritesCount } = useFavorites();
@@ -25,14 +26,20 @@ const FavPage = () => {
   const { t } = useTranslation();
 
   useEffect(() => {
+    setMounted(true);
     const storedTheme = localStorage.getItem("user-theme") ?? "light";
     setTheme(storedTheme);
   }, []);
 
   useEffect(() => {
+    if (!mounted) return;
     const favoritesList = Array.isArray(favorites) ? favorites : favorites ? [favorites] : [];
     updateFavoritesCount(favoritesList.length);
-  }, [favorites, updateFavoritesCount]);
+  }, [favorites, updateFavoritesCount, mounted]);
+
+  if (!mounted) {
+    return null;
+  }
 
   const removeFavorite = (placeId: number) => {
     if (!favorites) return;
