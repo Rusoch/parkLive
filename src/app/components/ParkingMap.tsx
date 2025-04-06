@@ -56,6 +56,7 @@ export const ParkingMap: React.FC<TProps> = React.memo(
         }
       | undefined
     >(center);
+    const [isLocationEnabled, setIsLocationEnabled] = useState(false);
     const [showLocationWarning, setShowLocationWarning] = useState(false);
 
     const markersRef = useRef<google.maps.Marker[]>([]);
@@ -214,12 +215,15 @@ export const ParkingMap: React.FC<TProps> = React.memo(
                 navigator.geolocation.getCurrentPosition(
                   (position) => {
                     const { latitude, longitude } = position.coords;
+                    setIsLocationEnabled(true);
                     setCurrentLocation({ lat: latitude, lng: longitude });
                   },
                   () => {
                     alert("Error getting current location.");
                   },
                 );
+              } else {
+                setShowLocationWarning(true);
               }
             })
             .catch((error) => {
@@ -294,6 +298,7 @@ export const ParkingMap: React.FC<TProps> = React.memo(
         {!selectedPlace && (
           <MyLocationButton
             className="fixed right-[4%] bottom-[13%]"
+            isLocationEnabled={isLocationEnabled}
             onClick={handleCurrentLocation}
           />
         )}
