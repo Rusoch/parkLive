@@ -12,6 +12,7 @@ import { placeData } from "../constants/places";
 import { darkModeStyles } from "../constants/map-styles";
 import { WarningMessage } from "./WarningMessage";
 import { useTranslation } from "react-i18next";
+import { useSearchParams } from "next/navigation";
 
 function compareLocation(
   loc1: TPlaceLocation | undefined,
@@ -40,6 +41,9 @@ const getTheme = () => {
 
 export const ParkingMap: React.FC<TProps> = React.memo(
   ({ handleCloseModal, center, selectedPlace, onPlaceSelect }) => {
+    const searchParams = useSearchParams();
+    const lat = searchParams.get("lat");
+    const lng = searchParams.get("lng");
     const [theme, setTheme] = useState(getTheme());
     const [map, setMap] = useState<google.maps.Map | null>(null);
     const [destinationLocation, setDestinationLocation] = useState<google.maps.LatLng | undefined>(
@@ -238,6 +242,19 @@ export const ParkingMap: React.FC<TProps> = React.memo(
         }
       };
     }, [showLocationWarning]);
+
+    useEffect(() => {
+      if (lat && lng && isLoaded && window.google) {
+        const targetGeometry = new window.google.maps.LatLng(parseFloat(lat), parseFloat(lng));
+        setDestinationLocation(targetGeometry);
+      }
+    }, [lat, lng, isLoaded]);
+
+    useEffect(() => {
+      if (destinationLocation && currentLocation) {
+        handleDirections();
+      }
+    }, [destinationLocation, currentLocation]);
 
     const mapOptions = {
       mapTypeControl: false,
