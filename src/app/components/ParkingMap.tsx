@@ -66,7 +66,7 @@ export const ParkingMap: React.FC<TProps> = React.memo(
 
     const { isLoaded } = useJsApiLoader({
       id: "google-map-script",
-      googleMapsApiKey: "AIzaSyBslCn_7XxhEmDuE-FyGgLuvfUxH3_mBes",
+      googleMapsApiKey: "AIzaSyCHyRHYBihV5qX0g8CdX1lNjFhpomq_TIM",
       language: "ka",
       libraries,
     });
