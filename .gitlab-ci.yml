@@ -6,7 +6,7 @@ stages:          # List of stages for jobs, and their order of execution
 
 test:
   stage: test
-  script: 
+  script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - echo "done"
 
@@ -19,7 +19,7 @@ build:       # This job runs in the build stage, which runs first.
     - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
 
 clear_cach:
-  stage:
+  stage: clear_cach
   script:
     - cd /home/wepark/doer
     - docker-compose stop frontend
@@ -29,6 +29,7 @@ deploy:      # This job runs in the deploy stage.
   stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
   script:
     - cd /home/wepark/doer
+    - sed -i "s/^IMAGE_TAG=.*/IMAGE_TAG=$CI_COMMIT_SHA/" .env
     - docker-compose up -d --build frontend
     - echo "Application successfully deployed."
   only:
