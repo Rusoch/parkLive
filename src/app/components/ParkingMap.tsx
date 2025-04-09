@@ -219,7 +219,7 @@ export const ParkingMap: React.FC<TProps> = React.memo(
                     setCurrentLocation({ lat: latitude, lng: longitude });
                   },
                   () => {
-                    alert("Error getting current location.");
+                    setShowLocationWarning(true);
                   },
                 );
               } else {
