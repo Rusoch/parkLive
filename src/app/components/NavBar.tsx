@@ -5,10 +5,10 @@ import { usePathname } from "next/navigation";
 import { LocationIcon } from "../icons/LocationIcon";
 import { FavIcon } from "../icons/FavIcon";
 import { HomeIcon } from "../icons/HomeIcon";
-import { MoreIcon } from "../icons/MoreIcon";
 import { useTranslation } from "react-i18next";
 import { useFavorites } from "../context/FavoritesContext";
 import { MoreMenu } from "./MoreMenu";
+import { MenuIcon } from "../icons/MenuIcon";
 
 const NavBar: React.FC = () => {
   const pathname = usePathname();
@@ -66,7 +66,9 @@ const NavBar: React.FC = () => {
             onClick={() => setShowMenu(true)}
             className="flex flex-col items-center focus:outline-none"
           >
-            <MoreIcon className={`${showMenu ? activeColor : inactiveColor} w-5 h-5`} />
+            <MenuIcon
+              className={`${showMenu ? activeColor : inactiveColor} w-5 h-5 flex justify-center items-center`}
+            />
             <span className={`text-xs mt-1 ${showMenu ? activeColor : inactiveColor}`}>
               {t("more")}
             </span>
