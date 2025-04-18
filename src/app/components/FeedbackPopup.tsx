@@ -26,8 +26,8 @@ export const FeedbackPopup: React.FC<FeedbackPopupProps> = ({ isOpen, onClose })
   return (
     <PopupContainer onClose={onClose}>
       <div className="h-full flex flex-col">
-        <h2 className="text-[24px] font-semibold text-center mb-4 text-green-dark">შეგვაფასე</h2>
-        <p className="text-gray-600 text-center mb-6">
+        <h2 className="text-[24px] font-semibold text-center mb-4 text-green-dark dark:text-dark-text-secondary">შეგვაფასე</h2>
+        <p className="text-gray-600 dark:text-dark-text-secondary text-center mb-6">
           მოგწონთ ჩვენი აპლიკაცია? თქვენი გამოხმაურება დაგვეხმარება მის გაუმჯობესებაში
         </p>
 
@@ -54,7 +54,7 @@ export const FeedbackPopup: React.FC<FeedbackPopupProps> = ({ isOpen, onClose })
           </button>
           <button
             onClick={handleLater}
-            className="w-full py-2 text-gray-600 text-[12px] font-medium"
+            className="w-full py-2 text-gray-600 dark:text-dark-text-secondary text-[12px] font-medium"
           >
             მოგვიანებით
           </button>

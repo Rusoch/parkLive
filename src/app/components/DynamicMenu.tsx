@@ -31,7 +31,7 @@ export const DynamicMenu: React.FC<DynamicMenuProps> = ({ items, onClose }) => {
               }}
             />
           ))}
-          <button onClick={onClose} className="text-[#1F5E3D] hover:opacity-80 focus:outline-none">
+          <button onClick={onClose} className="text-[#1F5E3D] dark:text-dark-text-secondary hover:opacity-80 focus:outline-none">
             <CloseIcon />
           </button>
         </div>

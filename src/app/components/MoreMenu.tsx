@@ -22,19 +22,19 @@ export const MoreMenu: React.FC<MoreMenuProps> = ({ isOpen, onClose }) => {
   const menuItems = [
     {
       id: "faq",
-      icon: <QuestionIcon className="w-5 h-5" />,
+      icon: <QuestionIcon className="w-5 h-5 text-green-dark dark:text-dark-text-secondary" />,
       label: "ხშირად დასმული კითხვები",
       action: () => setActivePopup("faq"),
     },
     {
       id: "terms",
-      icon: <DocumentIcon className="w-5 h-5" />,
+      icon: <DocumentIcon className="w-5 h-5 text-green-dark dark:text-dark-text-secondary" />,
       label: "წესები და პირობები",
       action: () => setActivePopup("terms"),
     },
     {
       id: "feedback",
-      icon: <RateIcon className="w-5 h-5" />,
+      icon: <RateIcon className="w-5 h-5 text-green-dark dark:text-dark-text-secondary" />,
       label: "შეფასება",
       action: () => setActivePopup("feedback"),
     },
