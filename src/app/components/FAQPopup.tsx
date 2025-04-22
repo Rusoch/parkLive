@@ -61,10 +61,12 @@ export const FAQPopup: React.FC<FAQPopupProps> = ({ isOpen, onClose }) => {
           {faqItems.map((item, index) => (
             <div key={index} className="border border-[#D9D9D9] rounded-[10px] overflow-hidden">
               <button
-                className="flex justify-between items-center w-full text-left p-4"
+                className="flex justify-between items-center w-full text-left p-4 dark:dark-bg-transparen"
                 onClick={() => toggleAccordion(index)}
               >
-                <span className="text-[16px] font-semibold text-[#333333] dark:text-dark-text-secondary">{item.question}</span>
+                <span className="text-[16px] font-semibold text-[#333333] dark:text-dark-text-secondary">
+                  {item.question}
+                </span>
                 <svg
                   className={`w-5 h-5 text-gray-500 dark:text-dark-text-secondary transform transition-transform ${
                     expandedIndex === index ? "rotate-180" : ""
@@ -83,7 +85,9 @@ export const FAQPopup: React.FC<FAQPopupProps> = ({ isOpen, onClose }) => {
               </button>
 
               {expandedIndex === index && (
-                <div className="px-4 pb-4 text-[14px] text-[#606060] dark:text-dark-text-secondary">{item.answer}</div>
+                <div className="px-4 pb-4 text-[14px] text-[#606060] dark:text-dark-text-secondary">
+                  {item.answer}
+                </div>
               )}
             </div>
           ))}

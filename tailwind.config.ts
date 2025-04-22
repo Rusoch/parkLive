@@ -46,6 +46,7 @@ const config: Config = {
         "dark-text-secondary": "#D2DCFC",
         "dark-text-muted": "#BAC5E8",
         "dark-bg": "#1A6E48",
+        "dark-bg-100": "#191D21",
         "dark-bg-transparent": "#13131366",
       },
     },
