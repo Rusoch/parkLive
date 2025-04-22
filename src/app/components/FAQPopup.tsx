@@ -19,32 +19,32 @@ export const FAQPopup: React.FC<FAQPopupProps> = ({ isOpen, onClose }) => {
   // Sample FAQ data - in a real app, this would come from props or an API
   const faqItems: FAQItem[] = [
     {
-      question: "როგორ შემიძლია პარკირების ადგილის დაჯავშნა?",
+      question: "1. როგორ შემიძლია პარკირების ადგილის დაჯავშნა?",
       answer:
         "პარკირების ადგილის დასაჯავშნად, აირჩიეთ სასურველი ადგილი რუკაზე და დააჭირეთ 'დაჯავშნა' ღილაკს. შემდეგ აირჩიეთ სასურველი დრო და გადაიხადეთ.",
     },
     {
-      question: "რა ხარჯები იქნება პარკირებისთვის?",
+      question: "2. რა ხარჯები იქნება პარკირებისთვის?",
       answer:
         "პარკირების ხარჯები დამოკიდებულია ადგილის მდებარეობასა და დროზე. ყველა ფასი მითითებულია აპლიკაციაში პარკირების ადგილის არჩევისას.",
     },
     {
-      question: "როგორ შემიძლია ჩემი ჯავშნის გაუქმება?",
+      question: "3. როგორ შემიძლია ჩემი ჯავშნის გაუქმება?",
       answer:
         "ჯავშნის გასაუქმებლად, გადადით 'ჩემი ჯავშნები' განყოფილებაში, აირჩიეთ სასურველი ჯავშანი და დააჭირეთ 'გაუქმება' ღილაკს.",
     },
     {
-      question: "რა ხდება თუ გვიან მივალ პარკირების ადგილზე?",
+      question: "4. რა ხდება თუ გვიან მივალ პარკირების ადგილზე?",
       answer:
         "თუ გვიან მიხვალთ პარკირების ადგილზე, თქვენი ჯავშანი შენარჩუნებული იქნება 15 წუთის განმავლობაში. ამის შემდეგ, თუ არ მიხვალთ, ჯავშანი ავტომატურად გაუქმდება.",
     },
     {
-      question: "როგორ შემიძლია გადავხადო პარკირების საფასური?",
+      question: "5. როგორ შემიძლია გადავხადო პარკირების საფასური?",
       answer:
         "პარკირების საფასურის გადასახადად შეგიძლიათ გამოიყენოთ საკრედიტო/დებეტური ბარათი, ბანკის გადარიცხვა ან ელექტრონული საფულე.",
     },
     {
-      question: "რა უნდა გავაკეთო თუ პარკირების ადგილი დაკავებულია?",
+      question: "6. რა უნდა გავაკეთო თუ პარკირების ადგილი დაკავებულია?",
       answer:
         "თუ პარკირების ადგილი დაკავებულია, გთხოვთ დაუკავშირდეთ მხარდაჭერის სამსახურს. ჩვენ დაგეხმარებით ალტერნატიული ადგილის მოძიებაში ან თქვენი ჯავშნის გაუქმებაში.",
     },
@@ -64,7 +64,7 @@ export const FAQPopup: React.FC<FAQPopupProps> = ({ isOpen, onClose }) => {
                 className="flex justify-between items-center w-full text-left p-4 dark:dark-bg-transparen"
                 onClick={() => toggleAccordion(index)}
               >
-                <span className="text-[16px] font-semibold text-[#333333] dark:text-dark-text-secondary">
+                <span className="text-[12px] font-bold text-[#333333] ml-3 dark:text-dark-text-secondary">
                   {item.question}
                 </span>
                 <svg
@@ -85,7 +85,7 @@ export const FAQPopup: React.FC<FAQPopupProps> = ({ isOpen, onClose }) => {
               </button>
 
               {expandedIndex === index && (
-                <div className="px-4 pb-4 text-[14px] text-[#606060] dark:text-dark-text-secondary">
+                <div className="px-4 pb-4 text-[12px] text-[#606060] dark:text-dark-text-secondary">
                   {item.answer}
                 </div>
               )}

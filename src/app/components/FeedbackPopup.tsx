@@ -26,7 +26,9 @@ export const FeedbackPopup: React.FC<FeedbackPopupProps> = ({ isOpen, onClose })
   return (
     <PopupContainer onClose={onClose}>
       <div className="h-full flex flex-col">
-        <h2 className="text-[24px] font-semibold text-center mb-4 text-green-dark dark:text-dark-text-secondary">შეგვაფასე</h2>
+        <h2 className="text-[24px] font-semibold text-center mb-4 text-green-dark dark:text-dark-text-secondary">
+          შეგვაფასე
+        </h2>
         <p className="text-gray-600 dark:text-dark-text-secondary text-center mb-6">
           მოგწონთ ჩვენი აპლიკაცია? თქვენი გამოხმაურება დაგვეხმარება მის გაუმჯობესებაში
         </p>
@@ -39,7 +41,7 @@ export const FeedbackPopup: React.FC<FeedbackPopupProps> = ({ isOpen, onClose })
 
         <textarea
           placeholder="დატოვე კომენტარი..."
-          className="w-full p-3 border border-gray-300 rounded-md mb-6 focus:outline-none focus:ring-2 focus:ring-green-500 resize-none flex-grow"
+          className="w-full p-3 border border-gray-300 dark:border-dark-text-secondary dark:bg-dark-bg-200 rounded-xl mb-6 focus:outline-none focus:ring-2 focus:ring-green-500 resize-none flex-grow"
           rows={4}
           value={comment}
           onChange={(e) => setComment(e.target.value)}
