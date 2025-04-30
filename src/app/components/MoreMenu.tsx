@@ -46,10 +46,7 @@ export const MoreMenu: React.FC<MoreMenuProps> = ({ isOpen, onClose }) => {
     <>
       {isOpen && (
         <>
-          <div
-            className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-40"
-            onClick={onClose}
-          />
+          <div className="fixed inset-0 backdrop-blur-sm z-40" onClick={onClose} />
           <DynamicMenu items={menuItems} onClose={onClose} />
         </>
       )}
