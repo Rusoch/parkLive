@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { PopupContainer } from "./PopupContainer";
 import { StarIcon } from "../icons/StarIcon";
+import { useTranslation } from "react-i18next";
 
 interface FeedbackPopupProps {
   isOpen: boolean;
@@ -8,6 +9,7 @@ interface FeedbackPopupProps {
 }
 
 export const FeedbackPopup: React.FC<FeedbackPopupProps> = ({ isOpen, onClose }) => {
+  const { t } = useTranslation();
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
 
@@ -27,10 +29,10 @@ export const FeedbackPopup: React.FC<FeedbackPopupProps> = ({ isOpen, onClose })
     <PopupContainer onClose={onClose}>
       <div className="h-full flex flex-col">
         <h2 className="text-[24px] font-semibold text-center mb-4 text-green-dark dark:text-dark-text-secondary">
-          შეგვაფასე
+          {t("rateUs")}
         </h2>
         <p className="text-gray-600 dark:text-dark-text-secondary text-center mb-6">
-          მოგწონთ ჩვენი აპლიკაცია? თქვენი გამოხმაურება დაგვეხმარება მის გაუმჯობესებაში
+          {t("feedbackQuestion")}
         </p>
 
         <div className="flex justify-center gap-4 mb-6">
@@ -40,9 +42,9 @@ export const FeedbackPopup: React.FC<FeedbackPopupProps> = ({ isOpen, onClose })
         </div>
 
         <textarea
-          placeholder="დატოვე კომენტარი..."
-          className="w-full p-3 border border-gray-300 dark:border-dark-text-secondary dark:bg-dark-bg-200 rounded-xl mb-6 focus:outline-none focus:ring-2 focus:ring-green-500 resize-none flex-grow"
-          rows={4}
+          placeholder={t("leaveComment")}
+          className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-md mb-4 bg-white dark:bg-dark-primary text-gray-900 dark:text-dark-text-secondary"
+          rows={3}
           value={comment}
           onChange={(e) => setComment(e.target.value)}
         />
@@ -52,13 +54,13 @@ export const FeedbackPopup: React.FC<FeedbackPopupProps> = ({ isOpen, onClose })
             onClick={handleSubmit}
             className="w-full py-3 bg-green-light text-white rounded-md font-bold"
           >
-            შეფასება
+            {t("rateNow")}
           </button>
           <button
             onClick={handleLater}
             className="w-full py-2 text-gray-600 dark:text-dark-text-secondary text-[12px] font-medium"
           >
-            მოგვიანებით
+            {t("later")}
           </button>
         </div>
       </div>

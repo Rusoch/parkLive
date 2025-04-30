@@ -6,6 +6,7 @@ import { TermsPopup } from "./TermsPopup";
 import { QuestionIcon } from "../icons/QuestionIcon";
 import { RateIcon } from "../icons/RateIcon";
 import { DocumentIcon } from "../icons/DocumentIcon";
+import { useTranslation } from "react-i18next";
 
 interface MoreMenuProps {
   isOpen: boolean;
@@ -15,6 +16,7 @@ interface MoreMenuProps {
 type PopupType = "feedback" | "faq" | "terms" | null;
 
 export const MoreMenu: React.FC<MoreMenuProps> = ({ isOpen, onClose }) => {
+  const { t } = useTranslation();
   const [activePopup, setActivePopup] = useState<PopupType>(null);
 
   const closePopup = () => setActivePopup(null);
@@ -23,19 +25,19 @@ export const MoreMenu: React.FC<MoreMenuProps> = ({ isOpen, onClose }) => {
     {
       id: "faq",
       icon: <QuestionIcon className="w-5 h-5 text-green-dark dark:text-dark-text-secondary" />,
-      label: "ხშირად დასმული კითხვები",
+      label: t("faq"),
       action: () => setActivePopup("faq"),
     },
     {
       id: "terms",
       icon: <DocumentIcon className="w-5 h-5 text-green-dark dark:text-dark-text-secondary" />,
-      label: "წესები და პირობები",
+      label: t("termsAndConditions"),
       action: () => setActivePopup("terms"),
     },
     {
       id: "feedback",
       icon: <RateIcon className="w-5 h-5 text-green-dark dark:text-dark-text-secondary" />,
-      label: "შეფასება",
+      label: t("rateUs"),
       action: () => setActivePopup("feedback"),
     },
   ];

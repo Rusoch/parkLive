@@ -30,5 +30,12 @@
   "couldNotAddLocation": "Location could not be added to favorites",
   "enableLocation": "Please enable location for the best app experience.",
   "install": "Install",
-  "ourApp": "Parklive"
+  "ourApp": "Parklive",
+  "rateUs": "Rate Us",
+  "feedbackQuestion": "How would you rate our app? Your feedback will help us make it even better.",
+  "leaveComment": "Leave your comment",
+  "rateNow": "Rate Now",
+  "later": "Later",
+  "faq": "Frequently Asked Questions",
+  "termsAndConditions": "Terms and Conditions"
 }
