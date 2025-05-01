@@ -86,7 +86,9 @@ export const ParkingMap: React.FC<TProps> = React.memo(
     const handleDirections = () => {
       if (currentLocation && destinationLocation) {
         const directionsService = new window.google.maps.DirectionsService();
-        const directionsRenderer = new window.google.maps.DirectionsRenderer();
+        const directionsRenderer = new window.google.maps.DirectionsRenderer({
+          suppressMarkers: true,
+        });
         directionsRenderer.setMap(map);
 
         // Get user's current location
@@ -107,6 +109,7 @@ export const ParkingMap: React.FC<TProps> = React.memo(
                 (result, status) => {
                   if (status === "OK") {
                     directionsRenderer.setDirections(result);
+                    handlePopupClose();
                   } else {
                     alert("მიმართულებები ვერ მოიძებნა");
                   }
@@ -121,7 +124,7 @@ export const ParkingMap: React.FC<TProps> = React.memo(
       }
     };
     const handlePlaceSelect: (place: TPlaceData) => void = (place) => {
-      onPlaceSelect(place); // Update parent state
+      onPlaceSelect(place);
       const targetGeometry = new google.maps.LatLng(
         place.placeLocation.lat,
         place.placeLocation.lng,
@@ -205,33 +208,30 @@ export const ParkingMap: React.FC<TProps> = React.memo(
       }
     }, [currentLocation, map]);
     useEffect(() => {
-      if (navigator.geolocation) {
-        if (navigator.permissions) {
-          navigator.permissions
-            .query({ name: "geolocation" })
-            .then((permissionStatus) => {
-              if (permissionStatus.state === "granted" || permissionStatus.state === "prompt") {
-                // Permission has already been granted
-                navigator.geolocation.getCurrentPosition(
-                  (position) => {
-                    const { latitude, longitude } = position.coords;
-                    setIsLocationEnabled(true);
-                    setCurrentLocation({ lat: latitude, lng: longitude });
-                  },
-                  () => {
-                    setShowLocationWarning(true);
-                  },
-                );
-              } else {
-                setShowLocationWarning(true);
-              }
-            })
-            .catch((error) => {
-              console.error("Error checking geolocation permission:", error);
-            });
-        }
+      if (!isLoaded || !window.google) return;
+
+      if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const { latitude, longitude } = position.coords;
+            setCurrentLocation({ lat: latitude, lng: longitude });
+            setIsLocationEnabled(true);
+            setShowLocationWarning(false);
+          },
+          (error) => {
+            console.warn("Geolocation error:", error);
+            setShowLocationWarning(true);
+          },
+          {
+            enableHighAccuracy: true,
+            timeout: 10000, // Wait up to 10 seconds
+            maximumAge: 0,
+          },
+        );
+      } else {
+        setShowLocationWarning(true);
       }
-    }, []);
+    }, [isLoaded]);
 
     useEffect(() => {
       let timeoutId: NodeJS.Timeout;
@@ -254,12 +254,6 @@ export const ParkingMap: React.FC<TProps> = React.memo(
       }
     }, [lat, lng, isLoaded]);
 
-    useEffect(() => {
-      if (destinationLocation && currentLocation) {
-        handleDirections();
-      }
-    }, [destinationLocation, currentLocation]);
-
     const mapOptions = {
       mapTypeControl: false,
       zoomControl: false,
@@ -274,7 +268,7 @@ export const ParkingMap: React.FC<TProps> = React.memo(
         <GoogleMap
           mapContainerClassName="h-[100vh]"
           center={currentLocation || center}
-          zoom={19}
+          zoom={13}
           onLoad={onLoad}
           onUnmount={onUnmount}
           options={mapOptions}
@@ -282,7 +276,7 @@ export const ParkingMap: React.FC<TProps> = React.memo(
         >
           {placeData.map((place: TPlaceData) => (
             <OverlayView
-              key={`${Math.random()}`}
+              key={place.placeId}
               position={place?.placeLocation}
               mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
             >
